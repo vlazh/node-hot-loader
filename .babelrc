@@ -1,0 +1,11 @@
+{
+  "presets": [
+    [
+      "env"
+    ]
+  ],
+  "plugins": [
+    ["transform-class-properties", {"spec": true}], // https://babeljs.io/docs/plugins/transform-class-properties/
+    "dynamic-import-node" // For new dynamic module loading and transforming to require.ensure when used babel-node.
+  ]
+}

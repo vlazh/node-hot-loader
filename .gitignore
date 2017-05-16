@@ -1,0 +1,21 @@
+# Output folders
+dist/
+build/
+target/
+out/
+logs/
+*.log
+
+# Temp and caches
+node_modules/
+.cache/
+tmp
+*~
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+
+# Explicitly include in index
+#!.gitignore
+#!.travis.yml

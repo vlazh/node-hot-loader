@@ -1,0 +1,46 @@
+{
+  "name": "node-hot-loader",
+  "version": "0.1.0",
+  "description": "Hot module replacement for Node.js applications",
+  "main": "./bin/node-hot.js",
+  "bin": {
+    "node-hot": "./bin/node-hot.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emsoft/node-hot-loader"
+  },
+  "keywords": [
+    "webpack",
+    "hmr",
+    "node",
+    "node.js",
+    "hot",
+    "loader",
+    "cli"
+  ],
+  "contributors": [
+    {
+      "name": "Vladimir Zhukov",
+      "url": "http://github.com/emsoft"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emsoft/node-hot-loader/issues"
+  },
+  "homepage": "https://github.com/emsoft/node-hot-loader",
+  "author": "Vladimir Zhukov",
+  "dependencies": {
+    "babel-register": "^6.24.1",
+    "path-is-absolute": "^1.0.1",
+    "webpack": "^2.5.1",
+    "yargs": "^8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}

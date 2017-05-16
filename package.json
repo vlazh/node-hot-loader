@@ -7,7 +7,8 @@
     "node-hot": "./lib/node-hot.js"
   },
   "scripts": {
-    "compile": "babel -s inline src --out-dir lib/ --copy-files",
+    "build": "babel -s inline src --out-dir lib/ --copy-files",
+    "patch": "npm update patch",
     "publish": "npm publish",
     "unpublish": "npm unpublish node-hot-loader@0.1.0"
   },

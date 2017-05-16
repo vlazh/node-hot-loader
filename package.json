@@ -1,12 +1,16 @@
 {
   "name": "node-hot-loader",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Hot module replacement for Node.js applications",
-  "main": "./bin/node-hot.js",
+  "main": "./lib/node-hot.js",
   "bin": {
-    "node-hot": "./bin/node-hot.js"
+    "node-hot": "./lib/node-hot.js"
   },
-  "scripts": {},
+  "scripts": {
+    "compile": "babel -s inline src --out-dir lib/ --copy-files",
+    "publish": "npm publish",
+    "unpublish": "npm unpublish node-hot-loader@0.1.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/emsoft/node-hot-loader"
@@ -39,6 +43,10 @@
     "yargs": "^8.0.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-dynamic-import-node": "^1.0.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.2.0"

@@ -8,7 +8,7 @@ import path from 'path';
  * @returns {*}
  */
 function tweakWebpackConfig(webpackConfig) {
-  const hmrClientEntry = path.join(process.cwd(), 'hmr/HmrClient');
+  const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
 
   const config = Array.isArray(webpackConfig) ? webpackConfig.find(c => c.target === 'node') : webpackConfig;
   if (config.target !== 'node')
@@ -41,11 +41,11 @@ function hooks(compiler) {
     compiler: compiler,
     watching: undefined, // compiler watching by compiler.watch(...)
   };
-  return import('../hmr/HmrServer').then(({ default: HmrServer }) => new HmrServer(context).run());
+  return import('./HmrServer').then(({ default: HmrServer }) => new HmrServer(context).run());
 }
 
 const defaultOptions = {
-  webpackConfig: './webpack.config.js',
+  webpackConfig: path.join(process.cwd(), 'webpack.config.js'),
 };
 
 function loader(options) {

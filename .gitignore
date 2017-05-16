@@ -5,6 +5,7 @@ target/
 out/
 logs/
 *.log
+lib/
 
 # Temp and caches
 node_modules/

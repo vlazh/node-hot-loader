@@ -9,19 +9,28 @@ Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expr
 ## Installation
 
 `
-npm install --save-dev node-hot-loader babel-cli
+npm install --save-dev node-hot-loader
 `
 
-[babel-cli](https://babeljs.io/docs/usage/cli/) need for starting **Node Hot Loader** ES2015+ module.
+or from Git repository:
+
+`npm install --save-dev https://github.com/emsoft/node-hot-loader`
 
 ## Usage
 
 ```
-Usage: babel-node node-hot {options}
+Usage: node node-hot {options}
 
 Options:
   -c, --config       Webpack config file. If not set then search webpack.config.js in root directory.
 ```
+
+## Example
+```npm
+node ./node_modules/node-hot-loader/lib/node-hot --config webpack.config.server.babel.js
+```
+
+**Node Hot Loader** support webpack config files with ES2015+ (through babel).
 
 ## License
 

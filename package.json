@@ -7,13 +7,12 @@
     "node-hot": "./lib/node-hot.js"
   },
   "scripts": {
-    "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib/",
     "build": "babel src --out-dir lib/ --copy-files",
+    "prepublish": "npm run clean && npm run build",
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
-    "deploy": "---npm run build && npm run git-commit && npm run git-push",
     "patch": "npm version patch",
-    "publish": "npm publish",
+    "deploy": "npm publish",
     "unpublish": "---npm unpublish node-hot-loader@0.1.0"
   },
   "repository": {

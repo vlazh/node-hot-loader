@@ -10,7 +10,7 @@
     "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib/",
     "build": "babel src --out-dir lib/ --copy-files",
-    "patch-release": "---npm version patch && npm publish && git push --follow-tags",
+    "patch-release": "npm version patch && npm publish && git push --follow-tags",
     "deploy": "---npm run build && npm run git-commit && npm run git-push",
     "patch": "npm version patch",
     "publish": "npm publish",

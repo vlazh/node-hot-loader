@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "babel -s inline src --out-dir lib/ --copy-files",
-    "patch": "npm update patch",
+    "patch": "npm version patch",
     "publish": "npm publish",
     "unpublish": "npm unpublish node-hot-loader@0.1.0"
   },

@@ -30,7 +30,7 @@ Options:
 
 ## Example
 ```
-node-hot --config webpack.config.server.babel.js
+node-hot --config webpack.config.server.js
 ```
 
 You can use all configurations for webpack compile which webpack supports.

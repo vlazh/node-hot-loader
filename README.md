@@ -4,7 +4,7 @@
 
 Its inspired by [kotatsu](https://github.com/Yomguithereal/kotatsu/) and [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware). 
 
-Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expressjs.com/) application with APIs and frontend serving, i.e. [React](https://facebook.github.io/react/).
+Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expressjs.com/) application with APIs and frontend serving, e.g. [React](https://facebook.github.io/react/).
 
 **Node Hot Loader** support webpack config files with ES2015+ (through babel).
 For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
@@ -72,7 +72,7 @@ You can use all configurations for webpack compile which webpack supports.
 ### Express example
 
 ```javascript
-import app from './app'; // configuring express app, i.e. routes and logic
+import app from './app'; // configuring express app, e.g. routes and logic
 import DB from './services/DB'; // DB service
 
 

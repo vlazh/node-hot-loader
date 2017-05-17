@@ -10,26 +10,22 @@ Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expr
 
 ## Installation
 
-`
+```
 npm install --save-dev node-hot-loader
-`
-
-or from Git repository:
-
-`npm install --save-dev https://github.com/emsoft/node-hot-loader`
+```
 
 ## Usage
 
 ```
-Usage: node ./node_modules/node-hot-loader {options}
+Usage: node-hot {options}
 
 Options:
   -c, --config       Webpack config file. If not set then search webpack.config.js in root directory.
 ```
 
 ## Example
-```npm
-node ./node_modules/node-hot-loader --config webpack.config.server.babel.js
+```
+node-hot --config webpack.config.server.babel.js
 ```
 
 ## Known limitations

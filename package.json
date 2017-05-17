@@ -1,6 +1,6 @@
 {
   "name": "node-hot-loader",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Hot module replacement for Node.js applications",
   "main": "./lib/node-hot.js",
   "bin": {

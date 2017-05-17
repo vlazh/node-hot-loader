@@ -27,7 +27,7 @@ Options:
 
 ## Example
 ```npm
-node ./node_modules/node-hot-loader/lib/node-hot --config webpack.config.server.babel.js
+node ./node_modules/node-hot-loader --config webpack.config.server.babel.js
 ```
 
 **Node Hot Loader** support webpack config files with ES2015+ (through babel).

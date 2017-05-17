@@ -58,6 +58,14 @@ You can use all configurations for webpack compile which webpack supports.
     // In order for don't emit files if errors occurred.
     new webpack.NoEmitOnErrorsPlugin(),
   ],
+  
+  // When your compiled app uses Webpack too, e.g. for frontend serving, Webpack sets __dirname to '/'.
+  // It may be some issues in your code.
+  // See https://github.com/webpack/webpack/issues/1599
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
 }
 ```
 

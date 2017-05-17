@@ -21,7 +21,7 @@ or from Git repository:
 ## Usage
 
 ```
-Usage: node node-hot {options}
+Usage: node ./node_modules/node-hot-loader {options}
 
 Options:
   -c, --config       Webpack config file. If not set then search webpack.config.js in root directory.

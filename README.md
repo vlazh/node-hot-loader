@@ -9,6 +9,10 @@ Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expr
 **Node Hot Loader** support webpack config files with ES2015+ (through babel).
 For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
 
+## Requirements
+
+Tested with Node.js v7.
+
 ## Installation
 
 ```

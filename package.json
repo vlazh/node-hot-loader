@@ -7,10 +7,14 @@
     "node-hot": "./lib/node-hot.js"
   },
   "scripts": {
-    "build": "babel -s inline src --out-dir lib/ --copy-files",
+    "prepublish": "npm run clean && npm run build",
+    "clean": "rimraf lib/",
+    "build": "babel src --out-dir lib/ --copy-files",
+    "patch-release": "---npm version patch && npm publish && git push --follow-tags",
+    "deploy": "---npm run build && npm run git-commit && npm run git-push",
     "patch": "npm version patch",
     "publish": "npm publish",
-    "unpublish": "npm unpublish node-hot-loader@0.1.0"
+    "unpublish": "---npm unpublish node-hot-loader@0.1.0"
   },
   "repository": {
     "type": "git",
@@ -50,6 +54,10 @@
     "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "rimraf": "^2.6.1"
+  },
+  "engines": {
+    "node": ">= 7"
   }
 }

@@ -80,7 +80,15 @@ class HmrServer {
         this.sendMessage('built');
       } else {
         // execute built scripts
-        this.context.serverProcess = fork(stats.compilation.assets['server.js'].existsAt);
+        const options = {
+          cwd: process.cwd(),
+          env: process.env,
+        };
+        if (process.getuid) {
+          options.uid = process.getuid();
+          options.gid = process.getgid();
+        }
+        this.context.serverProcess = fork(stats.compilation.assets['server.js'].existsAt, process.argv, options);
       }
     });
   };

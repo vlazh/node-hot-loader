@@ -7,6 +7,7 @@ Its inspired by [kotatsu](https://github.com/Yomguithereal/kotatsu/) and [webpac
 Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expressjs.com/) application with APIs and frontend serving, i.e. [React](https://facebook.github.io/react/).
 
 **Node Hot Loader** support webpack config files with ES2015+ (through babel).
+For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
 
 ## Installation
 
@@ -26,6 +27,81 @@ Options:
 ## Example
 ```
 node-hot --config webpack.config.server.babel.js
+```
+
+You can use all configurations for webpack compile which webpack supports.
+
+### The minimum required configuration:
+
+```javascript
+{
+  // It's required!
+  // Also if you use multiconfigurations node-hot choose configuration with target 'node'.
+  target: 'node',
+  
+  // For now you must provide entry with 'server' name which will be the main entry point of node application.
+  // It will be fixed in the feature.
+  entry: {
+    server: [
+      './server/index',
+    ],
+  },
+  
+  plugins: [
+      // It's required!
+    // Enable HMR globally.
+    new webpack.HotModuleReplacementPlugin(),
+    // It's not necessary.
+    // Prints more readable module names in the console on HMR updates.
+    new webpack.NamedModulesPlugin(),
+    // It's not necessary.
+    // In order for don't emit files if errors occurred.
+    new webpack.NoEmitOnErrorsPlugin(),
+  ],
+}
+```
+
+### Express example
+
+```javascript
+import app from './app'; // configuring express app, i.e. routes and logic
+import DB from './services/DB'; // DB service
+
+
+function startServer() {
+  const httpServer = app.listen(app.get('port'), (error) => {
+    if (error) {
+      console.error(error);
+    } else {
+      const address = httpServer.address();
+      console.info(`==> 🌎 Listening on ${address.port}. Open up http://localhost:${address.port}/ in your browser.`);
+    }
+  });
+
+  // Hot Module Replacement API
+  if (module.hot) {
+    let currentApp = app;
+    module.hot.accept('./app', () => {
+      httpServer.removeListener('request', currentApp);
+      import('./app').then(m => {
+        httpServer.on('request', m.default);
+        currentApp = m.default;
+        console.log('Server reloaded!');
+      })
+      .catch(console.error);
+    });
+  }
+}
+
+// After DB initialized start server
+DB.connect()
+    .then(() => {
+      console.log('Successfully connected to MongoDB. Starting http server.');
+      startServer();
+    })
+    .catch((err) => {
+      console.error('Error in server start script.', err);
+    });
 ```
 
 ## Known limitations

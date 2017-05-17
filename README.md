@@ -6,6 +6,8 @@ Its inspired by [kotatsu](https://github.com/Yomguithereal/kotatsu/) and [webpac
 
 Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expressjs.com/) application with APIs and frontend serving, i.e. [React](https://facebook.github.io/react/).
 
+**Node Hot Loader** support webpack config files with ES2015+ (through babel).
+
 ## Installation
 
 `
@@ -33,8 +35,6 @@ In your webpack config you must provide main entry with 'server' name. It will b
 ```npm
 node ./node_modules/node-hot-loader --config webpack.config.server.babel.js
 ```
-
-**Node Hot Loader** support webpack config files with ES2015+ (through babel).
 
 ## License
 

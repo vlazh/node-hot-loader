@@ -25,6 +25,10 @@ Options:
   -c, --config       Webpack config file. If not set then search webpack.config.js in root directory.
 ```
 
+## Known limitations
+
+In your webpack config you must provide main entry with 'server' name. It will be fixed in the feature.
+
 ## Example
 ```npm
 node ./node_modules/node-hot-loader --config webpack.config.server.babel.js

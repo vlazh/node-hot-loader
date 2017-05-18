@@ -44,6 +44,7 @@
   "dependencies": {
     "babel-register": "^6.24.1",
     "path-is-absolute": "^1.0.1",
+    "source-map-support": "^0.4.15",
     "webpack": "^2.5.1",
     "yargs": "^8.0.1"
   },

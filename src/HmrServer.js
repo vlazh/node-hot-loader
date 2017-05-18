@@ -79,11 +79,9 @@ class HmrServer {
 
         // Delete created files on exit
         process.on('exit', () => {
-          console.log('exit');
           this.context.fs.unlinkSync(launcherFileName);
         });
         process.on('SIGINT', () => {
-          console.log('SIGINT');
           this.context.fs.unlinkSync(launcherFileName);
         });
 

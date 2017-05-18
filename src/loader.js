@@ -5,7 +5,7 @@ import path from 'path';
 /**
  * Add hmrClient to all entries.
  * @param module
- * @returns {*}
+ * @returns {Promise.<config>}
  */
 function tweakWebpackConfig(module) {
   const { default: webpackConfig = module } = module;
@@ -29,11 +29,14 @@ function tweakWebpackConfig(module) {
 
   addHmrClientEntry('entry', config);
 
-  // config.plugins.push(new webpack.BannerPlugin({
-  //   banner: `;require(${sourceMap});`,
-  //   raw: true,
-  //   entryOnly: false
-  // }));
+  // Add source-map support.
+  if (config.devtool && config.devtool.indexOf('source-map') >= 0) {
+    config.plugins.push(new webpack.BannerPlugin({
+      banner: `;require('${require.resolve('source-map-support').replace(/\\/g, '/')}').install();`,
+      raw: true,
+      entryOnly: false
+    }));
+  }
 
   return config;
 }

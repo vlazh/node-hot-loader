@@ -2,14 +2,15 @@
 
 **Node Hot Loader** is a small tool written on ES2015+ for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
 
-Under hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
+It based on sources of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
+Under the hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
 
 The most suitable use case for **Node Hot Loader** is hot-reloaded [express](http://expressjs.com/) application.
 Express application can contains API and frontend together, moreover frontend can use own HMR, e.g. [React](https://facebook.github.io/react/) with [React Hot Loader](https://github.com/gaearon/react-hot-loader).
 See how to setup React HMR with Express in [React Hot Loader docs](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kit).
 Thus, both the frontend and the server will be hot-reloadable.
 
-**Node Hot Loader** support webpack config files with ES2015+ (through babel).
+**Node Hot Loader** supports webpack config files with ES2015+ (through babel).
 For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
 
 ## Requirements
@@ -31,14 +32,14 @@ Options:
   -c, --config       Webpack config file. If not set then search webpack.config.js in root directory.
 ```
 
-## Example
+## Usage example
 ```
 node-hot --config webpack.config.server.js
 ```
 
 You can use all configurations for webpack compile which webpack supports.
 
-### The minimum required configuration:
+## The minimum required configuration:
 
 ```javascript
 {
@@ -46,8 +47,7 @@ You can use all configurations for webpack compile which webpack supports.
   // Also if you use multiconfigurations node-hot choose configuration with target 'node'.
   target: 'node',
   
-  // For now you must provide entry with 'server' name which will be the main entry point of node application.
-  // It will be fixed in the feature.
+  // node-hot run the last entry which must be the main entry point of node application.
   entry: {
     server: [
       './server/index',
@@ -118,10 +118,6 @@ DB.connect()
       console.error('Error in server start script.', err);
     });
 ```
-
-## Known limitations
-
-In your webpack config you must provide main entry with 'server' name. It will be fixed in the feature.
 
 ## License
 

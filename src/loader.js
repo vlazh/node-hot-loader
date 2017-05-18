@@ -4,25 +4,36 @@ import path from 'path';
 
 /**
  * Add hmrClient to all entries.
- * @param webpackConfig
+ * @param module
  * @returns {*}
  */
 function tweakWebpackConfig(module) {
   const { default: webpackConfig = module } = module;
-  const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
-
   const config = Array.isArray(webpackConfig) ? webpackConfig.find(c => c.target === 'node') : webpackConfig;
   if (config.target !== 'node')
     throw new Error('Webpack configuration file must provide config with target "node".');
 
+  const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
+
   const addHmrClientEntry = (entry, owner) => {
     if (Array.isArray(owner[entry])) owner[entry].splice(-1, 0, hmrClientEntry);
     else if (typeof owner[entry] === 'string') owner[entry] = [hmrClientEntry, owner[entry]];
+    else if (typeof owner[entry] === 'function') {
+      // Call function and try again with function result.
+      owner[entry] = owner[entry]();
+      addHmrClientEntry(entry, owner);
+    }
     else if (typeof owner[entry] === 'object')
       Object.getOwnPropertyNames(owner[entry]).forEach(name => addHmrClientEntry(name, owner[entry]));
   };
 
   addHmrClientEntry('entry', config);
+
+  // config.plugins.push(new webpack.BannerPlugin({
+  //   banner: `;require(${sourceMap});`,
+  //   raw: true,
+  //   entryOnly: false
+  // }));
 
   return config;
 }
@@ -30,7 +41,6 @@ function tweakWebpackConfig(module) {
 /**
  * Add compiler hooks and start watching (through compiler) for changes.
  * @param compiler
- * @param options
  * @returns {Promise.<HmrServer>|*}
  */
 function hooks(compiler) {

@@ -1,5 +1,6 @@
 import pathIsAbsolute from 'path-is-absolute';
 import fs from 'fs';
+import path from 'path';
 import { fork } from 'child_process';
 import LogColors from './LogColors';
 
@@ -51,12 +52,56 @@ class HmrServer {
     this.context.fs = fs;
   }
 
-  sendMessage(action) {
+  sendMessage = (action) => {
     this.context.serverProcess && this.context.serverProcess.send({
       action,
       stats: this.context.webpackStats.toJson(),
     });
-  }
+  };
+
+  forkProcess = (stats) => {
+    const getLauncherFileName = () => {
+      const assets = stats.compilation.assets;
+      const names = Object.getOwnPropertyNames(assets)
+          .filter(k => assets[k].emitted && path.extname(assets[k].existsAt) === '.js');
+
+      if (names.length === 1) {
+        // Only one valid assets, so just return it path
+        return assets[names[0]].existsAt;
+      } else {
+        // Create temp launcher file which aggregates all assets.
+        const launcherString = names
+            .map(k => `require('${assets[k].existsAt.replace(/\\/g, '/')}');`)
+            .join('\n');
+
+        const launcherFileName = path.resolve(stats.compilation.compiler.outputPath, `launcher.${stats.hash}.js`);
+        this.context.fs.writeFileSync(launcherFileName, launcherString);
+
+        // Delete created files on exit
+        process.on('exit', () => {
+          console.log('exit');
+          this.context.fs.unlinkSync(launcherFileName);
+        });
+        process.on('SIGINT', () => {
+          console.log('SIGINT');
+          this.context.fs.unlinkSync(launcherFileName);
+        });
+
+        return launcherFileName;
+      }
+    };
+
+    // Execute built scripts
+    const options = {
+      cwd: process.cwd(),
+      env: process.env,
+    };
+    if (process.getuid) {
+      options.uid = process.getuid();
+      options.gid = process.getgid();
+    }
+    this.context.serverProcess = fork(getLauncherFileName(), process.argv, options);
+  };
 
   compilerDone = (stats) => {
     // We are now on valid state
@@ -79,18 +124,8 @@ class HmrServer {
       if (this.context.serverProcess) {
         this.sendMessage('built');
       } else {
-        // execute built scripts
-        const options = {
-          cwd: process.cwd(),
-          env: process.env,
-        };
-        if (process.getuid) {
-          options.uid = process.getuid();
-          options.gid = process.getgid();
-        }
-        const assetsNames = Object.getOwnPropertyNames(stats.compilation.assets);
-        const main = stats.compilation.assets[assetsNames[assetsNames.length - 1]];
-        this.context.serverProcess = fork(main.existsAt, process.argv, options);
+        // Start compiled files in child process.
+        this.forkProcess(stats);
       }
     });
   };
@@ -121,15 +156,15 @@ class HmrServer {
     }
   };
 
-  startWatch() {
+  startWatch = () => {
     const options = this.context.options;
     const compiler = this.context.compiler;
     // start watching
     this.context.watching = compiler.watch(options.watchOptions, this.compilerWatch);
     console.info(LogColors.cyan('[HMR]'), 'Waiting webpack...');
-  }
+  };
 
-  run() {
+  run = () => {
     this.context.compiler.plugin('done', this.compilerDone);
     this.context.compiler.plugin('compile', this.compilerInvalid);
     this.startWatch();

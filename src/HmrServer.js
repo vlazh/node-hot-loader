@@ -88,7 +88,9 @@ class HmrServer {
           options.uid = process.getuid();
           options.gid = process.getgid();
         }
-        this.context.serverProcess = fork(stats.compilation.assets['server.js'].existsAt, process.argv, options);
+        const assetsNames = Object.getOwnPropertyNames(stats.compilation.assets);
+        const main = stats.compilation.assets[assetsNames[assetsNames.length - 1]];
+        this.context.serverProcess = fork(main.existsAt, process.argv, options);
       }
     });
   };

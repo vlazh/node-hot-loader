@@ -11,6 +11,7 @@
     "build": "babel src --out-dir lib/ --copy-files",
     "prepublish": "npm run clean && npm run build",
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
+    "minor-release": "npm version minor && npm publish && git push --follow-tags",
     "patch": "npm version patch",
     "deploy": "npm publish",
     "unpublish": "---npm unpublish node-hot-loader@0.1.0"

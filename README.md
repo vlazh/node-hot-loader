@@ -37,7 +37,7 @@ Options:
 node-hot --config webpack.config.server.js
 ```
 
-You can use all configurations for webpack compile which webpack supports.
+You can use all configurations for webpack compiler which webpack supports.
 
 ## The minimum required configuration:
 
@@ -55,7 +55,7 @@ You can use all configurations for webpack compile which webpack supports.
   },
   
   plugins: [
-      // It's required!
+    // It's required!
     // Enable HMR globally.
     new webpack.HotModuleReplacementPlugin(),
     // It's not necessary.
@@ -66,7 +66,8 @@ You can use all configurations for webpack compile which webpack supports.
     new webpack.NoEmitOnErrorsPlugin(),
   ],
   
-  // It may be necessary when your compiled app uses Webpack too, e.g. for frontend serving, Webpack sets __dirname to '/'.
+  // It may be necessary when your compiled app uses Webpack too, e.g. for frontend serving,
+  //   because Webpack sets __dirname to '/'.
   // It may be some issues in your app, so sets __dirname to false can help you.
   // See https://github.com/webpack/webpack/issues/1599.
   node: {
@@ -111,7 +112,7 @@ function startServer() {
 // After DB initialized start server
 DB.connect()
     .then(() => {
-      console.log('Successfully connected to MongoDB. Starting http server.');
+      console.log('Successfully connected to MongoDB. Starting http server...');
       startServer();
     })
     .catch((err) => {
@@ -121,4 +122,4 @@ DB.connect()
 
 ## License
 
-MIT (https://opensource.org/licenses/mit-license.php)
+[MIT](https://opensource.org/licenses/mit-license.php)

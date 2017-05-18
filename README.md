@@ -2,16 +2,19 @@
 
 **Node Hot Loader** is a small tool written on ES2015+ for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
 
-Its inspired by [kotatsu](https://github.com/Yomguithereal/kotatsu/) and [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware). 
+Under hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
 
-Typical use cases for **Node Hot Loader** are hot-reloaded [express](http://expressjs.com/) application with APIs and frontend serving, e.g. [React](https://facebook.github.io/react/).
+The most suitable use case for **Node Hot Loader** is hot-reloaded [express](http://expressjs.com/) application.
+Express application can contains API and frontend together, moreover frontend can use own HMR, e.g. [React](https://facebook.github.io/react/) with [React Hot Loader](https://github.com/gaearon/react-hot-loader).
+See how to setup React HMR with Express in [React Hot Loader docs](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kit).
+Thus, both the frontend and the server will be hot-reloadable.
 
 **Node Hot Loader** support webpack config files with ES2015+ (through babel).
 For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
 
 ## Requirements
 
-Tested with Node.js v7.
+Tested with Node.js v7, but must work on previous versions.
 
 ## Installation
 
@@ -63,9 +66,9 @@ You can use all configurations for webpack compile which webpack supports.
     new webpack.NoEmitOnErrorsPlugin(),
   ],
   
-  // When your compiled app uses Webpack too, e.g. for frontend serving, Webpack sets __dirname to '/'.
-  // It may be some issues in your code.
-  // See https://github.com/webpack/webpack/issues/1599
+  // It may be necessary when your compiled app uses Webpack too, e.g. for frontend serving, Webpack sets __dirname to '/'.
+  // It may be some issues in your app, so sets __dirname to false can help you.
+  // See https://github.com/webpack/webpack/issues/1599.
   node: {
     __dirname: false,
     __filename: false,

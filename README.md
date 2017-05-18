@@ -47,7 +47,9 @@ You can use all configurations for webpack compiler which webpack supports.
   // Also if you use multiconfigurations node-hot choose configuration with target 'node'.
   target: 'node',
   
-  // node-hot run the last entry which must be the main entry point of node application.
+  // node-hot run the all entries in one child process.
+  // And the all entries will be with HMR support.
+  // Usually only one entry required for node application. 
   entry: {
     server: [
       './server/index',

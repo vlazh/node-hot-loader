@@ -7,7 +7,8 @@ import path from 'path';
  * @param webpackConfig
  * @returns {*}
  */
-function tweakWebpackConfig(webpackConfig) {
+function tweakWebpackConfig(module) {
+  const { default: webpackConfig = module } = module;
   const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
 
   const config = Array.isArray(webpackConfig) ? webpackConfig.find(c => c.target === 'node') : webpackConfig;
@@ -53,7 +54,7 @@ function loader(options) {
   Promise.resolve()
       .then(config => import('babel-register'))
       .then(() => import(options.webpackConfig))
-      .then(({ default: webpackConfig }) => tweakWebpackConfig(webpackConfig))
+      .then(module => tweakWebpackConfig(module))
       .then(webpackConfig => webpack(webpackConfig))
       .then(compiler => hooks(compiler))
       .catch(err => console.error(err));

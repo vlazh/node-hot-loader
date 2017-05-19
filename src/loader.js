@@ -27,6 +27,7 @@ function tweakWebpackConfig(module) {
       Object.getOwnPropertyNames(owner[entry]).forEach(name => addHmrClientEntry(name, owner[entry]));
   };
 
+  // Add HmrClient to every entries.
   addHmrClientEntry('entry', config);
 
   // Add source-map support.
@@ -36,6 +37,19 @@ function tweakWebpackConfig(module) {
       raw: true,
       entryOnly: false
     }));
+  }
+
+  // Enable HMR globally if not.
+  if (!config.plugins.find(p => p instanceof webpack.HotModuleReplacementPlugin)) {
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+  }
+  // Prints more readable module names in the console on HMR updates.
+  if (!config.plugins.find(p => p instanceof webpack.NamedModulesPlugin)) {
+    config.plugins.push(new webpack.NamedModulesPlugin());
+  }
+  // In order for don't emit files if errors occurred.
+  if (!config.plugins.find(p => p instanceof webpack.NoEmitOnErrorsPlugin)) {
+    config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
   }
 
   return config;

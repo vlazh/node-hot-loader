@@ -41,6 +41,9 @@ You can use all configurations for webpack compiler which webpack supports.
 
 ## The minimum required configuration:
 
+**Node Hot Loader** adds all necessaries to webpack config if not present already (e.g. HotModuleReplacementPlugin),
+but it's require the minimum configuration in your webpack config file:
+
 ```javascript
 {
   // It's required!
@@ -55,18 +58,6 @@ You can use all configurations for webpack compiler which webpack supports.
       './server/index',
     ],
   },
-  
-  plugins: [
-    // It's required!
-    // Enable HMR globally.
-    new webpack.HotModuleReplacementPlugin(),
-    // It's not necessary.
-    // Prints more readable module names in the console on HMR updates.
-    new webpack.NamedModulesPlugin(),
-    // It's not necessary.
-    // In order for don't emit files if errors occurred.
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
   
   // It may be necessary when your compiled app uses Webpack too, e.g. for frontend serving,
   //   because Webpack sets __dirname to '/'.

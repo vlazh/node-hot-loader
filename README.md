@@ -1,6 +1,6 @@
 # Node Hot Loader [![npm package](https://img.shields.io/npm/v/node-hot-loader.svg?style=flat-square)](https://www.npmjs.org/package/node-hot-loader)
 
-**Node Hot Loader** is a small tool written on ES2015+ for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
+**Node Hot Loader** is a small tool for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
 
 It based on sources of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
 Under the hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
@@ -10,7 +10,7 @@ Express application can contains API and frontend together, moreover frontend ca
 See how to setup React HMR with Express in [React Hot Loader docs](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kit).
 Thus, both the frontend and the server will be hot-reloadable.
 
-**Node Hot Loader** supports webpack config files with ES2015+ (through babel).
+**Node Hot Loader** also supports webpack config files with ES2015+ (through babel).
 For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
 
 ## Requirements
@@ -70,7 +70,7 @@ but it's require the minimum configuration in your webpack config file:
 }
 ```
 
-### Express example
+## Express Hot Reload Example
 
 ```javascript
 import app from './app'; // configuring express app, e.g. routes and logic

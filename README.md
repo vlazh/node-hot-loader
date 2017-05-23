@@ -10,7 +10,7 @@ Express application can contains API and frontend together, moreover frontend ca
 See how to setup React HMR with Express in [React Hot Loader docs](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kit).
 Thus, both the frontend and the server will be hot-reloadable.
 
-**Node Hot Loader** also supports webpack config files with ES2015+ (through babel).
+**Node Hot Loader** also supports webpack config files written on ES2015+ (through babel).
 For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
 
 ## Requirements
@@ -45,7 +45,9 @@ You can use all configurations for webpack compiler which webpack supports.
 but it's require the minimum configuration in your webpack config file:
 
 ```javascript
-{
+import fs from 'fs';
+
+export default {
   // It's required!
   // Also if you use multiconfigurations node-hot choose configuration with target 'node'.
   target: 'node',
@@ -61,7 +63,7 @@ but it's require the minimum configuration in your webpack config file:
 
   // Exclude node_modules from bundle manual
   // or use for instance webpack-node-externals package (https://github.com/liady/webpack-node-externals)
-  externals: fs.readdirSync(paths.nodeModules.dirname) // Note: import 'fs' module before using
+  externals: fs.readdirSync(paths.nodeModules.dirname)
       .filter(x => ['.bin'].indexOf(x) === -1)
       .reduce((modules, mod) => {
         modules[mod] = `commonjs ${mod}`;
@@ -76,7 +78,7 @@ but it's require the minimum configuration in your webpack config file:
     __dirname: false,
     __filename: false,
   },
-}
+};
 ```
 
 ## Express Hot Reload Example

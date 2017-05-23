@@ -4,7 +4,8 @@
   "description": "Hot module replacement for Node.js applications",
   "main": "./lib/node-hot.js",
   "bin": {
-    "node-hot": "./lib/node-hot.js"
+    "node-hot": "./lib/node-hot.js",
+    "node-hot-loader": "./lib/node-hot.js"
   },
   "scripts": {
     "clean": "rimraf lib/",
@@ -57,8 +58,5 @@
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.2.0",
     "rimraf": "^2.6.1"
-  },
-  "engines": {
-    "node": ">= 7"
   }
 }

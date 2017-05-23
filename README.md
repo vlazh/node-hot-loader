@@ -61,7 +61,7 @@ but it's require the minimum configuration in your webpack config file:
 
   // Exclude node_modules from bundle manual
   // or use for instance webpack-node-externals package (https://github.com/liady/webpack-node-externals)
-  externals: fs.readdirSync(paths.nodeModules.dirname) // Import 'fs' module before using
+  externals: fs.readdirSync(paths.nodeModules.dirname) // Note: import 'fs' module before using
       .filter(x => ['.bin'].indexOf(x) === -1)
       .reduce((modules, mod) => {
         modules[mod] = `commonjs ${mod}`;

@@ -46,14 +46,14 @@
     "babel-register": "^6.24.1",
     "path-is-absolute": "^1.0.1",
     "source-map-support": "^0.4.15",
-    "webpack": "^2.5.1",
+    "webpack": "^2.6.0",
     "yargs": "^8.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-plugin-dynamic-import-node": "^1.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.4.0",
+    "babel-preset-env": "^1.5.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.2.0",

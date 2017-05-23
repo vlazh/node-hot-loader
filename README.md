@@ -58,6 +58,15 @@ but it's require the minimum configuration in your webpack config file:
       './server/index',
     ],
   },
+
+  // Exclude node_modules from bundle manual
+  // or use for instance webpack-node-externals package (https://github.com/liady/webpack-node-externals)
+  externals: fs.readdirSync(paths.nodeModules.dirname) // Import 'fs' module before using
+      .filter(x => ['.bin'].indexOf(x) === -1)
+      .reduce((modules, mod) => {
+        modules[mod] = `commonjs ${mod}`;
+        return modules;
+      }, {}),
   
   // It may be necessary when your compiled app uses Webpack too, e.g. for frontend serving,
   //   because Webpack sets __dirname to '/'.

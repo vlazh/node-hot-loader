@@ -77,7 +77,7 @@ class HmrServer {
         const launcherFileName = path.resolve(stats.compilation.compiler.outputPath, `launcher.${stats.hash}.js`);
         this.context.fs.writeFileSync(launcherFileName, launcherString);
 
-        // Delete created files on exit
+        // Delete created files on exit main process.
         process.on('exit', () => {
           this.context.fs.unlinkSync(launcherFileName);
         });
@@ -99,6 +99,12 @@ class HmrServer {
       options.gid = process.getgid();
     }
     this.context.serverProcess = fork(getLauncherFileName(), process.argv, options);
+
+    // Listen for serverProcess events.
+    this.context.serverProcess.on('exit', (code) => {
+      // Exit node process when exit serverProcess.
+      process.exit(code);
+    });
   };
 
   compilerDone = (stats) => {

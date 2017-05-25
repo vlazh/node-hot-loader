@@ -100,6 +100,7 @@ function startServer() {
 
   // Hot Module Replacement API
   if (module.hot) {
+    // Hot reload of `app` and related modules.
     let currentApp = app;
     module.hot.accept('./app', () => {
       httpServer.removeListener('request', currentApp);
@@ -109,6 +110,13 @@ function startServer() {
         console.log('Server reloaded!');
       })
       .catch(console.error);
+    });
+
+    // Hot reload of entry module (self). It will be restart http-server.
+    module.hot.accept();
+    module.hot.dispose(() => {
+      console.log('Disposing entry module...');
+      httpServer.close();
     });
   }
 }

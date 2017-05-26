@@ -22,12 +22,24 @@
     "url": "https://github.com/emsoft/node-hot-loader"
   },
   "keywords": [
-    "webpack",
     "hmr",
     "node",
     "node.js",
+    "webpack",
+    "express",
     "hot",
+    "reload",
     "loader",
+    "server-side",
+    "server",
+    "module",
+    "replacement",
+    "hot-reload",
+    "hot-replacement",
+    "node-hot-reload",
+    "node-hot-loader",
+    "express-hot-reload",
+    "express-hot-loader",
     "cli"
   ],
   "contributors": [

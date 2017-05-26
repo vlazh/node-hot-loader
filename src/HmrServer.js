@@ -42,7 +42,7 @@ class HmrServer {
     if (typeof options.error !== 'function') options.error = console.error.bind(console);
     if (typeof options.watchOptions.aggregateTimeout === 'undefined') options.watchOptions.aggregateTimeout = 200;
     if (typeof options.stats === 'undefined') options.stats = {};
-    if (!options.stats.context) options.stats.context = process.cwd();
+    if (typeof options.stats === 'object' && !options.stats.context) options.stats.context = process.cwd();
     const compiler = this.context.compiler;
     if (typeof compiler.outputPath === 'string' && !pathIsAbsolute.posix(compiler.outputPath) && !pathIsAbsolute.win32(compiler.outputPath)) {
       throw new Error('`output.path` needs to be an absolute path or `/`.');

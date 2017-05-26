@@ -16,7 +16,10 @@ class HmrServer {
         displayStats = false;
       }
       if (displayStats) {
-        options.log(stats.toString(options.stats));
+        const statsInfo = stats.toString(options.stats);
+        if (statsInfo) { // To avoid log empty statsInfo, e.g. when options.stats is 'errors-only'.
+          options.log(statsInfo);
+        }
       }
       if (!options.noInfo && !options.quiet) {
         let msg = 'Compiled successfully.';

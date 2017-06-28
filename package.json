@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf lib/",
     "build": "babel src --out-dir lib/ --copy-files",
-    "prepublish": "npm run clean && npm run build",
+    "prepublishOnly": "npm run clean && npm run build",
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
     "minor-release": "npm version minor && npm publish && git push --follow-tags",
     "patch": "npm version patch",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/emsoft/node-hot-loader"
+    "url": "https://github.com/vlazh/node-hot-loader"
   },
   "keywords": [
     "hmr",
@@ -45,14 +45,14 @@
   "contributors": [
     {
       "name": "Vladimir Zhukov",
-      "url": "http://github.com/emsoft"
+      "url": "http://github.com/vlazh"
     }
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/emsoft/node-hot-loader/issues"
+    "url": "https://github.com/vlazh/node-hot-loader/issues"
   },
-  "homepage": "https://github.com/emsoft/node-hot-loader",
+  "homepage": "https://github.com/vlazh/node-hot-loader",
   "author": "Vladimir Zhukov",
   "dependencies": {
     "babel-register": "^6.24.1",

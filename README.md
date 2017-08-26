@@ -20,7 +20,7 @@ Tested with Node.js v7, but must work on previous versions.
 ## Installation
 
 ```
-npm install --save-dev node-hot-loader
+npm install --save-dev node-hot-loader webpack
 ```
 
 ## Usage

@@ -16,4 +16,5 @@ tmp
 # IDE
 .idea/
 *.iml
+.vscode/
 .history/

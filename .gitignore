@@ -1,4 +1,4 @@
-# Output folders
+# Output
 dist/
 build/
 target/
@@ -13,10 +13,7 @@ node_modules/
 tmp
 *~
 
-# IntelliJ IDEA files
+# IDE
 .idea/
 *.iml
-
-# Explicitly include in index
-#!.gitignore
-#!.travis.yml
+.history/

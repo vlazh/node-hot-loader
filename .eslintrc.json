@@ -1,8 +1,11 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb-base",
-  "plugins": [
-    "import"
-  ],
+  "plugins": ["import"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
   "rules": {
     "no-console": "off",
     "max-len": "off",

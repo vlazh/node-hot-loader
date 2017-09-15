@@ -1,5 +1,4 @@
-class LogColors {
-
+export default class LogColors {
   static defaultColors = {
     bold: '\u001b[1m',
     yellow: '\u001b[1m\u001b[33m',
@@ -14,6 +13,3 @@ Object.keys(LogColors.defaultColors).reduce((obj, color) => {
   obj[color] = str => `${LogColors.defaultColors[color]}${str}\u001b[39m\u001b[22m`;
   return obj;
 }, LogColors);
-
-
-export default LogColors;

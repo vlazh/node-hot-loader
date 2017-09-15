@@ -34,6 +34,10 @@ function tweakWebpackConfig(module) {
   // Add HmrClient to every entries.
   addHmrClientEntry('entry', config);
 
+  if (!config.plugins) {
+    config.plugins = [];
+  }
+
   // Add source-map support.
   if (config.devtool && config.devtool.indexOf('source-map') >= 0) {
     config.plugins.push(

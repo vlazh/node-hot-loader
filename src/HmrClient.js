@@ -36,10 +36,6 @@ class HmrClient {
         console.log(HmrClient.logPrefix, 'Consider using the NamedModulesPlugin for module names.');
       }
     }
-
-    if (this.upToDate()) {
-      console.log(HmrClient.logPrefix, 'App is up to date.');
-    }
   }
 
   defaultListener = (message) => {
@@ -63,76 +59,54 @@ class HmrClient {
 
   upToDate = () => this.lastHash.indexOf(__webpack_hash__) >= 0;
 
-  handleError = (err) => {
-    const status = module.hot.status();
-    if (['abort', 'fail'].indexOf(status) >= 0) {
-      console.warn(HmrClient.logPrefix, 'Cannot check for update. Need to do a full reload!');
-      console.warn(HmrClient.logPrefix, err.stack || err.message);
-    } else {
-      console.warn(HmrClient.logPrefix, `Update check failed: ${err.stack}` || err.message);
-    }
-  };
-
   check = () => {
-    const cb = (err, updatedModules) => {
-      if (err) {
-        this.handleError(err);
-        return;
-      }
-
-      if (!updatedModules) {
-        console.warn(HmrClient.logPrefix, 'Cannot find update. Need to do a full reload!');
-        console.warn(
-          HmrClient.logPrefix,
-          '(Probably because of restarting the webpack-dev-server)',
-        );
-        return;
-      }
-
-      const applyCallback = (applyErr, renewedModules) => {
-        if (applyErr) {
-          this.handleError(applyErr);
-          return;
+    module.hot
+      .check()
+      .then((updatedModules) => {
+        if (!updatedModules) {
+          console.warn(HmrClient.logPrefix, 'Cannot find update. Need to do a full reload!');
+          console.warn(HmrClient.logPrefix, '(Probably because of restarting the server)');
+          return null;
         }
 
-        if (!this.upToDate()) {
-          this.check();
+        return module.hot
+          .apply({
+            ignoreUnaccepted: true,
+            ignoreDeclined: true,
+            ignoreErrored: true,
+            onUnaccepted(data) {
+              console.warn(`Ignored an update to unaccepted module ${data.chain.join(' -> ')}`);
+            },
+            onDeclined(data) {
+              console.warn(`Ignored an update to declined module ${data.chain.join(' -> ')}`);
+            },
+            onErrored(data) {
+              console.warn(
+                `Ignored an error while updating module ${data.moduleId} (${data.type})`,
+              );
+            },
+          })
+          .then((renewedModules) => {
+            if (!this.upToDate()) {
+              this.check();
+            }
+
+            HmrClient.logApplyResult(updatedModules, renewedModules);
+
+            if (this.upToDate()) {
+              console.log(HmrClient.logPrefix, 'App is up to date.');
+            }
+          });
+      })
+      .catch((err) => {
+        const status = module.hot.status();
+        if (['abort', 'fail'].indexOf(status) >= 0) {
+          console.warn(HmrClient.logPrefix, 'Cannot check for update. Need to do a full reload!');
+          console.warn(HmrClient.logPrefix, err.stack || err.message);
+        } else {
+          console.warn(HmrClient.logPrefix, `Update check failed: ${err.stack}` || err.message);
         }
-
-        HmrClient.logApplyResult(updatedModules, renewedModules);
-      };
-
-      const applyResult = module.hot.apply(
-        {
-          ignoreUnaccepted: true,
-          ignoreDeclined: true,
-          ignoreErrored: true,
-          onUnaccepted(data) {
-            console.warn(`Ignored an update to unaccepted module ${data.chain.join(' -> ')}`);
-          },
-          onDeclined(data) {
-            console.warn(`Ignored an update to declined module ${data.chain.join(' -> ')}`);
-          },
-          onErrored(data) {
-            console.warn(`Ignored an error while updating module ${data.moduleId} (${data.type})`);
-          },
-        },
-        applyCallback,
-      );
-
-      // webpack 2 promise
-      if (applyResult && applyResult.then) {
-        applyResult
-          .then(renewedModules => applyCallback(null, renewedModules))
-          .catch(applyCallback);
-      }
-    };
-
-    const result = module.hot.check(false, cb);
-    // webpack 2 promise
-    if (result && result.then) {
-      result.then(updatedModules => cb(null, updatedModules)).catch(cb);
-    }
+      });
   };
 
   run(listener = this.defaultListener) {
@@ -140,7 +114,7 @@ class HmrClient {
       throw new Error(HmrClient.logPrefix, 'Hot Module Replacement is disabled.');
     }
 
-    console.log(HmrClient.logPrefix, 'Waiting for update signal from WDS...');
+    console.log(HmrClient.logPrefix, 'Waiting for update signal from webpack...');
     process.on('message', listener);
     return this;
   }

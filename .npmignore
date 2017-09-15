@@ -1,8 +1,10 @@
-#
-node_modules
-.idea
+.vscode/
+.history/
+.awcache/
+.idea/
+src/
+.babelrc
 .gitignore
 .npmignore
 .eslintrc.json
-.babelrc
-src
+yarn.lock

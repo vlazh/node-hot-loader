@@ -11,10 +11,9 @@
     "clean": "rimraf lib/",
     "build": "babel src --out-dir lib/ --copy-files",
     "prepublishOnly": "npm run clean && npm run build",
-    "patch-release": "npm version patch && npm publish && git push --follow-tags",
-    "minor-release": "npm version minor && npm publish && git push --follow-tags",
-    "patch": "npm version patch",
-    "deploy": "npm publish",
+    "patch-publish": "npm version patch && npm publish && git push --follow-tags",
+    "minor-publish": "npm version minor && npm publish && git push --follow-tags",
+    "major-publish": "npm version major && npm publish && git push --follow-tags",
     "unpublish": "---npm unpublish node-hot-loader@0.1.0"
   },
   "repository": {
@@ -65,6 +64,7 @@
     "babel-eslint": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^1.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.5.0",
     "eslint-config-airbnb-base": "^11.3.2",

@@ -3,8 +3,6 @@ import Logger from './Logger';
 
 /* globals __webpack_hash__ */
 
-const hmrDocsUrl = 'https://webpack.js.org/concepts/hot-module-replacement/';
-
 const logger = new Logger(LogColors.cyan('[HMR]'));
 
 export class HmrClient {
@@ -15,9 +13,7 @@ export class HmrClient {
 
     if (unacceptedModules.length > 0) {
       logger.warn(
-        "The following modules couldn't be hot updated: (They would need a full reload!)\n" +
-          'This is usually because the modules which have changed (and their parents) do not know ' +
-          `how to hot reload themselves. See ${hmrDocsUrl} for more details.`,
+        "The following modules couldn't be hot updated: (They would need a full reload!)",
       );
       unacceptedModules.forEach((moduleId) => {
         logger.warn(` - ${moduleId}`);

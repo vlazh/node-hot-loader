@@ -116,7 +116,7 @@ function startServer() {
         currentApp = m.default;
         console.log('Server reloaded!');
       })
-      .catch(console.error);
+      .catch(err => console.error(err));
     });
 
     // Hot reload of entry module (self). It will be restart http-server.

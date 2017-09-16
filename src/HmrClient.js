@@ -8,7 +8,7 @@ const hmrDocsUrl = 'https://webpack.js.org/concepts/hot-module-replacement/';
 const logger = new Logger(LogColors.cyan('[HMR]'));
 
 export class HmrClient {
-  static logApplyResult(updatedModules, renewedModules) {
+  logApplyResult = (updatedModules, renewedModules) => {
     const unacceptedModules = updatedModules.filter(
       moduleId => renewedModules && renewedModules.indexOf(moduleId) < 0,
     );
@@ -36,7 +36,7 @@ export class HmrClient {
         logger.log('Consider using the NamedModulesPlugin for module names.');
       }
     }
-  }
+  };
 
   defaultListener = (message) => {
     // webpackHotUpdate
@@ -64,7 +64,7 @@ export class HmrClient {
       .then((updatedModules) => {
         if (!updatedModules) {
           logger.warn('Cannot find update. Need to do a full reload!');
-          // this.log.warn( '(Probably because of restarting the server)');
+          // logger.warn( '(Probably because of restarting the server)');
           return null;
         }
 
@@ -74,15 +74,13 @@ export class HmrClient {
             ignoreDeclined: true,
             ignoreErrored: true,
             onUnaccepted(data) {
-              this.log.warn(`Ignored an update to unaccepted module ${data.chain.join(' -> ')}`);
+              logger.warn(`Ignored an update to unaccepted module ${data.chain.join(' -> ')}`);
             },
             onDeclined(data) {
-              this.log.warn(`Ignored an update to declined module ${data.chain.join(' -> ')}`);
+              logger.warn(`Ignored an update to declined module ${data.chain.join(' -> ')}`);
             },
             onErrored(data) {
-              this.log.warn(
-                `Ignored an error while updating module ${data.moduleId} (${data.type})`,
-              );
+              logger.warn(`Ignored an error while updating module ${data.moduleId} (${data.type})`);
             },
           })
           .then((renewedModules) => {
@@ -90,7 +88,7 @@ export class HmrClient {
               this.check();
             }
 
-            HmrClient.logApplyResult(updatedModules, renewedModules);
+            this.logApplyResult(updatedModules, renewedModules);
 
             if (this.upToDate()) {
               logger.log('App is up to date.');

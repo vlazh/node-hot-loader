@@ -2,7 +2,7 @@
 
 **Node Hot Loader** is a small tool for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
 
-It based on sources of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
+It based on sources of [webpack-hot-middleware](https://github.com/glenjamin/webpack-hot-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
 Under the hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
 
 The most suitable use case for **Node Hot Loader** is hot-reloaded [express](http://expressjs.com/) application.
@@ -59,6 +59,13 @@ export default {
     server: [
       './server/index',
     ],
+  },
+
+  output: {
+    // Webpack can't find hot-update if output file is not directly in output.path.
+    // For example, filename: 'js/[name].js' will not work.
+    // However, I have no many tests for that.
+    filename: '[name].js',
   },
 
   // Exclude node_modules from bundle manual

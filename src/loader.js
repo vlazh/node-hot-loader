@@ -38,7 +38,7 @@ function tweakWebpackConfig(module) {
     config.plugins = [];
   }
 
-  // Add source-map support.
+  // Add source-map support if configured.
   if (config.devtool && config.devtool.indexOf('source-map') >= 0) {
     config.plugins.push(
       new webpack.BannerPlugin({
@@ -56,13 +56,13 @@ function tweakWebpackConfig(module) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
   }
   // Prints more readable module names in the console on HMR updates.
-  if (!config.plugins.find(p => p instanceof webpack.NamedModulesPlugin)) {
-    config.plugins.push(new webpack.NamedModulesPlugin());
-  }
+  // if (!config.plugins.find(p => p instanceof webpack.NamedModulesPlugin)) {
+  // config.plugins.push(new webpack.NamedModulesPlugin());
+  // }
   // In order for don't emit files if errors occurred.
-  if (!config.plugins.find(p => p instanceof webpack.NoEmitOnErrorsPlugin)) {
-    config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
-  }
+  // if (!config.plugins.find(p => p instanceof webpack.NoEmitOnErrorsPlugin)) {
+  // config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
+  // }
 
   return config;
 }
@@ -75,7 +75,7 @@ function tweakWebpackConfig(module) {
 function hooks(compiler) {
   const context = {
     serverProcess: null,
-    state: false, // valid or invalid state
+    stateValid: false, // valid or invalid state
     webpackStats: undefined, // last compiler stats
     options: compiler.options, // options from webpack config
     compiler,

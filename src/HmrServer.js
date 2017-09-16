@@ -6,9 +6,9 @@ import LogColors from './LogColors';
 
 class HmrServer {
   static defaultReporter(reporterOptions) {
-    const { state, stats, options } = reporterOptions;
+    const { stateValid, stats, options } = reporterOptions;
 
-    if (state) {
+    if (stateValid) {
       let displayStats = !options.quiet && options.stats !== false;
       if (displayStats && !(stats.hasErrors() || stats.hasWarnings()) && options.noInfo) {
         displayStats = false;
@@ -123,18 +123,18 @@ class HmrServer {
 
   compilerDone = (stats) => {
     // We are now on valid state
-    this.context.state = true;
+    this.context.stateValid = true;
     this.context.webpackStats = stats;
 
     // Do the stuff in nextTick, because bundle may be invalidated
     // if a change happened while compiling
     process.nextTick(() => {
       // check if still in valid state
-      if (!this.context.state) return;
+      if (!this.context.stateValid) return;
 
       // print webpack output
       this.context.options.reporter({
-        state: true,
+        stateValid: true,
         stats,
         options: this.context.options,
       });
@@ -151,15 +151,15 @@ class HmrServer {
   compilerInvalid = () => {
     this.sendMessage('compile');
 
-    if (this.context.state && (!this.context.options.noInfo && !this.context.options.quiet)) {
+    if (this.context.stateValid && (!this.context.options.noInfo && !this.context.options.quiet)) {
       this.context.options.reporter({
-        state: false,
+        stateValid: false,
         options: this.context.options,
       });
     }
 
     // We are now in invalid state
-    this.context.state = false;
+    this.context.stateValid = false;
     // resolve async
     if (arguments.length === 2 && typeof arguments[1] === 'function') {
       const callback = arguments[1];

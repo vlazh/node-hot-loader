@@ -45,7 +45,7 @@ class HmrClient {
       if (!this.upToDate()) {
         const status = module.hot.status();
         if (status === 'idle') {
-          console.log(HmrClient.logPrefix, 'Checking for updates on the server...');
+          console.log(HmrClient.logPrefix, 'Checking for updates...');
           this.check();
         } else if (['abort', 'fail'].indexOf(status) >= 0) {
           console.warn(
@@ -65,7 +65,7 @@ class HmrClient {
       .then((updatedModules) => {
         if (!updatedModules) {
           console.warn(HmrClient.logPrefix, 'Cannot find update. Need to do a full reload!');
-          console.warn(HmrClient.logPrefix, '(Probably because of restarting the server)');
+          // console.warn(HmrClient.logPrefix, '(Probably because of restarting the server)');
           return null;
         }
 

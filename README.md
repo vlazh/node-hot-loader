@@ -48,10 +48,6 @@ but it's require the minimum configuration in your webpack config file:
 import fs from 'fs';
 
 export default {
-  // It's required!
-  // Also if you use multiconfigurations node-hot choose configuration with target 'node'.
-  target: 'node',
-  
   // node-hot run the all entries in one child process.
   // And the all entries will be with HMR support.
   // Usually only one entry required for node application. 

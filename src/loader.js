@@ -8,11 +8,15 @@ import path from 'path';
  */
 function tweakWebpackConfig(module) {
   const { default: webpackConfig = module } = module;
+
   const config = Array.isArray(webpackConfig)
     ? webpackConfig.find(c => c.target === 'node')
     : webpackConfig;
-  if (config.target !== 'node') {
-    throw new Error('Webpack configuration file must provide config with target "node".');
+
+  if (!config) {
+    throw new Error(
+      'Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".',
+    );
   }
 
   const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');

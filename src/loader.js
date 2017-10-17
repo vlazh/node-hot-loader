@@ -14,24 +14,24 @@ function tweakWebpackConfig(module) {
     : webpackConfig;
 
   if (!config) {
-    throw new Error(
-      'Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".',
-    );
+    throw new Error('Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".');
   }
 
   const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
 
-  const addHmrClientEntry = (entry, owner) => {
-    if (Array.isArray(owner[entry])) owner[entry].splice(-1, 0, hmrClientEntry);
-    else if (typeof owner[entry] === 'string') owner[entry] = [hmrClientEntry, owner[entry]];
-    else if (typeof owner[entry] === 'function') {
+  const addHmrClientEntry = (entry, entryOwner) => {
+    const owner = entryOwner;
+    if (Array.isArray(owner[entry])) {
+      owner[entry].splice(-1, 0, hmrClientEntry);
+    } else if (typeof owner[entry] === 'string') {
+      owner[entry] = [hmrClientEntry, owner[entry]];
+    } else if (typeof owner[entry] === 'function') {
       // Call function and try again with function result.
       owner[entry] = owner[entry]();
       addHmrClientEntry(entry, owner);
     } else if (typeof owner[entry] === 'object') {
       Object.getOwnPropertyNames(owner[entry]).forEach(name =>
-        addHmrClientEntry(name, owner[entry]),
-      );
+        addHmrClientEntry(name, owner[entry]));
     }
   };
 
@@ -44,15 +44,13 @@ function tweakWebpackConfig(module) {
 
   // Add source-map support if configured.
   if (config.devtool && config.devtool.indexOf('source-map') >= 0) {
-    config.plugins.push(
-      new webpack.BannerPlugin({
+    config.plugins.push(new webpack.BannerPlugin({
         banner: `;require('${require
           .resolve('source-map-support')
           .replace(/\\/g, '/')}').install();`,
         raw: true,
         entryOnly: false,
-      }),
-    );
+      }));
   }
 
   // Enable HMR globally if not.
@@ -88,14 +86,9 @@ function hooks(compiler) {
   return import('./HmrServer').then(({ default: HmrServer }) => new HmrServer(context).run());
 }
 
-const defaultOptions = {
-  webpackConfig: path.join(process.cwd(), 'webpack.config.js'),
-};
-
 export default function loader(options) {
-  options = { ...defaultOptions, ...options };
   Promise.resolve()
-    .then(config => import('babel-register'))
+    .then(() => import('babel-register'))
     .then(() => import(options.webpackConfig))
     .then(module => tweakWebpackConfig(module))
     .then(webpackConfig => webpack(webpackConfig))

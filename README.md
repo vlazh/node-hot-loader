@@ -37,8 +37,6 @@ Options:
 node-hot --config webpack.config.server.js
 ```
 
-You can use all configurations for webpack compiler which webpack supports.
-
 ## The minimum required configuration:
 
 **Node Hot Loader** adds all necessaries to webpack config if not present already (e.g. HotModuleReplacementPlugin),
@@ -62,24 +60,6 @@ export default {
     // For example, filename: 'js/[name].js' will not work.
     // However, I have no many tests for that.
     filename: '[name].js',
-  },
-
-  // Exclude node_modules from bundle manual
-  // or use for instance webpack-node-externals package (https://github.com/liady/webpack-node-externals)
-  externals: fs.readdirSync(paths.nodeModules.dirname)
-      .filter(x => ['.bin'].indexOf(x) === -1)
-      .reduce((modules, mod) => {
-        modules[mod] = `commonjs ${mod}`;
-        return modules;
-      }, {}),
-  
-  // It may be necessary when your compiled app uses Webpack too, e.g. for frontend serving,
-  //   because Webpack sets __dirname to '/'.
-  // It may be some issues in your app, so sets __dirname to false can help you.
-  // See https://github.com/webpack/webpack/issues/1599.
-  node: {
-    __dirname: false,
-    __filename: false,
   },
 };
 ```

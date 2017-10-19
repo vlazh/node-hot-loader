@@ -1,3 +1,10 @@
+<a name="1.4.0"></a>
+# 1.4.0 (2017-10-19)
+
+* Run all entries in the same single process by default and add fork option ([77270c0](https://github.com/vlazh/node-hot-loader/commit/77270c0))
+
+
+
 <a name="1.3.0"></a>
 # 1.3.0 (2017-10-17)
 

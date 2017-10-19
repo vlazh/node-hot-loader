@@ -6,50 +6,62 @@ import LogColors from './LogColors';
 
 class HmrServer {
   static defaultReporter(reporterOptions) {
-    const { stateValid, stats, options } = reporterOptions;
+    const { stateValid, log, stats, compilerOptions } = reporterOptions;
 
-    if (stateValid) {
-      let displayStats = !options.quiet && options.stats !== false;
-      if (displayStats && !(stats.hasErrors() || stats.hasWarnings()) && options.noInfo) {
-        displayStats = false;
+    if (!stateValid) {
+      log(`${LogColors.magenta('Webpack')}: Compiling...`);
+      return;
+    }
+
+    const displayStats =
+      !compilerOptions.quiet &&
+      compilerOptions.stats !== false &&
+      (stats.hasErrors() || stats.hasWarnings() || !compilerOptions.noInfo);
+
+    if (displayStats) {
+      const statsInfo = stats.toString(compilerOptions.stats);
+      if (statsInfo) {
+        // To avoid log empty statsInfo, e.g. when options.stats is 'errors-only'.
+        log(statsInfo);
       }
-      if (displayStats) {
-        const statsInfo = stats.toString(options.stats);
-        if (statsInfo) {
-          // To avoid log empty statsInfo, e.g. when options.stats is 'errors-only'.
-          options.log(statsInfo);
-        }
+    }
+
+    if (!compilerOptions.noInfo && !compilerOptions.quiet) {
+      let msg = 'Compiled successfully.';
+      if (stats.hasErrors()) {
+        msg = 'Failed to compile.';
+      } else if (stats.hasWarnings()) {
+        msg = 'Compiled with warnings.';
       }
-      if (!options.noInfo && !options.quiet) {
-        let msg = 'Compiled successfully.';
-        if (stats.hasErrors()) {
-          msg = 'Failed to compile.';
-        } else if (stats.hasWarnings()) {
-          msg = 'Compiled with warnings.';
-        }
-        options.log(`${LogColors.magenta('Webpack')}: ${msg}`);
-      }
-    } else {
-      options.log(`${LogColors.magenta('Webpack')}: Compiling...`);
+      log(`${LogColors.magenta('Webpack')}: ${msg}`);
     }
   }
 
-  constructor(context) {
-    this.context = Object.assign({}, context);
-    const options = context.options || {};
-    if (typeof options.watchOptions === 'undefined') options.watchOptions = {};
-    if (typeof options.reporter !== 'function') options.reporter = HmrServer.defaultReporter;
-    if (typeof options.log !== 'function') options.log = console.log.bind(console);
-    if (typeof options.warn !== 'function') options.warn = console.warn.bind(console);
-    if (typeof options.error !== 'function') options.error = console.error.bind(console);
-    if (typeof options.watchOptions.aggregateTimeout === 'undefined') {
-      options.watchOptions.aggregateTimeout = 200;
-    }
-    if (typeof options.stats === 'undefined') options.stats = {};
-    if (typeof options.stats === 'object' && !options.stats.context) {
-      options.stats.context = process.cwd();
-    }
-    const compiler = this.context.compiler;
+  context = {
+    /** When started compiled script contain process object in which script running. */
+    serverProcess: null,
+    /** Valid or invalid state. */
+    stateValid: false,
+    /** Last compiler stats. */
+    webpackStats: undefined,
+    /** Compiler watching by compiler.watch(...). */
+    watching: undefined,
+    /**
+     * Don use memory-fs because we can't fork bundle from in-memory file.
+     */
+    fs,
+    reporter: HmrServer.defaultReporter,
+    info: console.log.bind(console),
+    warn: console.warn.bind(console),
+    error: console.error.bind(console),
+    fork: false,
+    compiler: undefined,
+  };
+
+  constructor(options) {
+    this.context = Object.assign(this.context, options);
+
+    const { compiler } = this.context;
     if (
       typeof compiler.outputPath === 'string' &&
       !pathIsAbsolute.posix(compiler.outputPath) &&
@@ -57,22 +69,29 @@ class HmrServer {
     ) {
       throw new Error('`output.path` needs to be an absolute path or `/`.');
     }
-    this.context.options = options;
-    // Don use memory-fs because we can't fork bundle fom in-memory file.
-    this.context.fs = fs;
   }
 
-  sendMessage = (action) => {
-    this.context.serverProcess &&
+  sendMessage = action => {
+    if (!this.context.serverProcess) {
+      return;
+    }
+
+    if (this.context.fork) {
       this.context.serverProcess.send({
         action,
         stats: this.context.webpackStats.toJson(),
       });
+    } else {
+      this.context.serverProcess.emit('message', {
+        action,
+        stats: this.context.webpackStats.toJson(),
+      });
+    }
   };
 
-  forkProcess = (stats) => {
+  launchAssets = stats => {
     const getLauncherFileName = () => {
-      const assets = stats.compilation.assets;
+      const { assets } = stats.compilation;
       const names = Object.getOwnPropertyNames(assets).filter(
         k => assets[k].emitted && path.extname(assets[k].existsAt) === '.js',
       );
@@ -104,24 +123,36 @@ class HmrServer {
     };
 
     // Execute built scripts
-    const options = {
-      cwd: process.cwd(),
-      env: process.env,
-    };
-    if (process.getuid) {
-      options.uid = process.getuid();
-      options.gid = process.getgid();
+    if (this.context.fork) {
+      const options = {
+        cwd: process.cwd(),
+        env: process.env,
+      };
+      if (process.getuid) {
+        options.uid = process.getuid();
+        options.gid = process.getgid();
+      }
+      this.context.serverProcess = fork(getLauncherFileName(), process.argv, options);
+      // Listen for serverProcess events.
+      this.context.serverProcess.on('exit', code => {
+        // Exit node process when exit serverProcess.
+        process.exit(code);
+      });
+      this.context.info('Launch assets in forked process.');
+    } else {
+      // Require in current process to lauch script.
+      import(getLauncherFileName())
+        .then(() => {
+          this.context.serverProcess = process;
+        })
+        .catch(err => {
+          this.context.error(err);
+          process.exit();
+        });
     }
-    this.context.serverProcess = fork(getLauncherFileName(), process.argv, options);
-
-    // Listen for serverProcess events.
-    this.context.serverProcess.on('exit', (code) => {
-      // Exit node process when exit serverProcess.
-      process.exit(code);
-    });
   };
 
-  compilerDone = (stats) => {
+  compilerDone = stats => {
     // We are now on valid state
     this.context.stateValid = true;
     this.context.webpackStats = stats;
@@ -133,17 +164,18 @@ class HmrServer {
       if (!this.context.stateValid) return;
 
       // print webpack output
-      this.context.options.reporter({
+      this.context.reporter({
         stateValid: true,
         stats,
-        options: this.context.options,
+        log: this.context.info,
+        compilerOptions: this.context.compiler.options,
       });
 
       if (this.context.serverProcess) {
         this.sendMessage('built');
       } else {
-        // Start compiled files in child process.
-        this.forkProcess(stats);
+        // Start compiled files in child process (fork) or in current process.
+        this.launchAssets(stats);
       }
     });
   };
@@ -151,10 +183,14 @@ class HmrServer {
   compilerInvalid = () => {
     this.sendMessage('compile');
 
-    if (this.context.stateValid && (!this.context.options.noInfo && !this.context.options.quiet)) {
-      this.context.options.reporter({
+    if (
+      this.context.stateValid &&
+      (!this.context.compiler.options.noInfo && !this.context.compiler.options.quiet)
+    ) {
+      this.context.reporter({
         stateValid: false,
-        options: this.context.options,
+        log: this.context.info,
+        compilerOptions: this.context.compiler.options,
       });
     }
 
@@ -167,19 +203,18 @@ class HmrServer {
     }
   };
 
-  compilerWatch = (err) => {
+  compilerWatch = err => {
     if (err) {
-      this.context.options.error(err.stack || err);
-      if (err.details) this.context.options.error(err.details);
+      this.context.error(err.stack || err);
+      if (err.details) this.context.error(err.details);
     }
   };
 
   startWatch = () => {
-    const options = this.context.options;
-    const compiler = this.context.compiler;
+    const { compiler } = this.context;
     // start watching
-    this.context.watching = compiler.watch(options.watchOptions, this.compilerWatch);
-    console.info(LogColors.cyan('[HMR]'), 'Waiting webpack...');
+    this.context.watching = compiler.watch(compiler.options.watchOptions, this.compilerWatch);
+    this.context.info(LogColors.cyan('[HMR]'), 'Waiting webpack...');
   };
 
   run = () => {

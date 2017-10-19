@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base", "prettier"],
   "plugins": ["import"],
   "env": {
     "node": true,
@@ -8,9 +8,6 @@
   },
   "rules": {
     "no-console": "off",
-    "max-len": "off",
-    "linebreak-style": "off",
-    "dot-notation": "off",
-    "indent": "off"
+    "linebreak-style": "off"
   }
 }

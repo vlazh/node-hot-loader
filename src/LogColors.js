@@ -9,6 +9,7 @@ export default class LogColors {
   };
 }
 
+// Make functions from LogColors.defaultColors which apply string and surround it with color definition.
 Object.keys(LogColors.defaultColors).reduce((obj, color) => {
   obj[color] = str => `${LogColors.defaultColors[color]}${str}\u001b[39m\u001b[22m`;
   return obj;

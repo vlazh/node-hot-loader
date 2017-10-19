@@ -7,10 +7,12 @@ import loader from './loader';
 import packageJson from '../package.json';
 
 const options = {
-  webpackConfig: path.join(process.cwd(), 'webpack.config.js'),
+  config: 'webpack.config.js',
+  fork: false,
 };
 
-const _ = yargs
+const params = yargs
+  .config(options)
   .usage('Usage: $0 [args]')
   .help('help')
   .alias('help', 'h')
@@ -20,25 +22,31 @@ const _ = yargs
   .options({
     config: {
       type: 'string',
-      describe: 'Path to the config file',
-      group: 'Config options:',
+      describe: 'Path to the webpack config file',
       defaultDescription: 'webpack.config.js',
       requiresArg: false,
     },
+    fork: {
+      type: 'boolean',
+      describe: 'Launch compiled assets in forked process',
+      defaultDescription: 'false',
+      requiresArg: false,
+    },
   })
-  .alias('config', 'c')
   .example('node-hot --config webpack.config.js', 'Using a specific webpack config file.')
   .example('node-hot', 'Using default webpack config file.')
   .showHelpOnFail(false, 'Use the --help option to get the list of available options.')
-  .check((args) => {
-    if (args.config) {
-      options.webpackConfig = path.join(process.cwd(), args.config);
-    }
-    if (!fs.existsSync(options.webpackConfig)) {
-      throw new Error(`Webpack config file '${options.webpackConfig}' not found!`);
+  .check(args => {
+    if (!fs.existsSync(args.config)) {
+      throw new Error(`Webpack config file '${args.config}' not found!`);
     }
     return true;
   })
   .strict().argv;
+
+if (!path.isAbsolute(params.config)) {
+  options.config = path.join(process.cwd(), params.config);
+}
+options.fork = params.fork;
 
 loader(options);

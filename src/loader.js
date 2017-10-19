@@ -14,7 +14,9 @@ function tweakWebpackConfig(module) {
     : webpackConfig;
 
   if (!config) {
-    throw new Error('Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".');
+    throw new Error(
+      'Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".',
+    );
   }
 
   const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
@@ -31,7 +33,8 @@ function tweakWebpackConfig(module) {
       addHmrClientEntry(entry, owner);
     } else if (typeof owner[entry] === 'object') {
       Object.getOwnPropertyNames(owner[entry]).forEach(name =>
-        addHmrClientEntry(name, owner[entry]));
+        addHmrClientEntry(name, owner[entry]),
+      );
     }
   };
 
@@ -44,13 +47,15 @@ function tweakWebpackConfig(module) {
 
   // Add source-map support if configured.
   if (config.devtool && config.devtool.indexOf('source-map') >= 0) {
-    config.plugins.push(new webpack.BannerPlugin({
+    config.plugins.push(
+      new webpack.BannerPlugin({
         banner: `;require('${require
           .resolve('source-map-support')
           .replace(/\\/g, '/')}').install();`,
         raw: true,
         entryOnly: false,
-      }));
+      }),
+    );
   }
 
   // Enable HMR globally if not.
@@ -71,27 +76,24 @@ function tweakWebpackConfig(module) {
 
 /**
  * Add compiler hooks and start watching (through compiler) for changes.
- * @param compiler
- * @returns {Promise.<HmrServer>|*}
+ * @returns {Promise.<HmrServer>}
  */
-function hooks(compiler) {
-  const context = {
-    serverProcess: null,
-    stateValid: false, // valid or invalid state
-    webpackStats: undefined, // last compiler stats
-    options: compiler.options, // options from webpack config
-    compiler,
-    watching: undefined, // compiler watching by compiler.watch(...)
-  };
-  return import('./HmrServer').then(({ default: HmrServer }) => new HmrServer(context).run());
+function hooks(compiler, options) {
+  return import('./HmrServer').then(({ default: HmrServer }) =>
+    new HmrServer({
+      ...options,
+      /** Webpack compiler. */
+      compiler,
+    }).run(),
+  );
 }
 
 export default function loader(options) {
   Promise.resolve()
     .then(() => import('babel-register'))
-    .then(() => import(options.webpackConfig))
+    .then(() => import(options.config))
     .then(module => tweakWebpackConfig(module))
     .then(webpackConfig => webpack(webpackConfig))
-    .then(compiler => hooks(compiler))
+    .then(compiler => hooks(compiler, options))
     .catch(err => console.error(err));
 }

@@ -1,3 +1,15 @@
+<a name="1.5.0"></a>
+# 1.5.0 (2017-11-30)
+
+* Add simple-example ([c417084](https://github.com/vlazh/node-hot-loader/commit/c417084))
+* Add simple-example sources ([f0c3100](https://github.com/vlazh/node-hot-loader/commit/f0c3100))
+* Fix line breaks ([a81afc4](https://github.com/vlazh/node-hot-loader/commit/a81afc4))
+* Remove simple-example git repo ([825057e](https://github.com/vlazh/node-hot-loader/commit/825057e))
+* Update configs and deps ([c6b9c93](https://github.com/vlazh/node-hot-loader/commit/c6b9c93))
+* Update dependencies ([0ce8f12](https://github.com/vlazh/node-hot-loader/commit/0ce8f12))
+
+
+
 <a name="1.4.0"></a>
 # 1.4.0 (2017-10-19)
 

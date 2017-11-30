@@ -1,4 +1,4 @@
 {
-  "presets": ["env"],
-  "plugins": ["transform-class-properties", "transform-object-rest-spread", "dynamic-import-node"]
+  "extends": "@vzh/boilerplates/lib/babel/common.babelrc",
+  "plugins": ["dynamic-import-node"]
 }

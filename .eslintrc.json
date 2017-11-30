@@ -1,13 +1,3 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["airbnb-base", "prettier"],
-  "plugins": ["import"],
-  "env": {
-    "node": true,
-    "es6": true
-  },
-  "rules": {
-    "no-console": "off",
-    "linebreak-style": "off"
-  }
+  "extends": ["./node_modules/@vzh/boilerplates/lib/eslint/common.eslintrc.json"]
 }

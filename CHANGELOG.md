@@ -1,3 +1,10 @@
+<a name="1.5.1"></a>
+## 1.5.1 (2017-12-01)
+
+* Add @vzh/configs ([942315f](https://github.com/vlazh/node-hot-loader/commit/942315f))
+
+
+
 <a name="1.5.0"></a>
 # 1.5.0 (2017-11-30)
 

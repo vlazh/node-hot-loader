@@ -1,4 +1,4 @@
 {
-  "extends": "@vzh/configs/lib/babel/common.babelrc.json",
+  "extends": "@vzh/configs/babel/common.babelrc.json",
   "plugins": ["dynamic-import-node"]
 }

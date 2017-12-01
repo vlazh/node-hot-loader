@@ -62,7 +62,7 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "@vzh/configs": "^0.6.8",
+    "@vzh/configs": "^0.7.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-plugin-dynamic-import-node": "^1.2.0",

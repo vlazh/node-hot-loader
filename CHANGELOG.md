@@ -1,3 +1,10 @@
+<a name="1.5.2"></a>
+## 1.5.2 (2017-12-01)
+
+* Update configs ([db67b55](https://github.com/vlazh/node-hot-loader/commit/db67b55))
+
+
+
 <a name="1.5.1"></a>
 ## 1.5.1 (2017-12-01)
 

@@ -118,3 +118,7 @@ DB.connect()
 ## License
 
 [MIT](https://opensource.org/licenses/mit-license.php)
+
+## Other projects
+
+Try the [reflexy](https://github.com/vlazh/reflexy) - react flexbox layout components.

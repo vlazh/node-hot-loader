@@ -1,3 +1,11 @@
+<a name="1.5.3"></a>
+## <small>1.5.3 (2018-02-23)</small>
+
+* Fix loose this context ([04d8526](https://github.com/vlazh/node-hot-loader/commit/04d8526))
+* Update deps ([273fb1f](https://github.com/vlazh/node-hot-loader/commit/273fb1f))
+
+
+
 <a name="1.5.2"></a>
 ## 1.5.2 (2017-12-01)
 

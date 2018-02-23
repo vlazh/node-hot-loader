@@ -8,12 +8,12 @@ export class HmrClient {
 
   logApplyResult = (updatedModules, renewedModules) => {
     const unacceptedModules = updatedModules.filter(
-      moduleId => renewedModules && renewedModules.indexOf(moduleId) < 0,
+      moduleId => renewedModules && renewedModules.indexOf(moduleId) < 0
     );
 
     if (unacceptedModules.length > 0) {
       this.logger.warn(
-        "The following modules couldn't be hot updated: (They would need a full reload!)",
+        "The following modules couldn't be hot updated: (They would need a full reload!)"
       );
       unacceptedModules.forEach(moduleId => {
         this.logger.warn(` - ${moduleId}`);
@@ -49,7 +49,7 @@ export class HmrClient {
         this.check();
       } else if (['abort', 'fail'].indexOf(status) >= 0) {
         this.logger.warn(
-          `Cannot apply update as a previous update ${status}ed. Need to do a full reload!`,
+          `Cannot apply update as a previous update ${status}ed. Need to do a full reload!`
         );
       }
     }
@@ -72,17 +72,17 @@ export class HmrClient {
             ignoreUnaccepted: true,
             ignoreDeclined: true,
             ignoreErrored: true,
-            onUnaccepted(data) {
+            onUnaccepted: data => {
               this.logger.warn(`Ignored an update to unaccepted module ${data.chain.join(' -> ')}`);
             },
-            onDeclined(data) {
+            onDeclined: data => {
               this.logger.warn(`Ignored an update to declined module ${data.chain.join(' -> ')}`);
             },
-            onErrored(data) {
+            onErrored: data => {
               this.logger.warn(
-                `Ignored an error while updating module ${data.moduleId} (${data.type})`,
+                `Ignored an error while updating module ${data.moduleId} (${data.type})`
               );
-            },
+            }
           })
           .then(renewedModules => {
             if (!this.upToDate()) {

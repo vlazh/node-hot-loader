@@ -1,3 +1,11 @@
+<a name="1.6.0"></a>
+## 1.6.0 (2018-02-24)
+
+* Improve logger output colors ([86b7b9c](https://github.com/vlazh/node-hot-loader/commit/86b7b9c))
+* Update README ([6abefd6](https://github.com/vlazh/node-hot-loader/commit/6abefd6))
+
+
+
 <a name="1.5.3"></a>
 ## <small>1.5.3 (2018-02-23)</small>
 

@@ -13,7 +13,7 @@ export class HmrClient {
 
     if (unacceptedModules.length > 0) {
       this.logger.warn(
-        "The following modules couldn't be hot updated: (They would need a full reload!)"
+        "The following modules couldn't be hot updated: (They would need restart server!)"
       );
       unacceptedModules.forEach(moduleId => {
         this.logger.warn(` - ${moduleId}`);
@@ -21,15 +21,15 @@ export class HmrClient {
     }
 
     if (!renewedModules || renewedModules.length === 0) {
-      this.logger.log('Nothing hot updated.');
+      this.logger.info('Nothing hot updated.');
     } else {
-      this.logger.log('Updated modules:');
+      this.logger.info('Updated modules:');
       renewedModules.forEach(moduleId => {
-        this.logger.log(` - ${moduleId}`);
+        this.logger.info(` - ${moduleId}`);
       });
       const numberIds = renewedModules.every(moduleId => typeof moduleId === 'number');
       if (numberIds) {
-        this.logger.log('Consider using the NamedModulesPlugin for module names.');
+        this.logger.info('Consider using the NamedModulesPlugin for module names.');
       }
     }
   };
@@ -45,11 +45,11 @@ export class HmrClient {
     if (!this.upToDate()) {
       const status = module.hot.status();
       if (status === 'idle') {
-        this.logger.log('Checking for updates...');
+        this.logger.info('Checking for updates...');
         this.check();
       } else if (['abort', 'fail'].indexOf(status) >= 0) {
         this.logger.warn(
-          `Cannot apply update as a previous update ${status}ed. Need to do a full reload!`
+          `Cannot apply update as a previous update ${status}ed. Need to do restart server!`
         );
       }
     }
@@ -62,7 +62,7 @@ export class HmrClient {
       .check()
       .then(updatedModules => {
         if (!updatedModules) {
-          this.logger.warn('Cannot find update. Need to do a full reload!');
+          this.logger.warn('Cannot find update. Need to do restart server!');
           // this.logger.warn( '(Probably because of restarting the server)');
           return null;
         }
@@ -82,7 +82,7 @@ export class HmrClient {
               this.logger.warn(
                 `Ignored an error while updating module ${data.moduleId} (${data.type})`
               );
-            }
+            },
           })
           .then(renewedModules => {
             if (!this.upToDate()) {
@@ -92,14 +92,14 @@ export class HmrClient {
             this.logApplyResult(updatedModules, renewedModules);
 
             if (this.upToDate()) {
-              this.logger.log('App is up to date.');
+              this.logger.info('App is up to date.');
             }
           });
       })
       .catch(err => {
         const status = module.hot.status();
         if (['abort', 'fail'].indexOf(status) >= 0) {
-          this.logger.warn('Cannot check for update. Need to do a full reload!');
+          this.logger.warn('Cannot check for update. Need to do restart server!');
           this.logger.warn(err.stack || err.message);
         } else {
           this.logger.warn(`Update check failed: ${err.stack}` || err.message);
@@ -112,7 +112,7 @@ export class HmrClient {
       throw new Error('Hot Module Replacement is disabled.');
     }
 
-    this.logger.log('Waiting for update signal from webpack...');
+    this.logger.info('Waiting for update signal from webpack...');
     process.on('message', listener);
     return this;
   }

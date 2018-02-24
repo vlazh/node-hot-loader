@@ -15,7 +15,7 @@ function tweakWebpackConfig(module) {
 
   if (!config) {
     throw new Error(
-      'Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".',
+      'Not found webpack configuration. For multiple configurations in single file you must provide config with target "node".'
     );
   }
 
@@ -33,7 +33,7 @@ function tweakWebpackConfig(module) {
       addHmrClientEntry(entry, owner);
     } else if (typeof owner[entry] === 'object') {
       Object.getOwnPropertyNames(owner[entry]).forEach(name =>
-        addHmrClientEntry(name, owner[entry]),
+        addHmrClientEntry(name, owner[entry])
       );
     }
   };
@@ -54,7 +54,7 @@ function tweakWebpackConfig(module) {
           .replace(/\\/g, '/')}').install();`,
         raw: true,
         entryOnly: false,
-      }),
+      })
     );
   }
 
@@ -84,7 +84,7 @@ function hooks(compiler, options) {
       ...options,
       /** Webpack compiler. */
       compiler,
-    }).run(),
+    }).run()
   );
 }
 

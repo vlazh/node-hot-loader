@@ -1,3 +1,5 @@
+import LogColors from './LogColors';
+
 export default class Logger {
   prefix;
 
@@ -5,15 +7,15 @@ export default class Logger {
     this.prefix = prefix;
   }
 
-  log(message, ...optionalParams) {
+  info(message, ...optionalParams) {
     console.log(this.prefix, message, ...optionalParams);
   }
 
   warn(message, ...optionalParams) {
-    console.warn(this.prefix, message, ...optionalParams);
+    console.warn(this.prefix, LogColors.yellow(message), ...optionalParams);
   }
 
   error(message, ...optionalParams) {
-    console.error(this.prefix, message, ...optionalParams);
+    console.error(this.prefix, LogColors.red(message), ...optionalParams);
   }
 }

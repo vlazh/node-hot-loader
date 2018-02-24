@@ -3,13 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import { fork } from 'child_process';
 import LogColors from './LogColors';
+import Logger from './Logger';
 
 class HmrServer {
-  static defaultReporter(reporterOptions) {
-    const { stateValid, log, stats, compilerOptions } = reporterOptions;
-
+  static defaultReporter({ context, stateValid, stats, compilerOptions }) {
     if (!stateValid) {
-      log(`${LogColors.magenta('Webpack')}: Compiling...`);
+      context.webpackLogger.info('Compiling...');
       return;
     }
 
@@ -22,18 +21,17 @@ class HmrServer {
       const statsInfo = stats.toString(compilerOptions.stats);
       if (statsInfo) {
         // To avoid log empty statsInfo, e.g. when options.stats is 'errors-only'.
-        log(statsInfo);
+        context.webpackLogger.info(statsInfo);
       }
     }
 
     if (!compilerOptions.noInfo && !compilerOptions.quiet) {
-      let msg = 'Compiled successfully.';
       if (stats.hasErrors()) {
-        msg = 'Failed to compile.';
+        context.webpackLogger.error('Failed to compile.');
       } else if (stats.hasWarnings()) {
-        msg = 'Compiled with warnings.';
+        context.webpackLogger.warn('Compiled with warnings.');
       }
-      log(`${LogColors.magenta('Webpack')}: ${msg}`);
+      context.webpackLogger.info('Compiled successfully.');
     }
   }
 
@@ -51,9 +49,11 @@ class HmrServer {
      */
     fs,
     reporter: HmrServer.defaultReporter,
-    info: console.log.bind(console),
-    warn: console.warn.bind(console),
-    error: console.error.bind(console),
+    // info: console.log.bind(console),
+    // warn: console.warn.bind(console),
+    // error: console.error.bind(console),
+    logger: new Logger(LogColors.cyan('[HMR]')),
+    webpackLogger: new Logger(LogColors.magenta('Webpack')),
     fork: false,
     compiler: undefined,
   };
@@ -93,7 +93,7 @@ class HmrServer {
     const getLauncherFileName = () => {
       const { assets } = stats.compilation;
       const names = Object.getOwnPropertyNames(assets).filter(
-        k => assets[k].emitted && path.extname(assets[k].existsAt) === '.js',
+        k => assets[k].emitted && path.extname(assets[k].existsAt) === '.js'
       );
 
       if (names.length === 1) {
@@ -107,7 +107,7 @@ class HmrServer {
 
       const launcherFileName = path.resolve(
         stats.compilation.compiler.outputPath,
-        `launcher.${stats.hash}.js`,
+        `launcher.${stats.hash}.js`
       );
       this.context.fs.writeFileSync(launcherFileName, launcherString);
 
@@ -138,7 +138,7 @@ class HmrServer {
         // Exit node process when exit serverProcess.
         process.exit(code);
       });
-      this.context.info('Launch assets in forked process.');
+      this.context.logger.info('Launch assets in forked process.');
     } else {
       // Require in current process to lauch script.
       import(getLauncherFileName())
@@ -146,7 +146,7 @@ class HmrServer {
           this.context.serverProcess = process;
         })
         .catch(err => {
-          this.context.error(err);
+          this.context.logger.error(err);
           process.exit();
         });
     }
@@ -167,7 +167,7 @@ class HmrServer {
       this.context.reporter({
         stateValid: true,
         stats,
-        log: this.context.info,
+        context: this.context,
         compilerOptions: this.context.compiler.options,
       });
 
@@ -189,7 +189,7 @@ class HmrServer {
     ) {
       this.context.reporter({
         stateValid: false,
-        log: this.context.info,
+        context: this.context,
         compilerOptions: this.context.compiler.options,
       });
     }
@@ -205,8 +205,8 @@ class HmrServer {
 
   compilerWatch = err => {
     if (err) {
-      this.context.error(err.stack || err);
-      if (err.details) this.context.error(err.details);
+      this.context.logger.error(err.stack || err);
+      if (err.details) this.context.logger.error(err.details);
     }
   };
 
@@ -214,7 +214,7 @@ class HmrServer {
     const { compiler } = this.context;
     // start watching
     this.context.watching = compiler.watch(compiler.options.watchOptions, this.compilerWatch);
-    this.context.info(LogColors.cyan('[HMR]'), 'Waiting webpack...');
+    this.context.logger.info('Waiting webpack...');
   };
 
   run = () => {

@@ -1,3 +1,10 @@
+<a name="1.6.1"></a>
+## <small>1.6.1 (2018-04-08)</small>
+
+* Improve error logging ([b6b394b](https://github.com/vlazh/node-hot-loader/commit/b6b394b))
+
+
+
 <a name="1.6.0"></a>
 ## 1.6.0 (2018-02-24)
 

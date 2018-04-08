@@ -16,6 +16,7 @@ export default class Logger {
   }
 
   error(message, ...optionalParams) {
-    console.error(this.prefix, LogColors.red(message), ...optionalParams);
+    const string = message.stack || message;
+    console.error(this.prefix, LogColors.red(string), ...optionalParams);
   }
 }

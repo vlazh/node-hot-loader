@@ -1,3 +1,10 @@
+<a name="1.6.2"></a>
+## <small>1.6.2 (2018-04-08)</small>
+
+* Update .npmignore ([984cb87](https://github.com/vlazh/node-hot-loader/commit/984cb87))
+
+
+
 <a name="1.6.1"></a>
 ## <small>1.6.1 (2018-04-08)</small>
 

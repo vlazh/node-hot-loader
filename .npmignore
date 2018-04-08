@@ -7,4 +7,5 @@ src/
 .gitignore
 .npmignore
 .eslintrc.json
+.prettierrc
 yarn.lock

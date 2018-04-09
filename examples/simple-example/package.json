@@ -2,6 +2,7 @@
   "name": "simple-example",
   "version": "1.0.0",
   "description": "Example for HMR in a node.js process",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf out",
@@ -10,8 +11,8 @@
     "start-forked": "npm run clean && node-hot --fork"
   },
   "devDependencies": {
-    "node-hot-loader": "^1.4.0",
+    "node-hot-loader": "^1.6.2",
     "rimraf": "^2.6.2",
-    "webpack": "^3.8.1"
+    "webpack": "^4.5.0"
   }
 }

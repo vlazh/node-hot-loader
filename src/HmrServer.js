@@ -218,8 +218,16 @@ class HmrServer {
   };
 
   run = () => {
-    this.context.compiler.plugin('done', this.compilerDone);
-    this.context.compiler.plugin('compile', this.compilerInvalid);
+    const { compiler } = this.context;
+    if (compiler.hooks) {
+      // webpack >= 4
+      compiler.hooks.done.tap('CompilerDone', this.compilerDone);
+      compiler.hooks.compile.tap('ComplierInvalid', this.compilerInvalid);
+    } else {
+      // webpack < 4
+      compiler.plugin('done', this.compilerInvalid);
+      compiler.plugin('compile', this.compilerInvalid);
+    }
     this.startWatch();
     return this;
   };

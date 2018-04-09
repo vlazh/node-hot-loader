@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import path from 'path';
 
 /**
  * Add hmrClient to all entries.
@@ -19,7 +18,7 @@ function tweakWebpackConfig(module) {
     );
   }
 
-  const hmrClientEntry = path.resolve(process.cwd(), 'node_modules/node-hot-loader/lib/HmrClient');
+  const hmrClientEntry = require.resolve('./HmrClient');
 
   const addHmrClientEntry = (entry, entryOwner) => {
     const owner = entryOwner;
@@ -62,14 +61,6 @@ function tweakWebpackConfig(module) {
   if (!config.plugins.find(p => p instanceof webpack.HotModuleReplacementPlugin)) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
   }
-  // Prints more readable module names in the console on HMR updates.
-  // if (!config.plugins.find(p => p instanceof webpack.NamedModulesPlugin)) {
-  // config.plugins.push(new webpack.NamedModulesPlugin());
-  // }
-  // In order for don't emit files if errors occurred.
-  // if (!config.plugins.find(p => p instanceof webpack.NoEmitOnErrorsPlugin)) {
-  // config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
-  // }
 
   return config;
 }
@@ -82,8 +73,7 @@ function hooks(compiler, options) {
   return import('./HmrServer').then(({ default: HmrServer }) =>
     new HmrServer({
       ...options,
-      /** Webpack compiler. */
-      compiler,
+      compiler, // webpack compiler
     }).run()
   );
 }

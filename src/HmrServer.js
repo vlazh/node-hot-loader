@@ -5,7 +5,7 @@ import { fork } from 'child_process';
 import LogColors from './LogColors';
 import Logger from './Logger';
 
-class HmrServer {
+export default class HmrServer {
   static defaultReporter({ context, stateValid, stats, compilerOptions }) {
     if (!stateValid) {
       context.webpackLogger.info('Compiling...');
@@ -232,5 +232,3 @@ class HmrServer {
     return this;
   };
 }
-
-export default HmrServer;

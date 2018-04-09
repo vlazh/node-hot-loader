@@ -1,3 +1,10 @@
+<a name="1.7.1"></a>
+## <small>1.7.1 (2018-04-09)</small>
+
+* Little improvements ([6bd8960](https://github.com/vlazh/node-hot-loader/commit/6bd8960))
+
+
+
 <a name="1.7.0"></a>
 ## 1.7.0 (2018-04-09)
 

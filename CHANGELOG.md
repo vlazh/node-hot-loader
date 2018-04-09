@@ -1,3 +1,11 @@
+<a name="1.7.0"></a>
+## 1.7.0 (2018-04-09)
+
+* Add webpack 4 support ([c3069e4](https://github.com/vlazh/node-hot-loader/commit/c3069e4))
+* Move to webpack 4 ([6a2b35f](https://github.com/vlazh/node-hot-loader/commit/6a2b35f))
+
+
+
 <a name="1.6.2"></a>
 ## <small>1.6.2 (2018-04-08)</small>
 

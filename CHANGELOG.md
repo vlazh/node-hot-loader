@@ -1,3 +1,10 @@
+<a name="1.8.1"></a>
+## <small>1.8.1 (2018-04-27)</small>
+
+* Improve error logging ([5ced217](https://github.com/vlazh/node-hot-loader/commit/5ced217))
+
+
+
 <a name="1.8.0"></a>
 ## 1.8.0 (2018-04-27)
 

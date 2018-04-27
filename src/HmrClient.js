@@ -84,10 +84,11 @@ export class HmrClient {
               this.logger.warn(`Ignored an update to declined module ${info.chain.join(' -> ')}`);
             },
             onErrored: info => {
-              this.logger.error(
+              this.logger.warn(
                 `Ignored an error while updating module ${info.moduleId} (${info.type})`
               );
-              throw info.error; // for log error in catch and not invoke then.
+              // If throw error then module.hot.status() always equals 'apply' and module.hot.check() will not work.
+              this.logger.error(info.error);
             },
           })
           .then(renewedModules => {

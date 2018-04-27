@@ -76,7 +76,7 @@ export class HmrClient {
           .apply({
             ignoreUnaccepted: true,
             ignoreDeclined: true,
-            ignoreErrored: true,
+            ignoreErrored: true, // true allows to restore state after errors.
             onUnaccepted: info => {
               this.logger.warn(`Ignored an update to unaccepted module ${info.chain.join(' -> ')}`);
             },
@@ -87,7 +87,8 @@ export class HmrClient {
               this.logger.warn(
                 `Ignored an error while updating module ${info.moduleId} (${info.type})`
               );
-              // If throw error then module.hot.status() always equals 'apply' and module.hot.check() will not work.
+              // If ignoreErrored is true and throw info.error then module.hot.status() always
+              // equals 'apply' and module.hot.check() will not work.
               this.logger.error(info.error);
             },
           })
@@ -102,8 +103,8 @@ export class HmrClient {
       .catch(err => {
         const status = module.hot.status();
         if (['abort', 'fail'].indexOf(status) >= 0) {
-          this.logger.warn('Cannot check for update. Need to do restart server!');
-          this.logger.warn(err.stack || err.message);
+          this.logger.error('Cannot check for update. Need to do restart server!');
+          this.logger.error(err.stack || err.message);
         } else {
           this.logger.error(`Update check failed: ${err.stack}` || err.message);
         }

@@ -7,9 +7,10 @@ export class HmrClient {
   logger = new Logger(LogColors.cyan('[HMR]'));
 
   logApplyResult = (updatedModules, renewedModules) => {
-    const unacceptedModules = updatedModules.filter(
-      moduleId => renewedModules && renewedModules.indexOf(moduleId) < 0
-    );
+    const unacceptedModules =
+      !renewedModules || !renewedModules.length
+        ? updatedModules
+        : updatedModules.filter(moduleId => renewedModules.indexOf(moduleId) < 0);
 
     if (unacceptedModules.length > 0) {
       this.logger.warn(
@@ -20,17 +21,22 @@ export class HmrClient {
       });
     }
 
-    if (!renewedModules || renewedModules.length === 0) {
+    if (!renewedModules || !renewedModules.length) {
       this.logger.info('Nothing hot updated.');
-    } else {
-      this.logger.info('Updated modules:');
-      renewedModules.forEach(moduleId => {
-        this.logger.info(` - ${moduleId}`);
-      });
-      const numberIds = renewedModules.every(moduleId => typeof moduleId === 'number');
-      if (numberIds) {
-        this.logger.info('Consider using the NamedModulesPlugin for module names.');
-      }
+      return;
+    }
+
+    this.logger.info('Updated modules:');
+    renewedModules.forEach(moduleId => {
+      this.logger.info(` - ${moduleId}`);
+    });
+    const numberIds = renewedModules.every(moduleId => typeof moduleId === 'number');
+    if (numberIds) {
+      this.logger.info('Consider using the NamedModulesPlugin for module names.');
+    }
+
+    if (this.upToDate()) {
+      this.logger.info('App is up to date.');
     }
   };
 
@@ -63,7 +69,6 @@ export class HmrClient {
       .then(updatedModules => {
         if (!updatedModules) {
           this.logger.warn('Cannot find update. Need to do restart server!');
-          // this.logger.warn( '(Probably because of restarting the server)');
           return null;
         }
 
@@ -72,16 +77,17 @@ export class HmrClient {
             ignoreUnaccepted: true,
             ignoreDeclined: true,
             ignoreErrored: true,
-            onUnaccepted: data => {
-              this.logger.warn(`Ignored an update to unaccepted module ${data.chain.join(' -> ')}`);
+            onUnaccepted: info => {
+              this.logger.warn(`Ignored an update to unaccepted module ${info.chain.join(' -> ')}`);
             },
-            onDeclined: data => {
-              this.logger.warn(`Ignored an update to declined module ${data.chain.join(' -> ')}`);
+            onDeclined: info => {
+              this.logger.warn(`Ignored an update to declined module ${info.chain.join(' -> ')}`);
             },
-            onErrored: data => {
-              this.logger.warn(
-                `Ignored an error while updating module ${data.moduleId} (${data.type})`
+            onErrored: info => {
+              this.logger.error(
+                `Ignored an error while updating module ${info.moduleId} (${info.type})`
               );
+              throw info.error; // for log error in catch and not invoke then.
             },
           })
           .then(renewedModules => {
@@ -90,10 +96,6 @@ export class HmrClient {
             }
 
             this.logApplyResult(updatedModules, renewedModules);
-
-            if (this.upToDate()) {
-              this.logger.info('App is up to date.');
-            }
           });
       })
       .catch(err => {
@@ -102,7 +104,7 @@ export class HmrClient {
           this.logger.warn('Cannot check for update. Need to do restart server!');
           this.logger.warn(err.stack || err.message);
         } else {
-          this.logger.warn(`Update check failed: ${err.stack}` || err.message);
+          this.logger.error(`Update check failed: ${err.stack}` || err.message);
         }
       });
   };

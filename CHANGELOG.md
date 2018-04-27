@@ -1,3 +1,10 @@
+<a name="1.8.2"></a>
+## <small>1.8.2 (2018-04-27)</small>
+
+* Add comments ([0ff1623](https://github.com/vlazh/node-hot-loader/commit/0ff1623))
+
+
+
 <a name="1.8.1"></a>
 ## <small>1.8.1 (2018-04-27)</small>
 

@@ -2,7 +2,7 @@
 
 **Node Hot Loader** is a small tool for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
 
-It based on sources of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
+It based on work of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
 Under the hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
 
 **Node Hot Loader** by default run the all webpack entries in the same **single process** or in forked process, if you set corresponding option.

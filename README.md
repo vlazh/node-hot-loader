@@ -52,8 +52,6 @@ node-hot --config webpack.config.server.js
 but it's require the minimum configuration in your webpack config file:
 
 ```javascript
-import fs from 'fs';
-
 export default {
   output: {
     // Webpack can't find hot-update if output file is not directly in output.path.

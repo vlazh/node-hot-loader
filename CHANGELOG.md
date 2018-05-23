@@ -1,3 +1,11 @@
+<a name="1.8.3"></a>
+## <small>1.8.3 (2018-05-23)</small>
+
+* Update express example ([54aaaf8](https://github.com/vlazh/node-hot-loader/commit/54aaaf8))
+* Update README ([5b0aa44](https://github.com/vlazh/node-hot-loader/commit/5b0aa44))
+
+
+
 <a name="1.8.2"></a>
 ## <small>1.8.2 (2018-04-27)</small>
 

@@ -1,3 +1,10 @@
+<a name="1.8.5"></a>
+## <small>1.8.5 (2018-05-23)</small>
+
+* Update README ([9847494](https://github.com/vlazh/node-hot-loader/commit/9847494))
+
+
+
 <a name="1.8.4"></a>
 ## <small>1.8.4 (2018-05-23)</small>
 

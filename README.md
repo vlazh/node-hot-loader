@@ -109,20 +109,16 @@ function startServer() {
 
 // After DB initialized start server
 DB.connect()
-    .then(() => {
-      console.log('Successfully connected to MongoDB.');
-      console.log('Starting http server...');
-      return startServer();
-    })
-    .catch(err => {
-      console.error('Error in server start script.', err);
-    });
+  .then(() => {
+    console.log('Successfully connected to MongoDB.');
+    console.log('Starting http server...');
+    return startServer();
+  })
+  .catch(err => {
+    console.error('Error in server start script.', err);
+  });
 ```
 
 ## License
 
 [MIT](https://opensource.org/licenses/mit-license.php)
-
-## Other projects
-
-Try the [reflexy](https://github.com/vlazh/reflexy) - react flexbox layout components.

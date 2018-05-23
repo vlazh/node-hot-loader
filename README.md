@@ -70,47 +70,53 @@ export default {
 import app from './app'; // configuring express app, e.g. routes and logic
 import DB from './services/DB'; // DB service
 
-
 function startServer() {
-  const httpServer = app.listen(app.get('port'), (error) => {
-    if (error) {
-      console.error(error);
-    } else {
-      const address = httpServer.address();
-      console.info(`==> 🌎 Listening on ${address.port}. Open up http://localhost:${address.port}/ in your browser.`);
+  return new Promise((resolve, reject) => {
+    const httpServer = app.listen(app.get('port'));
+
+    httpServer.once('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        reject(err);
+      }
+    });
+
+    httpServer.once('listening', () => resolve(httpServer));
+  }).then(httpServer => {
+    const { port } = httpServer.address();
+    console.info(`==> 🌎 Listening on ${port}. Open up http://localhost:${port}/ in your browser.`);
+
+    // Hot Module Replacement API
+    if (module.hot) {
+      let currentApp = app;
+      module.hot.accept('./app', () => {
+        httpServer.removeListener('request', currentApp);
+        import('./app')
+          .then(({ default: nextApp }) => {
+            currentApp = nextApp;
+            httpServer.on('request', currentApp);
+            console.log('HttpServer reloaded!');
+          })
+          .catch(err => console.error(err));
+      });
+
+      // For reload main module (self). It will be restart http-server.
+      module.hot.accept(err => console.error(err));
+      module.hot.dispose(() => {
+        console.log('Disposing entry module...');
+        httpServer.close();
+      });
     }
   });
-
-  // Hot Module Replacement API
-  if (module.hot) {
-    // Hot reload of `app` and related modules.
-    let currentApp = app;
-    module.hot.accept('./app', () => {
-      httpServer.removeListener('request', currentApp);
-      import('./app').then(m => {
-        httpServer.on('request', m.default);
-        currentApp = m.default;
-        console.log('Server reloaded!');
-      })
-      .catch(err => console.error(err));
-    });
-
-    // Hot reload of entry module (self). It will be restart http-server.
-    module.hot.accept();
-    module.hot.dispose(() => {
-      console.log('Disposing entry module...');
-      httpServer.close();
-    });
-  }
 }
 
 // After DB initialized start server
 DB.connect()
     .then(() => {
-      console.log('Successfully connected to MongoDB. Starting http server...');
-      startServer();
+      console.log('Successfully connected to MongoDB.');
+      console.log('Starting http server...');
+      return startServer();
     })
-    .catch((err) => {
+    .catch(err => {
       console.error('Error in server start script.', err);
     });
 ```

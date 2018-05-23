@@ -45,6 +45,22 @@ Options:
 ```
 node-hot --config webpack.config.server.js
 ```
+Of course, you can add script into you package.json:
+```json
+...
+"scripts": {
+  "start": "node-hot --config webpack.config.server.js"
+}
+...
+```
+and then run with your favorite package manager:
+```
+npm run start
+```
+or
+```
+yarn run start
+```
 
 ## The minimum required configuration:
 

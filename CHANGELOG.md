@@ -1,3 +1,10 @@
+## 1.9.0 (2018-07-13)
+
+* Update deps ([0ed0088](https://github.com/vlazh/node-hot-loader/commit/0ed0088))
+* Update npmignore ([258bb74](https://github.com/vlazh/node-hot-loader/commit/258bb74))
+
+
+
 <a name="1.8.6"></a>
 ## <small>1.8.6 (2018-05-23)</small>
 

@@ -1,3 +1,10 @@
+## <small>1.10.1 (2018-07-30)</small>
+
+* Update README ([c2e77b7](https://github.com/vlazh/node-hot-loader/commit/c2e77b7))
+* Update README.md ([e78d4cf](https://github.com/vlazh/node-hot-loader/commit/e78d4cf))
+
+
+
 ## 1.10.0 (2018-07-30)
 
 * Add logLevel option for logging with respected to webpack stats configuration. ([95bffb5](https://github.com/vlazh/node-hot-loader/commit/95bffb5))

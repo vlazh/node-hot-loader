@@ -1,3 +1,9 @@
+## 1.10.0 (2018-07-30)
+
+* Add logLevel option for logging with respected to webpack stats configuration. ([95bffb5](https://github.com/vlazh/node-hot-loader/commit/95bffb5))
+
+
+
 ## 1.9.0 (2018-07-13)
 
 * Update deps ([0ed0088](https://github.com/vlazh/node-hot-loader/commit/0ed0088))

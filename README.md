@@ -35,15 +35,20 @@ yarn add --dev node-hot-loader webpack
 
 ```
 Usage: node-hot {options}
-
-Options:
-  --config      Path to the webpack config file. If not set then search webpack.config.js in root directory.
-  --fork        Launch compiled assets in forked process.
 ```
 
-## Usage example
+### Options
+Name | Description | Note
+--- | --- | ---
+`--config` | Path to the webpack config file. | If not set then search webpack.config.js in root directory.
+`--fork` | Launch compiled assets in forked process. |
+`--logLevel` | Log level related to webpack stats configuration presets names. See presets from https://webpack.js.org/configuration/stats/#stats. | If not set then use webpack stats configuration.
+
+### Usage example
 ```
 node-hot --config webpack.config.server.js
+or
+node-hot --logLevel minimal
 ```
 Of course, you can add script into you package.json:
 ```json
@@ -82,7 +87,6 @@ export default {
 
 ```javascript
 import app from './app'; // configuring express app, e.g. routes and logic
-import DB from './services/DB'; // DB service
 
 function startServer() {
   return new Promise((resolve, reject) => {
@@ -123,16 +127,10 @@ function startServer() {
   });
 }
 
-// After DB initialized start server
-DB.connect()
-  .then(() => {
-    console.log('Successfully connected to MongoDB.');
-    console.log('Starting http server...');
-    return startServer();
-  })
-  .catch(err => {
-    console.error('Error in server start script.', err);
-  });
+console.log('Starting http server...');
+startServer().catch(err => {
+  console.error('Error in server start script.', err);
+});
 ```
 
 ## License

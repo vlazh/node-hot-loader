@@ -4,20 +4,21 @@ import path from 'path';
 import { fork } from 'child_process';
 import LogColors from './LogColors';
 import Logger from './Logger';
+import { parseLogLevel, LogLevel } from './LogLevel';
 
 export default class HmrServer {
   static defaultReporter({ context, stateValid, stats, compilerOptions }) {
+    // for check log level for webpack compiler only
+    const compilerLogLevel = parseLogLevel(compilerOptions.stats);
+
     if (!stateValid) {
-      context.webpackLogger.info('Compiling...');
+      if (compilerLogLevel >= LogLevel.MINIMAL) {
+        context.webpackLogger.info('Compiling...');
+      }
       return;
     }
 
-    const displayStats =
-      !compilerOptions.quiet &&
-      compilerOptions.stats !== false &&
-      (stats.hasErrors() || stats.hasWarnings() || !compilerOptions.noInfo);
-
-    if (displayStats) {
+    if (compilerLogLevel > LogLevel.NONE) {
       const statsInfo = stats.toString(compilerOptions.stats);
       if (statsInfo) {
         // To avoid log empty statsInfo, e.g. when options.stats is 'errors-only'.
@@ -25,12 +26,15 @@ export default class HmrServer {
       }
     }
 
-    if (!compilerOptions.noInfo && !compilerOptions.quiet) {
+    if (compilerLogLevel >= LogLevel.ERRORS) {
       if (stats.hasErrors()) {
         context.webpackLogger.error('Failed to compile.');
       } else if (stats.hasWarnings()) {
         context.webpackLogger.warn('Compiled with warnings.');
       }
+    }
+
+    if (compilerLogLevel >= LogLevel.MINIMAL) {
       context.webpackLogger.info('Compiled successfully.');
     }
   }
@@ -49,13 +53,11 @@ export default class HmrServer {
      */
     fs,
     reporter: HmrServer.defaultReporter,
-    // info: console.log.bind(console),
-    // warn: console.warn.bind(console),
-    // error: console.error.bind(console),
     logger: new Logger(LogColors.cyan('[HMR]')),
     webpackLogger: new Logger(LogColors.magenta('Webpack')),
     fork: false,
     compiler: undefined,
+    logLevel: undefined,
   };
 
   constructor(options) {
@@ -76,15 +78,22 @@ export default class HmrServer {
       return;
     }
 
+    const logLevel =
+      this.context.logLevel != null
+        ? parseLogLevel(this.context.logLevel)
+        : parseLogLevel(this.context.compiler.options.stats);
+
     if (this.context.fork) {
       this.context.serverProcess.send({
         action,
         stats: this.context.webpackStats.toJson(),
+        logLevel,
       });
     } else {
       this.context.serverProcess.emit('message', {
         action,
         stats: this.context.webpackStats.toJson(),
+        logLevel,
       });
     }
   };
@@ -180,13 +189,10 @@ export default class HmrServer {
     });
   };
 
-  compilerInvalid = () => {
+  compilerInvalid = (_, callback) => {
     this.sendMessage('compile');
 
-    if (
-      this.context.stateValid &&
-      (!this.context.compiler.options.noInfo && !this.context.compiler.options.quiet)
-    ) {
+    if (this.context.stateValid) {
       this.context.reporter({
         stateValid: false,
         context: this.context,
@@ -197,8 +203,7 @@ export default class HmrServer {
     // We are now in invalid state
     this.context.stateValid = false;
     // resolve async
-    if (arguments.length === 2 && typeof arguments[1] === 'function') {
-      const callback = arguments[1];
+    if (typeof callback === 'function') {
       callback();
     }
   };

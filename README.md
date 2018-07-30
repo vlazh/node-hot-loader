@@ -23,11 +23,9 @@ Tested with Node.js v7, v8, but must work on previous versions.
 
 ## Installation
 
-```
+```sh
 npm install --save-dev node-hot-loader webpack
-```
-or
-```
+# or
 yarn add --dev node-hot-loader webpack
 ```
 
@@ -42,12 +40,12 @@ Name | Description | Note
 --- | --- | ---
 `--config` | Path to the webpack config file. | If not set then search webpack.config.js in root directory.
 `--fork` | Launch compiled assets in forked process. |
-`--logLevel` | Log level related to webpack stats configuration presets names. See presets from https://webpack.js.org/configuration/stats/#stats. | If not set then use webpack stats configuration.
+`--logLevel` | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then use webpack stats configuration.
 
 ### Usage example
-```
+```sh
 node-hot --config webpack.config.server.js
-or
+# or
 node-hot --logLevel minimal
 ```
 Of course, you can add script into you package.json:
@@ -59,11 +57,9 @@ Of course, you can add script into you package.json:
 ...
 ```
 and then run with your favorite package manager:
-```
+```sh
 npm run start
-```
-or
-```
+# or
 yarn run start
 ```
 

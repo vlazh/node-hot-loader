@@ -9,7 +9,7 @@ Under the hood it uses webpack and babel, so you can use all you need configurat
 
 The most suitable use case for **Node Hot Loader** is hot-reloaded [express](http://expressjs.com/) application.
 Express application can contains API and frontend together, moreover frontend can use own HMR, e.g. [React](https://facebook.github.io/react/) with [React Hot Loader](https://github.com/gaearon/react-hot-loader).
-See how to setup React HMR with Express in [React Hot Loader docs](https://github.com/gaearon/react-hot-loader/tree/master/docs#starter-kit).
+See how to setup React HMR with Express in [React Hot Loader docs](http://gaearon.github.io/react-hot-loader/getstarted/).
 Thus, both the frontend and the server will be hot-reloadable.
 
 **Node Hot Loader** also supports webpack config files written on ES2015+ (through babel).

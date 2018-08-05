@@ -79,6 +79,23 @@ export default {
 };
 ```
 
+## Troubleshooting
+
+### Running **Node Hot Loader** inside a Docker container
+
+If you attempt to run the **Node Hot Loader** inside a Docker container, it will start and serve as expected, but will not Hot Module Reload without some additional configuration. Add the following to your webpack config:
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    poll: 1000 // Check for changes every second
+  }
+};
+```
+This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
+
+
 ## Express Hot Reload Example
 
 ```javascript

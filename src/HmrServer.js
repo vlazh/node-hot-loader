@@ -150,7 +150,8 @@ export default class HmrServer {
       this.context.logger.info('Launch assets in forked process.');
     } else {
       // Require in current process to lauch script.
-      Promise.resolve(() => require(`${getLauncherFileName()}`))
+      Promise.resolve()
+        .then(() => require(`${getLauncherFileName()}`))
         .then(() => {
           this.context.serverProcess = process;
         })

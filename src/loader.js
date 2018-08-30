@@ -1,5 +1,18 @@
 import webpack from 'webpack';
 
+function handleFunction(options) {
+  if (typeof options === 'function') {
+    return options();
+  }
+  return options;
+}
+
+function handleWebpackConfig(webpackConfig) {
+  return Array.isArray(webpackConfig)
+    ? webpackConfig.map(handleFunction).find(c => c.target === 'node')
+    : handleFunction(webpackConfig);
+}
+
 /**
  * Add hmrClient to all entries.
  * @param module
@@ -8,9 +21,7 @@ import webpack from 'webpack';
 function tweakWebpackConfig(module) {
   const { default: webpackConfig = module } = module;
 
-  const config = Array.isArray(webpackConfig)
-    ? webpackConfig.find(c => c.target === 'node')
-    : webpackConfig;
+  const config = handleWebpackConfig(webpackConfig);
 
   if (!config) {
     throw new Error(

@@ -1,3 +1,12 @@
+## <small>1.11.1 (2018-08-30)</small>
+
+* Fix launch script in current process ([54357ea](https://github.com/vlazh/node-hot-loader/commit/54357ea))
+* Refactor dynamic imports ([27cbdaf](https://github.com/vlazh/node-hot-loader/commit/27cbdaf))
+* Update deps ([0ae203f](https://github.com/vlazh/node-hot-loader/commit/0ae203f))
+* Update README.md with Docker troubleshooting info ([cbdd489](https://github.com/vlazh/node-hot-loader/commit/cbdd489))
+
+
+
 ## 1.11.0 (2018-08-30)
 
 * Add support for webpack config function ([590de2f](https://github.com/vlazh/node-hot-loader/commit/590de2f))

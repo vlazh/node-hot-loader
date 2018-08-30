@@ -1,3 +1,11 @@
+## 1.11.0 (2018-08-30)
+
+* Add support for webpack config function ([590de2f](https://github.com/vlazh/node-hot-loader/commit/590de2f))
+* Update deps ([1c47b3b](https://github.com/vlazh/node-hot-loader/commit/1c47b3b))
+* Upgrade babel to 7 ([6595eb1](https://github.com/vlazh/node-hot-loader/commit/6595eb1))
+
+
+
 ## <small>1.10.1 (2018-07-30)</small>
 
 * Update README ([c2e77b7](https://github.com/vlazh/node-hot-loader/commit/c2e77b7))

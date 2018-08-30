@@ -81,18 +81,20 @@ function tweakWebpackConfig(module) {
  * @returns {Promise.<HmrServer>}
  */
 function hooks(compiler, options) {
-  return import('./HmrServer').then(({ default: HmrServer }) =>
-    new HmrServer({
-      ...options,
-      compiler, // webpack compiler
-    }).run()
-  );
+  return Promise.resolve()
+    .then(() => require('./HmrServer'))
+    .then(({ default: HmrServer }) =>
+      new HmrServer({
+        ...options,
+        compiler, // webpack compiler
+      }).run()
+    );
 }
 
 export default function loader(options) {
   Promise.resolve()
-    .then(() => import('babel-register'))
-    .then(() => import(options.config))
+    .then(() => require('@babel/register'))
+    .then(() => require(`${options.config}`))
     .then(module => tweakWebpackConfig(module))
     .then(webpackConfig => webpack(webpackConfig))
     .then(compiler => hooks(compiler, options))

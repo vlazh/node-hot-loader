@@ -11,7 +11,7 @@
     "start-forked": "npm run clean && node-hot --fork"
   },
   "devDependencies": {
-    "node-hot-loader": "^1.10.1",
+    "node-hot-loader": "^1.11.0",
     "rimraf": "^2.6.2",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0"

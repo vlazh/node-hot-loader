@@ -1,3 +1,13 @@
+## 1.12.0 (2018-09-20)
+
+* Add passing execArgv to forked process ([10a378f](https://github.com/vlazh/node-hot-loader/commit/10a378f))
+* Refactor ([a253295](https://github.com/vlazh/node-hot-loader/commit/a253295))
+* Update deps ([64a731e](https://github.com/vlazh/node-hot-loader/commit/64a731e))
+* Update deps and scripts ([38d8b67](https://github.com/vlazh/node-hot-loader/commit/38d8b67))
+* Update README ([a18ffa9](https://github.com/vlazh/node-hot-loader/commit/a18ffa9))
+
+
+
 ## <small>1.11.1 (2018-08-30)</small>
 
 * Fix launch script in current process ([54357ea](https://github.com/vlazh/node-hot-loader/commit/54357ea))

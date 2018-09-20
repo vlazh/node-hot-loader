@@ -8,7 +8,7 @@ import packageJson from '../package.json';
 
 const options = {
   config: 'webpack.config.js',
-  fork: false,
+  fork: [undefined],
   logLevel: undefined,
 };
 
@@ -26,41 +26,51 @@ const params = yargs
       describe: 'Path to the webpack config file',
       defaultDescription: 'webpack.config.js',
       requiresArg: false,
+      coerce: value => {
+        if (!path.isAbsolute(value)) {
+          return path.join(process.cwd(), value);
+        }
+        return value;
+      },
     },
     fork: {
-      type: 'boolean',
-      describe: 'Launch compiled assets in forked process',
+      type: 'array',
+      describe: 'Launch compiled assets in forked process with optional node exec arguments',
       defaultDescription: 'false',
       requiresArg: false,
+      coerce: value => {
+        if (value.length === 0) return true;
+        if (value[0] === undefined) return false;
+        return value;
+      },
     },
     logLevel: {
       type: 'string',
       describe:
         'Log level related to webpack stats configuration presets names. See presets from https://webpack.js.org/configuration/stats/#stats.',
       requiresArg: false,
+      coerce: value => {
+        if (value === '') return true;
+        if (value === 'true') return false;
+        if (value === 'false') return false;
+        return value;
+      },
     },
   })
   .example('node-hot --config webpack.config.js', 'Using a specific webpack config file.')
   .example('node-hot', 'Using default webpack config file.')
   .example('node-hot --logLevel minimal', 'Set a specific logLevel for node-hot-loader.')
+  .example('node-hot --fork', 'Launch compiled assets in forked process.')
+  .example(
+    'node-hot --fork=--arg1,--arg2',
+    'Launch compiled assets in forked process with passing node exec arguments.'
+  )
   .showHelpOnFail(false, 'Use the --help option to get the list of available options.')
   .check(args => {
     if (!fs.existsSync(args.config)) {
       throw new Error(`Webpack config file '${args.config}' not found!`);
     }
     return true;
-  })
-  .coerce('config', value => {
-    if (!path.isAbsolute(value)) {
-      return path.join(process.cwd(), value);
-    }
-    return value;
-  })
-  .coerce('logLevel', value => {
-    if (value === '') return true;
-    if (value === 'true') return false;
-    if (value === 'false') return false;
-    return value;
   })
   .strict().argv;
 

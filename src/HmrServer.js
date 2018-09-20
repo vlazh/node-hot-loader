@@ -133,11 +133,13 @@ export default class HmrServer {
       const options = {
         cwd: process.cwd(),
         env: process.env,
+        execArgv: this.context.fork === true ? undefined : this.context.fork,
       };
       if (process.getuid) {
         options.uid = process.getuid();
         options.gid = process.getgid();
       }
+
       this.context.serverProcess = fork(getLauncherFileName(), process.argv, options);
       // Listen for serverProcess events.
       this.context.serverProcess.on('exit', code => {

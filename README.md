@@ -39,7 +39,7 @@ Usage: node-hot {options}
 Name | Description | Note
 --- | --- | ---
 `--config` | Path to the webpack config file. | If not set then search webpack.config.js in root directory.
-`--fork` | Launch compiled assets in forked process. |
+`--fork` | Launch compiled assets in forked process with optional node exec arguments. |
 `--logLevel` | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then use webpack stats configuration.
 
 ### Usage example
@@ -47,6 +47,13 @@ Name | Description | Note
 node-hot --config webpack.config.server.js
 # or
 node-hot --logLevel minimal
+# or
+node-hot --fork
+# or
+node-hot --fork=--arg1,--arg2
+# or just
+node-hot
+# Use the --help option to get the list of available options
 ```
 Of course, you can add script into you package.json:
 ```json

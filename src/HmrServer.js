@@ -121,12 +121,9 @@ export default class HmrServer {
       this.context.fs.writeFileSync(launcherFileName, launcherString);
 
       // Delete created files on exit main process.
-      process.on('exit', () => {
-        this.context.fs.unlinkSync(launcherFileName);
-      });
-      process.on('SIGINT', () => {
-        this.context.fs.unlinkSync(launcherFileName);
-      });
+      const deleteLauncher = () => this.context.fs.unlinkSync(launcherFileName);
+      process.on('exit', deleteLauncher);
+      process.on('SIGINT', deleteLauncher);
 
       return launcherFileName;
     };

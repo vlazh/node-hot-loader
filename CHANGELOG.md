@@ -1,3 +1,11 @@
+## <small>1.12.1 (2018-09-21)</small>
+
+* Fix parsing fork exec args ([57a5bb3](https://github.com/vlazh/node-hot-loader/commit/57a5bb3))
+* Update deps ([16e27f9](https://github.com/vlazh/node-hot-loader/commit/16e27f9))
+* Update README ([d531adf](https://github.com/vlazh/node-hot-loader/commit/d531adf))
+
+
+
 ## 1.12.0 (2018-09-20)
 
 * Add passing execArgv to forked process ([10a378f](https://github.com/vlazh/node-hot-loader/commit/10a378f))

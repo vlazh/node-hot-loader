@@ -8,7 +8,7 @@ import packageJson from '../package.json';
 
 const options = {
   config: 'webpack.config.js',
-  fork: [undefined],
+  fork: undefined,
   logLevel: undefined,
 };
 
@@ -34,14 +34,14 @@ const params = yargs
       },
     },
     fork: {
-      type: 'array',
-      describe: 'Launch compiled assets in forked process with optional node exec arguments',
+      type: 'string',
+      describe: 'Launch compiled assets in forked process with optional node exec arguments. With ',
       defaultDescription: 'false',
       requiresArg: false,
       coerce: value => {
+        if (value === undefined) return false;
         if (value.length === 0) return true;
-        if (value[0] === undefined) return false;
-        return value;
+        return value.split(',');
       },
     },
     logLevel: {

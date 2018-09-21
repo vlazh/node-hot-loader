@@ -9,11 +9,11 @@
     "build": "npm run clean && webpack",
     "start": "npm run clean && node-hot",
     "start-forked": "npm run clean && node-hot --fork",
-    "start-inspect": "npm run clean && node-hot --fork=--inspect",
+    "start-inspect": "npm run clean && node-hot --fork=--inspect,--inspect --config webpack.config.js",
     "start-node": "npm run clean && node --inspect-brk ./node_modules/node-hot-loader"
   },
   "devDependencies": {
-    "node-hot-loader": "^1.12.0",
+    "node-hot-loader": "^1.12.1",
     "rimraf": "^2.6.2",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.0"

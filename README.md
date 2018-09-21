@@ -31,6 +31,8 @@ yarn add --dev node-hot-loader webpack
 
 ## Usage
 
+**Node Hot Loader** uses [yargs](http://yargs.js.org/) for parsing command line arguments.
+
 ```
 Usage: node-hot {options}
 ```
@@ -50,7 +52,7 @@ node-hot --logLevel minimal
 # or
 node-hot --fork
 # or
-node-hot --fork=--arg1,--arg2
+node-hot --fork=--arg1,--arg2 --
 # or just
 node-hot
 # Use the --help option to get the list of available options

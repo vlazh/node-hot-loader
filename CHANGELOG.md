@@ -1,3 +1,10 @@
+## <small>1.12.2 (2018-11-03)</small>
+
+* Update deps ([a1aa549](https://github.com/vlazh/node-hot-loader/commit/a1aa549))
+* Update deps ([9642047](https://github.com/vlazh/node-hot-loader/commit/9642047))
+
+
+
 ## <small>1.12.1 (2018-09-21)</small>
 
 * Fix parsing fork exec args ([57a5bb3](https://github.com/vlazh/node-hot-loader/commit/57a5bb3))

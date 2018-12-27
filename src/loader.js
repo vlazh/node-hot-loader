@@ -69,7 +69,7 @@ function tweakWebpackConfig(module) {
   }
 
   // Enable HMR globally if not.
-  if (!config.plugins.find(p => p instanceof webpack.HotModuleReplacementPlugin)) {
+  if (!config.plugins.some(p => p instanceof webpack.HotModuleReplacementPlugin)) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
   }
 

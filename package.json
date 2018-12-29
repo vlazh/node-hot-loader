@@ -57,27 +57,28 @@
   "author": "Vladimir Zhukov",
   "dependencies": {
     "@babel/register": "^7.0.0",
-    "path-is-absolute": "^1.0.1",
+    "path-is-absolute": "^2.0.0",
     "source-map-support": "^0.5.9",
-    "yargs": "^12.0.2"
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
     "@types/webpack-env": "^1.13.6",
-    "@vzh/configs": "^2.15.1",
+    "@vzh/configs": "^2.20.0",
     "babel-eslint": "^10.0.1",
     "conventional-changelog-cli": "^2.0.11",
-    "eslint": "^5.8.0",
+    "eslint": "^5.11.1",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^3.1.0",
+    "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-prettier": "^3.0.0",
-    "prettier": "^1.14.3",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.15.3",
     "rimraf": "^2.6.1",
-    "webpack": "^4.24.0"
+    "webpack": "^4.28.2",
+    "webpack-merge": "^4.1.5"
   },
   "peerDependencies": {
     "webpack": ">= 2.x"

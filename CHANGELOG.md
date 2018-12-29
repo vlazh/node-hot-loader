@@ -1,3 +1,9 @@
+## <small>1.12.3 (2018-12-29)</small>
+
+* Update deps ([23d8c99](https://github.com/vlazh/node-hot-loader/commit/23d8c99))
+
+
+
 ## <small>1.12.2 (2018-11-03)</small>
 
 * Update deps ([a1aa549](https://github.com/vlazh/node-hot-loader/commit/a1aa549))

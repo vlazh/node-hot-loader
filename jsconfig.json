@@ -1,6 +1,7 @@
 {
+  "extends": "./node_modules/@vzh/configs/js/base.jsconfig.json",
   "compilerOptions": {
     "baseUrl": "./src"
   },
-  "include": ["./**/*"]
+  "include": ["./src/**/*"]
 }

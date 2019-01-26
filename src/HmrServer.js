@@ -1,10 +1,13 @@
 import pathIsAbsolute from 'path-is-absolute';
 import fs from 'fs';
 import path from 'path';
+import requireFromString from 'require-from-string';
 import { fork } from 'child_process';
 import LogColors from './LogColors';
 import Logger from './Logger';
 import { parseLogLevel, LogLevel } from './LogLevel';
+
+/* eslint-disable global-require, import/no-dynamic-require */
 
 export default class HmrServer {
   static defaultReporter({ context, stateValid, stats, compilerOptions }) {
@@ -56,14 +59,22 @@ export default class HmrServer {
     logger: new Logger(LogColors.cyan('[HMR]')),
     webpackLogger: new Logger(LogColors.magenta('Webpack')),
     fork: false,
+    inMemory: true,
     compiler: undefined,
     logLevel: undefined,
   };
 
   constructor(options) {
-    this.context = Object.assign(this.context, options);
+    this.context = { ...this.context, ...options };
+    const { compiler, inMemory } = this.context;
 
-    const { compiler } = this.context;
+    if (inMemory) {
+      const getName = () => 'memory-fs';
+      const MemoryFileSystem = require(getName());
+      this.context.fs = new MemoryFileSystem();
+      compiler.outputFileSystem = this.context.fs;
+    }
+
     if (
       typeof compiler.outputPath === 'string' &&
       !pathIsAbsolute.posix(compiler.outputPath) &&
@@ -150,7 +161,13 @@ export default class HmrServer {
     } else {
       // Require in current process to lauch script.
       Promise.resolve()
-        .then(() => require(`${getLauncherFileName()}`))
+        .then(() => {
+          if (this.context.inMemory) {
+            requireFromString(this.context.fs.readFileSync(getLauncherFileName()).toString());
+          } else {
+            require(`${getLauncherFileName()}`);
+          }
+        })
         .then(() => {
           this.context.serverProcess = process;
         })

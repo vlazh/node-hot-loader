@@ -8,6 +8,7 @@
     "clean": "rimraf out",
     "build": "npm run clean && webpack",
     "start": "npm run clean && node-hot",
+    "start-inmemory": "npm run clean && node-hot --inMemory=true",
     "start-forked": "npm run clean && node-hot --fork",
     "start-inspect": "npm run clean && node-hot --fork=--inspect,--inspect --config webpack.config.js",
     "start-node": "npm run clean && node --inspect-brk ./node_modules/node-hot-loader"

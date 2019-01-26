@@ -7,17 +7,6 @@
     "node-hot": "./lib/node-hot.js",
     "node-hot-loader": "./lib/node-hot.js"
   },
-  "scripts": {
-    "clean": "rimraf lib/",
-    "build": "babel src --out-dir lib/ --copy-files",
-    "build:to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/lib/' --copy-files",
-    "prepublishOnly": "npm run clean && npm run build",
-    "patch-publish": "npm version patch && git commit --amend --no-edit && npm publish && git push --follow-tags",
-    "minor-publish": "npm version minor && git commit --amend --no-edit && npm publish && git push --follow-tags",
-    "major-publish": "npm version major && git commit --amend --no-edit && npm publish && git push --follow-tags",
-    "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "changelog": "conventional-changelog -i CHANGELOG.md -s"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/vlazh/node-hot-loader"
@@ -55,30 +44,42 @@
   },
   "homepage": "https://github.com/vlazh/node-hot-loader",
   "author": "Vladimir Zhukov",
+  "scripts": {
+    "clean": "rimraf lib/",
+    "build": "babel src --out-dir lib/ --copy-files",
+    "build:to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/lib/' --copy-files",
+    "prepublishOnly": "npm run clean && npm run build",
+    "patch-publish": "npm version patch && git commit --amend --no-edit && npm publish && git push --follow-tags",
+    "minor-publish": "npm version minor && git commit --amend --no-edit && npm publish && git push --follow-tags",
+    "major-publish": "npm version major && git commit --amend --no-edit && npm publish && git push --follow-tags",
+    "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s"
+  },
   "dependencies": {
     "@babel/register": "^7.0.0",
     "path-is-absolute": "^2.0.0",
-    "source-map-support": "^0.5.9",
+    "require-from-string": "^2.0.2",
+    "source-map-support": "^0.5.10",
     "yargs": "^12.0.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/preset-env": "^7.2.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/preset-env": "^7.3.1",
     "@types/webpack-env": "^1.13.6",
-    "@vzh/configs": "^2.20.0",
+    "@vzh/configs": "^3.10.1",
     "babel-eslint": "^10.0.1",
     "conventional-changelog-cli": "^2.0.11",
-    "eslint": "^5.11.1",
+    "eslint": "^5.12.1",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "prettier": "^1.15.3",
-    "rimraf": "^2.6.1",
-    "webpack": "^4.28.2",
-    "webpack-merge": "^4.1.5"
+    "prettier": "^1.16.1",
+    "rimraf": "^2.6.3",
+    "webpack": "^4.29.0",
+    "webpack-merge": "^4.2.1"
   },
   "peerDependencies": {
     "webpack": ">= 2.x"

@@ -44,6 +44,12 @@ const params = yargs
         return value.split(',');
       },
     },
+    inMemory: {
+      type: 'boolean',
+      describe: 'Launch compiled assets in memory fs. Not worked with forked process.',
+      defaultDescription: 'true',
+      requiresArg: false,
+    },
     logLevel: {
       type: 'string',
       describe:
@@ -76,6 +82,7 @@ const params = yargs
 
 options.config = params.config;
 options.fork = params.fork;
+options.inMemory = params.inMemory && !options.fork;
 options.logLevel = params.logLevel;
 
 loader(options);

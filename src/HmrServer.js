@@ -1,4 +1,4 @@
-import pathIsAbsolute from 'path-is-absolute';
+/* eslint-disable global-require, import/no-dynamic-require */
 import fs from 'fs';
 import path from 'path';
 import requireFromString from 'require-from-string';
@@ -6,8 +6,6 @@ import { fork } from 'child_process';
 import LogColors from './LogColors';
 import Logger from './Logger';
 import { parseLogLevel, LogLevel } from './LogLevel';
-
-/* eslint-disable global-require, import/no-dynamic-require */
 
 export default class HmrServer {
   static defaultReporter({ context, stateValid, stats, compilerOptions }) {
@@ -75,11 +73,7 @@ export default class HmrServer {
       compiler.outputFileSystem = this.context.fs;
     }
 
-    if (
-      typeof compiler.outputPath === 'string' &&
-      !pathIsAbsolute.posix(compiler.outputPath) &&
-      !pathIsAbsolute.win32(compiler.outputPath)
-    ) {
+    if (typeof compiler.outputPath === 'string' && !path.isAbsolute(compiler.outputPath)) {
       throw new Error('`output.path` needs to be an absolute path or `/`.');
     }
   }

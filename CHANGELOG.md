@@ -1,3 +1,8 @@
+## 1.14.0 (2019-04-24)
+
+
+
+
 ## 1.13.0 (2019-04-24)
 
 * Prepare for inmemory build ([c0a3cd8](https://github.com/vlazh/node-hot-loader/commit/c0a3cd8))

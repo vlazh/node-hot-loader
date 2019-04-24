@@ -1,3 +1,13 @@
+## 1.13.0 (2019-04-24)
+
+* Prepare for inmemory build ([c0a3cd8](https://github.com/vlazh/node-hot-loader/commit/c0a3cd8))
+* Remove path-is-absolute ([1b5198f](https://github.com/vlazh/node-hot-loader/commit/1b5198f))
+* Update configs ([3bee07f](https://github.com/vlazh/node-hot-loader/commit/3bee07f))
+* Update deps ([74f0c60](https://github.com/vlazh/node-hot-loader/commit/74f0c60))
+* Update deps and cofigure ([1479a5e](https://github.com/vlazh/node-hot-loader/commit/1479a5e))
+
+
+
 ## <small>1.12.3 (2018-12-29)</small>
 
 * Update deps ([23d8c99](https://github.com/vlazh/node-hot-loader/commit/23d8c99))

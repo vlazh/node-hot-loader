@@ -1,3 +1,9 @@
+## <small>1.14.1 (2019-07-11)</small>
+
+* Update deps ([9ba4255](https://github.com/vlazh/node-hot-loader/commit/9ba4255))
+
+
+
 ## 1.14.0 (2019-04-24)
 
 

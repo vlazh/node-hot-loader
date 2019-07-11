@@ -57,29 +57,28 @@
     "changelog": "conventional-changelog -i CHANGELOG.md -s"
   },
   "dependencies": {
-    "@babel/register": "^7.4.0",
+    "@babel/register": "^7.4.4",
     "require-from-string": "^2.0.2",
     "source-map-support": "^0.5.12",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/preset-env": "^7.4.3",
-    "@types/webpack-env": "^1.13.9",
-    "@vzh/configs": "^3.20.4",
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@types/webpack-env": "^1.14.0",
+    "@vzh/configs": "../@vzh/packages/configs/dist/",
     "@vzh/prettier-config": "^1.1.0",
-    "babel-eslint": "^10.0.1",
-    "conventional-changelog-cli": "^2.0.12",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-prettier": "^3.0.1",
-    "prettier": "^1.17.0",
-    "rimraf": "^2.6.3",
-    "webpack-merge": "^4.2.1"
+    "babel-eslint": "^10.0.2",
+    "conventional-changelog-cli": "^2.0.21",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3"
   },
   "peerDependencies": {
     "webpack": ">= 2.x"

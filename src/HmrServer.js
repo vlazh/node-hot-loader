@@ -105,18 +105,19 @@ export default class HmrServer {
 
   launchAssets = stats => {
     const getLauncherFileName = () => {
-      const { assets } = stats.compilation;
-      const names = Object.getOwnPropertyNames(assets).filter(
-        k => assets[k].emitted && path.extname(assets[k].existsAt) === '.js'
-      );
+      const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
+        return acc.concat(
+          ...group.assets.map(asset => path.resolve(stats.compilation.compiler.outputPath, asset))
+        );
+      }, []);
 
-      if (names.length === 1) {
+      if (assets.length === 1) {
         // Only one valid assets, so just return it path
-        return assets[names[0]].existsAt;
+        return assets[0];
       }
       // Create temp launcher file which aggregates all assets.
-      const launcherString = names
-        .map(k => `require('${assets[k].existsAt.replace(/\\/g, '/')}');`)
+      const launcherString = assets
+        .map(asset => `require('${asset.replace(/\\/g, '/')}');`)
         .join('\n');
 
       const launcherFileName = path.resolve(

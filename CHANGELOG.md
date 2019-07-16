@@ -1,3 +1,10 @@
+## <small>1.14.2 (2019-07-16)</small>
+
+* Fix launch assets ([c7f5e44](https://github.com/vlazh/node-hot-loader/commit/c7f5e44))
+* Update deps ([ea6d98a](https://github.com/vlazh/node-hot-loader/commit/ea6d98a))
+
+
+
 ## <small>1.14.1 (2019-07-11)</small>
 
 * Update deps ([9ba4255](https://github.com/vlazh/node-hot-loader/commit/9ba4255))

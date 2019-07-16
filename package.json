@@ -1,6 +1,6 @@
 {
   "name": "node-hot-loader",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "description": "Hot module replacement for Node.js applications",
   "author": "Vladimir Zhukov",
   "license": "MIT",

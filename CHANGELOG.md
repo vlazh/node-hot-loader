@@ -1,3 +1,9 @@
+## <small>1.15.1 (2019-07-17)</small>
+
+* Update README ([1409952](https://github.com/vlazh/node-hot-loader/commit/1409952))
+
+
+
 ## 1.15.0 (2019-07-17)
 
 * Add NodeHotLoaderWebpackPlugin ([d4dcc1b](https://github.com/vlazh/node-hot-loader/commit/d4dcc1b))

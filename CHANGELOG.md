@@ -1,3 +1,9 @@
+## 1.15.0 (2019-07-17)
+
+* Add NodeHotLoaderWebpackPlugin ([d4dcc1b](https://github.com/vlazh/node-hot-loader/commit/d4dcc1b))
+
+
+
 ## <small>1.14.2 (2019-07-16)</small>
 
 * Fix launch assets ([c7f5e44](https://github.com/vlazh/node-hot-loader/commit/c7f5e44))

@@ -29,7 +29,7 @@ npm install --save-dev node-hot-loader webpack
 yarn add --dev node-hot-loader webpack
 ```
 
-## Usage
+## Command line usage
 
 **Node Hot Loader** uses [yargs](http://yargs.js.org/) for parsing command line arguments.
 
@@ -38,13 +38,15 @@ Usage: node-hot {options}
 ```
 
 ### Options
-Name | Description | Note
---- | --- | ---
-`--config` | Path to the webpack config file. | If not set then search webpack.config.js in root directory.
-`--fork` | Launch compiled assets in forked process with optional node exec arguments. |
-`--logLevel` | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then use webpack stats configuration.
+
+| Name         | Description                                                                                                          | Note                                                        |
+| ------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `--config`   | Path to the webpack config file.                                                                                     | If not set then search webpack.config.js in root directory. |
+| `--fork`     | Launch compiled assets in forked process with optional node exec arguments.                                          |
+| `--logLevel` | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then use webpack stats configuration.            |
 
 ### Usage example
+
 ```sh
 node-hot --config webpack.config.server.js
 # or
@@ -57,7 +59,9 @@ node-hot --fork=--arg1,--arg2 --
 node-hot
 # Use the --help option to get the list of available options
 ```
+
 Of course, you can add script into you package.json:
+
 ```json
 ...
 "scripts": {
@@ -65,11 +69,34 @@ Of course, you can add script into you package.json:
 }
 ...
 ```
+
 and then run with your favorite package manager:
+
 ```sh
 npm run start
 # or
 yarn run start
+```
+
+## Webpack plugin
+
+```typescript
+// Webpack configuration
+export default {
+  plugins: [
+    // Options are optional
+    new NodeHotLoaderWebpackPlugin({
+      fork, // boolean | string
+      logLevel, // string
+    }),
+  ]
+};
+```
+
+and run webpack in watch mode:
+
+```sh
+webpack --watch
 ```
 
 ## The minimum required configuration:
@@ -98,12 +125,12 @@ If you attempt to run the **Node Hot Loader** inside a Docker container, it will
 module.exports = {
   //...
   watchOptions: {
-    poll: 1000 // Check for changes every second
-  }
+    poll: 1000, // Check for changes every second
+  },
 };
 ```
-This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
 
+This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
 
 ## Express Hot Reload Example
 

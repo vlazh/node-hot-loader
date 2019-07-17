@@ -1,4 +1,3 @@
-/* eslint-disable global-require, import/no-dynamic-require */
 import fs from 'fs';
 import path from 'path';
 import requireFromString from 'require-from-string';
@@ -46,22 +45,26 @@ export default class HmrServer {
     /** Valid or invalid state. */
     stateValid: false,
     /** Last compiler stats. */
+    /** @type import('webpack').Stats */
     webpackStats: undefined,
     /** Compiler watching by compiler.watch(...). */
     watching: undefined,
     /**
-     * Don use memory-fs because we can't fork bundle from in-memory file.
+     * Do not use memory-fs because we can't fork bundle from in-memory file.
      */
     fs,
     reporter: HmrServer.defaultReporter,
     logger: new Logger(LogColors.cyan('[HMR]')),
     webpackLogger: new Logger(LogColors.magenta('Webpack')),
     fork: false,
-    inMemory: true,
+    inMemory: false,
     compiler: undefined,
     logLevel: undefined,
   };
 
+  /**
+   * @param {{ compiler: import('webpack').Compiler; fork: boolean | string; inMemory: boolean; logLevel: string; }} options
+   */
   constructor(options) {
     this.context = { ...this.context, ...options };
     const { compiler, inMemory } = this.context;
@@ -73,9 +76,9 @@ export default class HmrServer {
       compiler.outputFileSystem = this.context.fs;
     }
 
-    if (typeof compiler.outputPath === 'string' && !path.isAbsolute(compiler.outputPath)) {
-      throw new Error('`output.path` needs to be an absolute path or `/`.');
-    }
+    // if (typeof compiler.outputPath === 'string' && !path.isAbsolute(compiler.outputPath)) {
+    //   throw new Error('`output.path` needs to be an absolute path or `/`.');
+    // }
   }
 
   sendMessage = action => {
@@ -173,6 +176,9 @@ export default class HmrServer {
     }
   };
 
+  /**
+   * @param {import('webpack').Stats} stats
+   */
   compilerDone = stats => {
     // We are now on valid state
     this.context.stateValid = true;
@@ -185,14 +191,17 @@ export default class HmrServer {
       if (!this.context.stateValid) return;
 
       // print webpack output
-      this.context.reporter({
-        stateValid: true,
-        stats,
-        context: this.context,
-        compilerOptions: this.context.compiler.options,
-      });
+      if (this.context.watching) {
+        this.context.reporter({
+          stateValid: true,
+          stats,
+          context: this.context,
+          compilerOptions: this.context.compiler.options,
+        });
+      }
 
       if (this.context.serverProcess) {
+        // Already has launched process
         this.sendMessage('built');
       } else {
         // Start compiled files in child process (fork) or in current process.
@@ -204,7 +213,7 @@ export default class HmrServer {
   compilerInvalid = (_, callback) => {
     this.sendMessage('compile');
 
-    if (this.context.stateValid) {
+    if (this.context.watching && this.context.stateValid) {
       this.context.reporter({
         stateValid: false,
         context: this.context,
@@ -234,7 +243,7 @@ export default class HmrServer {
     this.context.logger.info('Waiting webpack...');
   };
 
-  run = () => {
+  run = (watch = true) => {
     const { compiler } = this.context;
     if (compiler.hooks) {
       // webpack >= 4
@@ -242,10 +251,12 @@ export default class HmrServer {
       compiler.hooks.compile.tap('ComplierInvalid', this.compilerInvalid);
     } else {
       // webpack < 4
-      compiler.plugin('done', this.compilerInvalid);
+      compiler.plugin('done', this.compilerDone);
       compiler.plugin('compile', this.compilerInvalid);
     }
-    this.startWatch();
+    if (watch) {
+      this.startWatch();
+    }
     return this;
   };
 }

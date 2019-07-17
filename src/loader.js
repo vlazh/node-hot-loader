@@ -15,12 +15,10 @@ function handleWebpackConfig(webpackConfig) {
 
 /**
  * Add hmrClient to all entries.
- * @param module
- * @returns {Promise.<config>}
+ * @param {import('webpack').Configuration} webpackConfig
+ * @returns {import('webpack').Configuration}
  */
-function tweakWebpackConfig(module) {
-  const { default: webpackConfig = module } = module;
-
+export function tweakWebpackConfig(webpackConfig) {
   const config = handleWebpackConfig(webpackConfig);
 
   if (!config) {
@@ -91,11 +89,14 @@ function hooks(compiler, options) {
     );
 }
 
+/**
+ * @param {{ fork: boolean | string; inMemory: boolean; logLevel: string; }} options
+ */
 export default function loader(options) {
   Promise.resolve()
     .then(() => require('@babel/register'))
     .then(() => require(`${options.config}`))
-    .then(module => tweakWebpackConfig(module))
+    .then(configModule => tweakWebpackConfig(configModule.default || configModule))
     .then(webpackConfig => webpack(webpackConfig))
     .then(compiler => hooks(compiler, options))
     .catch(err => console.error(err));

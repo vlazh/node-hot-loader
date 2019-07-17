@@ -9,6 +9,7 @@ import packageJson from '../package.json';
 const options = {
   config: 'webpack.config.js',
   fork: undefined,
+  inMemory: undefined,
   logLevel: undefined,
 };
 

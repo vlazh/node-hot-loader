@@ -1,3 +1,10 @@
+## <small>1.15.2 (2019-07-17)</small>
+
+* Update deps ([5d205e0](https://github.com/vlazh/node-hot-loader/commit/5d205e0))
+* Update README ([f6faa35](https://github.com/vlazh/node-hot-loader/commit/f6faa35))
+
+
+
 ## <small>1.15.1 (2019-07-17)</small>
 
 * Update README ([1409952](https://github.com/vlazh/node-hot-loader/commit/1409952))

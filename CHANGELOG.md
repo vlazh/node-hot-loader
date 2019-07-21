@@ -1,3 +1,10 @@
+## <small>1.15.3 (2019-07-21)</small>
+
+* Refactor server ([b3c844f](https://github.com/vlazh/node-hot-loader/commit/b3c844f))
+* Update deps ([aca7b8e](https://github.com/vlazh/node-hot-loader/commit/aca7b8e))
+
+
+
 ## <small>1.15.2 (2019-07-17)</small>
 
 * Update deps ([5d205e0](https://github.com/vlazh/node-hot-loader/commit/5d205e0))

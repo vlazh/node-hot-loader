@@ -176,58 +176,63 @@ export default class HmrServer {
     }
   };
 
-  /**
-   * @param {import('webpack').Stats} stats
-   */
-  compilerDone = stats => {
-    // We are now on valid state
-    this.context.stateValid = true;
-    this.context.webpackStats = stats;
+  compilerInvalid = () => {
+    try {
+      this.sendMessage('compile');
 
-    // Do the stuff in nextTick, because bundle may be invalidated
-    // if a change happened while compiling
-    process.nextTick(() => {
-      // check if still in valid state
-      if (!this.context.stateValid) return;
-
-      // print webpack output
-      if (this.context.watching) {
+      if (this.context.watching && this.context.stateValid) {
         this.context.reporter({
-          stateValid: true,
-          stats,
+          stateValid: false,
           context: this.context,
           compilerOptions: this.context.compiler.options,
         });
       }
 
-      if (this.context.serverProcess) {
-        // Already has launched process
-        this.sendMessage('built');
-      } else {
-        // Start compiled files in child process (fork) or in current process.
-        this.launchAssets(stats);
-      }
-    });
+      // We are now in invalid state
+      this.context.stateValid = false;
+    } catch (ex) {
+      this.context.logger.error(ex);
+    }
   };
 
-  compilerInvalid = (_, callback) => {
-    this.sendMessage('compile');
+  /**
+   * @param {import('webpack').Stats} stats
+   */
+  compilerDone = stats =>
+    new Promise(resolve => {
+      // We are now on valid state
+      this.context.stateValid = true;
+      this.context.webpackStats = stats;
 
-    if (this.context.watching && this.context.stateValid) {
-      this.context.reporter({
-        stateValid: false,
-        context: this.context,
-        compilerOptions: this.context.compiler.options,
+      // Do the stuff in nextTick, because bundle may be invalidated
+      // if a change happened while compiling
+      process.nextTick(() => {
+        // check if still in valid state
+        if (!this.context.stateValid) return;
+
+        // print webpack output
+        if (this.context.watching) {
+          this.context.reporter({
+            stateValid: true,
+            stats,
+            context: this.context,
+            compilerOptions: this.context.compiler.options,
+          });
+        }
+
+        if (this.context.serverProcess) {
+          // Already has launched process
+          this.sendMessage('built');
+        } else {
+          // Start compiled files in child process (fork) or in current process.
+          this.launchAssets(stats);
+        }
+
+        resolve();
       });
-    }
-
-    // We are now in invalid state
-    this.context.stateValid = false;
-    // resolve async
-    if (typeof callback === 'function') {
-      callback();
-    }
-  };
+    }).catch(ex => {
+      this.context.logger.error(ex);
+    });
 
   compilerWatch = err => {
     if (err) {
@@ -247,12 +252,12 @@ export default class HmrServer {
     const { compiler } = this.context;
     if (compiler.hooks) {
       // webpack >= 4
-      compiler.hooks.done.tap('CompilerDone', this.compilerDone);
-      compiler.hooks.compile.tap('ComplierInvalid', this.compilerInvalid);
+      compiler.hooks.invalid.tap('node-hot-loader', this.compilerInvalid);
+      compiler.hooks.done.tapPromise('node-hot-loader', this.compilerDone);
     } else {
       // webpack < 4
+      compiler.plugin('invalid', this.compilerInvalid);
       compiler.plugin('done', this.compilerDone);
-      compiler.plugin('compile', this.compilerInvalid);
     }
     if (watch) {
       this.startWatch();

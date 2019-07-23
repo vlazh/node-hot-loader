@@ -1,3 +1,9 @@
+## <small>1.15.4 (2019-07-23)</small>
+
+* Add force option ([3ed0b16](https://github.com/vlazh/node-hot-loader/commit/3ed0b16))
+
+
+
 ## <small>1.15.3 (2019-07-21)</small>
 
 * Refactor server ([b3c844f](https://github.com/vlazh/node-hot-loader/commit/b3c844f))

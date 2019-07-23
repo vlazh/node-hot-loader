@@ -86,8 +86,9 @@ import NodeHotLoaderWebpackPlugin from 'node-hot-loader/lib/NodeHotLoaderWebpack
 // Webpack configuration
 export default {
   plugins: [
-    // Options are optional
+    // All options are optional
     new NodeHotLoaderWebpackPlugin({
+      force, // boolean. true - always launch entries, false (by default) - launch entries only in watch mode.
       fork, // boolean | string
       logLevel, // string
     }),

@@ -5,7 +5,12 @@ export default class NodeHotLoaderWebpackPlugin {
   options;
 
   /**
-   * @param {{ fork: boolean | string; inMemory: boolean; logLevel: string; }} options
+   * @param {{
+   *  force: boolean;
+   *  fork: boolean | string;
+   *  inMemory: boolean;
+   *  logLevel: string;
+   * }} options
    */
   constructor(options) {
     this.options = options;
@@ -15,7 +20,7 @@ export default class NodeHotLoaderWebpackPlugin {
    * @param {import('webpack').Compiler} compiler
    */
   apply(compiler) {
-    if (!compiler.options.watch) return;
+    if (!this.options.force && !compiler.options.watch) return;
     tweakWebpackConfig(compiler.options);
     const hmrServer = new HmrServer({ compiler, ...this.options });
     hmrServer.run(false);

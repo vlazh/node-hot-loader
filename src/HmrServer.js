@@ -110,7 +110,11 @@ export default class HmrServer {
     const getLauncherFileName = () => {
       const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
         return acc.concat(
-          ...group.assets.map(asset => path.resolve(stats.compilation.compiler.outputPath, asset))
+          ...group.assets
+            .filter(asset => !asset.endsWith('.map'))
+            .map(asset =>
+              path.resolve(stats.compilation.compiler.outputPath, asset)
+            )
         );
       }, []);
 

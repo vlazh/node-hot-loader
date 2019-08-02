@@ -1638,14 +1638,14 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
 
-node-hot-loader@^1.15.4:
-  version "1.15.4"
-  resolved "https://registry.yarnpkg.com/node-hot-loader/-/node-hot-loader-1.15.4.tgz#db7e1db9416aa1a35864f4385c11ab72c7f091de"
-  integrity sha512-l5BqMwatxIgxD46QAw/YChi6qeohAu/tXvQMszxApamTVlXcqds44HSu0Qx8lkk6osK6+QL+ZDrXDG1qcfu7KQ==
+node-hot-loader@^1.16.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/node-hot-loader/-/node-hot-loader-1.16.0.tgz#bc3a28d3a6384805cb1d89d10d8cfc5dc143ccea"
+  integrity sha512-j+yKRXP8x9vnO9CkiKJRoTfqOnchEXiE6mn3IuNTaAmzAws7xhA7uwCMFg0j1ZO1GE79BBwAdKl0a+QicCwNdw==
   dependencies:
     "@babel/register" "^7.5.5"
     require-from-string "^2.0.2"
-    source-map-support "^0.5.12"
+    source-map-support "^0.5.13"
     yargs "^13.3.0"
 
 node-libs-browser@^2.2.1:
@@ -2239,7 +2239,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.5.12, source-map-support@~0.5.12:
+source-map-support@^0.5.13, source-map-support@~0.5.12:
   version "0.5.13"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.13.tgz#31b24a9c2e73c2de85066c0feb7d44767ed52932"
   integrity sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==

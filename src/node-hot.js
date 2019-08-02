@@ -4,7 +4,6 @@ import yargs from 'yargs';
 import path from 'path';
 import fs from 'fs';
 import loader from './loader';
-import packageJson from '../package.json';
 
 const options = {
   config: 'webpack.config.js',
@@ -19,7 +18,7 @@ const params = yargs
   .help('help')
   .alias('help', 'h')
   .alias('help', '?')
-  .version(packageJson.version)
+  .version(process.env.npm_package_version)
   .alias('version', 'v')
   .options({
     config: {

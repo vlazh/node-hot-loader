@@ -112,9 +112,7 @@ export default class HmrServer {
         return acc.concat(
           ...group.assets
             .filter(asset => !asset.endsWith('.map'))
-            .map(asset =>
-              path.resolve(stats.compilation.compiler.outputPath, asset)
-            )
+            .map(asset => path.resolve(stats.compilation.compiler.outputPath, asset))
         );
       }, []);
 

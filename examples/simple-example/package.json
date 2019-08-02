@@ -5,6 +5,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "update-deps": "yarn upgrade-interactive --latest",
     "clean": "rimraf out",
     "build": "npm run clean && webpack",
     "start": "npm run clean && node-hot",
@@ -14,9 +15,9 @@
     "start-node": "npm run clean && node --inspect-brk ./node_modules/node-hot-loader"
   },
   "devDependencies": {
-    "node-hot-loader": "^1.12.1",
-    "rimraf": "^2.6.2",
-    "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.0"
+    "node-hot-loader": "^1.15.4",
+    "rimraf": "^2.6.3",
+    "webpack": "^4.39.0",
+    "webpack-cli": "^3.3.6"
   }
 }

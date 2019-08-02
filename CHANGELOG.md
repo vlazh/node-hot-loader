@@ -1,3 +1,18 @@
+## <small>1.16.2 (2019-08-02)</small>
+
+* 1.16.0 ([28f73d5](https://github.com/vlazh/node-hot-loader/commit/28f73d5))
+* 1.16.1 ([5952870](https://github.com/vlazh/node-hot-loader/commit/5952870))
+* Exclude source map from assets ([3e43a13](https://github.com/vlazh/node-hot-loader/commit/3e43a13))
+* Fix node-hot version ([90e22ff](https://github.com/vlazh/node-hot-loader/commit/90e22ff))
+* Prettierify ([24110dd](https://github.com/vlazh/node-hot-loader/commit/24110dd))
+* Reorganize build ([75e33fc](https://github.com/vlazh/node-hot-loader/commit/75e33fc))
+* Update deps ([7ec894f](https://github.com/vlazh/node-hot-loader/commit/7ec894f))
+* Update deps ([ce73fe7](https://github.com/vlazh/node-hot-loader/commit/ce73fe7))
+* Update deps ([99043c3](https://github.com/vlazh/node-hot-loader/commit/99043c3))
+* Update docs ([deb5fc6](https://github.com/vlazh/node-hot-loader/commit/deb5fc6))
+
+
+
 ## <small>1.16.1 (2019-08-02)</small>
 
 * 1.16.0 ([28f73d5](https://github.com/vlazh/node-hot-loader/commit/28f73d5))

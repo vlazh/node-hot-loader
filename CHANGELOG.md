@@ -1,3 +1,10 @@
+## 1.16.0 (2019-08-02)
+
+* Reorganize build ([75e33fc](https://github.com/vlazh/node-hot-loader/commit/75e33fc))
+* Update deps ([99043c3](https://github.com/vlazh/node-hot-loader/commit/99043c3))
+
+
+
 ## <small>1.15.4 (2019-07-23)</small>
 
 * Add force option ([3ed0b16](https://github.com/vlazh/node-hot-loader/commit/3ed0b16))

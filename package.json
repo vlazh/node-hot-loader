@@ -4,21 +4,21 @@
   "description": "Hot module replacement for Node.js applications",
   "author": "Vladimir Zhukov",
   "license": "MIT",
-  "main": "./lib/node-hot.js",
+  "main": "./node-hot.js",
   "bin": {
-    "node-hot": "./lib/node-hot.js",
-    "node-hot-loader": "./lib/node-hot.js"
+    "node-hot": "./node-hot.js",
+    "node-hot-loader": "./node-hot.js"
   },
   "scripts": {
     "update-deps": "yarn upgrade-interactive --latest",
-    "clean": "rimraf lib/",
-    "build": "babel src --out-dir lib/ --copy-files",
-    "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/lib/' --copy-files",
-    "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/lib/' --copy-files",
-    "prepublishOnly": "npm run clean && npm run build",
-    "patch-publish": "npm version patch && git commit --amend --no-edit && npm publish --access public && git push --follow-tags",
-    "minor-publish": "npm version minor && git commit --amend --no-edit && npm publish --access public && git push --follow-tags",
-    "major-publish": "npm version major && git commit --amend --no-edit && npm publish --access public && git push --follow-tags",
+    "clean": "rimraf ./dist/",
+    "copy": "copyfiles package.json LICENSE README.md CHANGELOG.md ./dist/",
+    "build": "npm run clean && babel src --out-dir ./dist/ --copy-files && npm run copy",
+    "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/' --copy-files",
+    "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
+    "patch-publish": "npm version patch && npm run build && git commit --amend --no-edit && npm publish ./dist/ --access public && git push --follow-tags",
+    "minor-publish": "npm version minor && npm run build && git commit --amend --no-edit && npm publish ./dist/ --access public && git push --follow-tags",
+    "major-publish": "npm version major && npm run build && git commit --amend --no-edit && npm publish ./dist/ --access public && git push --follow-tags",
     "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
     "changelog": "conventional-changelog -i CHANGELOG.md -s"
   },
@@ -54,7 +54,7 @@
   "dependencies": {
     "@babel/register": "^7.5.5",
     "require-from-string": "^2.0.2",
-    "source-map-support": "^0.5.12",
+    "source-map-support": "^0.5.13",
     "yargs": "^13.3.0"
   },
   "devDependencies": {
@@ -66,15 +66,16 @@
     "@vzh/configs": "../@vzh/packages/configs/dist/",
     "@vzh/prettier-config": "^1.1.0",
     "babel-eslint": "^10.0.2",
-    "conventional-changelog-cli": "^2.0.21",
-    "eslint": "^6.0.1",
+    "conventional-changelog-cli": "^2.0.23",
+    "copyfiles": "^2.1.1",
+    "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
-    "webpack": "^4.36.1"
+    "webpack": "^4.39.0"
   },
   "peerDependencies": {
     "webpack": ">= 2.x"

@@ -1,8 +1,4 @@
 module.exports = {
-  output: {
-    root: 'lib',
-  },
-
   client: {
     root: '',
 

@@ -7,7 +7,7 @@ export default class NodeHotLoaderWebpackPlugin {
   /**
    * @param {{
    *  force: boolean;
-   *  fork: boolean | string;
+   *  fork: boolean | string[];
    *  inMemory: boolean;
    *  logLevel: string;
    * }} options

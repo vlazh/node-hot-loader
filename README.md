@@ -89,7 +89,7 @@ export default {
     // All options are optional
     new NodeHotLoaderWebpackPlugin({
       force, // boolean. true - always launch entries, false (by default) - launch entries only in watch mode.
-      fork, // boolean | string
+      fork, // boolean | string[]. For example ['--key', 'key value'].
       logLevel, // string
     }),
   ]

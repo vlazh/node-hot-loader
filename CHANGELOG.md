@@ -1,3 +1,9 @@
+## <small>1.17.5 (2019-08-19)</small>
+
+* Update README ([00b447f](https://github.com/vlazh/node-hot-loader/commit/00b447f))
+
+
+
 ## <small>1.17.4 (2019-08-19)</small>
 
 * Fix CHANGELOG ([de66be6](https://github.com/vlazh/node-hot-loader/commit/de66be6))

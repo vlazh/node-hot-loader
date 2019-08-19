@@ -16,9 +16,9 @@
     "build": "npm run clean && babel src --out-dir ./dist/ --copy-files && npm run copy",
     "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/' --copy-files",
     "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
-    "patch-publish": "npm version patch && npm run build && git commit --amend --no-edit && npm publish ./dist/ && git push --follow-tags",
-    "minor-publish": "npm version minor && npm run build && git commit --amend --no-edit && npm publish ./dist/ && git push --follow-tags",
-    "major-publish": "npm version major && npm run build && git commit --amend --no-edit && npm publish ./dist/ && git push --follow-tags",
+    "patch-publish": "npm version patch && npm run build && npm publish ./dist/ && git push --follow-tags",
+    "minor-publish": "npm version minor && npm run build && npm publish ./dist/ && git push --follow-tags",
+    "major-publish": "npm version major && npm run build && npm publish ./dist/ && git push --follow-tags",
     "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
     "changelog": "conventional-changelog -i CHANGELOG.md -s"
   },

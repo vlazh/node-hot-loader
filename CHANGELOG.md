@@ -1,3 +1,12 @@
+## <small>1.16.1 (2019-08-02)</small>
+
+* Exclude source map from assets ([3e43a13](https://github.com/vlazh/node-hot-loader/commit/3e43a13))
+* Fix node-hot version ([90e22ff](https://github.com/vlazh/node-hot-loader/commit/90e22ff))
+* Prettierify ([24110dd](https://github.com/vlazh/node-hot-loader/commit/24110dd))
+* Update deps ([ce73fe7](https://github.com/vlazh/node-hot-loader/commit/ce73fe7))
+
+
+
 ## 1.16.0 (2019-08-02)
 
 * Reorganize build ([75e33fc](https://github.com/vlazh/node-hot-loader/commit/75e33fc))

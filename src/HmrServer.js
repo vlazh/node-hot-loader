@@ -5,6 +5,7 @@ import { fork } from 'child_process';
 import LogColors from './LogColors';
 import Logger from './Logger';
 import { parseLogLevel, LogLevel } from './LogLevel';
+import messageActionType from './messageActionType';
 
 export default class HmrServer {
   static defaultReporter({ context, stateValid, stats, compilerOptions }) {
@@ -40,7 +41,7 @@ export default class HmrServer {
   }
 
   context = {
-    /** When started compiled script contain process object in which script running. */
+    /** When started compiled script contains process object in which script running. */
     serverProcess: null,
     /** Valid or invalid state. */
     stateValid: false,
@@ -56,14 +57,21 @@ export default class HmrServer {
     reporter: HmrServer.defaultReporter,
     logger: new Logger(LogColors.cyan('[HMR]')),
     webpackLogger: new Logger(LogColors.magenta('Webpack')),
-    fork: false,
-    inMemory: false,
     compiler: undefined,
+    fork: false,
+    args: undefined,
+    inMemory: false,
     logLevel: undefined,
   };
 
   /**
-   * @param {{ compiler: import('webpack').Compiler; fork: boolean | string; inMemory: boolean; logLevel: string; }} options
+   * @param {{
+   *  compiler: import('webpack').Compiler;
+   *  fork?: boolean | string[];
+   *  args?: string[];
+   *  inMemory?: boolean;
+   *  logLevel?: string;
+   * }} options
    */
   constructor(options) {
     this.context = { ...this.context, ...options };
@@ -141,6 +149,7 @@ export default class HmrServer {
 
     // Execute built scripts
     if (this.context.fork) {
+      /** @type import('child_process').ForkOptions */
       const options = {
         cwd: process.cwd(),
         env: process.env,
@@ -151,7 +160,11 @@ export default class HmrServer {
         options.gid = process.getgid();
       }
 
-      this.context.serverProcess = fork(getLauncherFileName(), process.argv, options);
+      this.context.serverProcess = fork(
+        getLauncherFileName(),
+        this.context.args || process.argv,
+        options
+      );
       // Listen for serverProcess events.
       this.context.serverProcess.on('exit', code => {
         // Exit node process when exit serverProcess.
@@ -178,9 +191,9 @@ export default class HmrServer {
     }
   };
 
-  compilerInvalid = () => {
+  compilerStart = () => {
     try {
-      this.sendMessage('compile');
+      this.sendMessage(messageActionType.CompilerStart);
 
       if (this.context.watching && this.context.stateValid) {
         this.context.reporter({
@@ -224,7 +237,7 @@ export default class HmrServer {
 
         if (this.context.serverProcess) {
           // Already has launched process
-          this.sendMessage('built');
+          this.sendMessage(messageActionType.CompilerDone);
         } else {
           // Start compiled files in child process (fork) or in current process.
           this.launchAssets(stats);
@@ -254,11 +267,11 @@ export default class HmrServer {
     const { compiler } = this.context;
     if (compiler.hooks) {
       // webpack >= 4
-      compiler.hooks.invalid.tap('node-hot-loader', this.compilerInvalid);
+      compiler.hooks.invalid.tap('node-hot-loader', this.compilerStart);
       compiler.hooks.done.tapPromise('node-hot-loader', this.compilerDone);
     } else {
       // webpack < 4
-      compiler.plugin('invalid', this.compilerInvalid);
+      compiler.plugin('invalid', this.compilerStart);
       compiler.plugin('done', this.compilerDone);
     }
     if (watch) {

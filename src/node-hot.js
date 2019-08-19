@@ -8,6 +8,7 @@ import loader from './loader';
 const options = {
   config: 'webpack.config.js',
   fork: undefined,
+  args: undefined,
   inMemory: undefined,
   logLevel: undefined,
 };
@@ -35,12 +36,22 @@ const params = yargs
     },
     fork: {
       type: 'string',
-      describe: 'Launch compiled assets in forked process with optional node exec arguments. With ',
+      describe: 'Launch compiled assets in forked process with optional node exec arguments.',
       defaultDescription: 'false',
       requiresArg: false,
       coerce: value => {
         if (value === undefined) return false;
         if (value.length === 0) return true;
+        return value.split(',');
+      },
+    },
+    args: {
+      type: 'string',
+      describe: 'List of arguments for forked process.',
+      requiresArg: false,
+      coerce: value => {
+        if (value === undefined) return undefined;
+        if (value.length === 0) return [];
         return value.split(',');
       },
     },
@@ -71,6 +82,10 @@ const params = yargs
     'node-hot --fork=--arg1,--arg2',
     'Launch compiled assets in forked process with passing node exec arguments.'
   )
+  .example(
+    'node-hot --args=--arg1,--arg2',
+    'Pass arguments to forked process. Available in process.argv.'
+  )
   .showHelpOnFail(false, 'Use the --help option to get the list of available options.')
   .check(args => {
     if (!fs.existsSync(args.config)) {
@@ -82,6 +97,7 @@ const params = yargs
 
 options.config = params.config;
 options.fork = params.fork;
+options.args = params.args;
 options.inMemory = params.inMemory && !options.fork;
 options.logLevel = params.logLevel;
 

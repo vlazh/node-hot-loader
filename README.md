@@ -43,6 +43,7 @@ Usage: node-hot {options}
 | ------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | `--config`   | Path to the webpack config file.                                                                                     | If not set then search webpack.config.js in root directory. |
 | `--fork`     | Launch compiled assets in forked process with optional node exec arguments.                                          |
+| `--args`     | List of arguments for forked process.                                                                                |
 | `--logLevel` | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then use webpack stats configuration.            |
 
 ### Usage example
@@ -55,6 +56,8 @@ node-hot --logLevel minimal
 node-hot --fork
 # or
 node-hot --fork=--arg1,--arg2 --
+# or
+node-hot --fork --args=--arg1,--arg2
 # or just
 node-hot
 # Use the --help option to get the list of available options
@@ -90,9 +93,10 @@ export default {
     new NodeHotLoaderWebpackPlugin({
       force, // boolean. true - always launch entries, false (by default) - launch entries only in watch mode.
       fork, // boolean | string[]. For example ['--key', 'key value'].
+      args, // string[]. For example ['--arg1', 'arg2'].
       logLevel, // string
     }),
-  ]
+  ],
 };
 ```
 

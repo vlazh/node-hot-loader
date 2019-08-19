@@ -6,10 +6,11 @@ export default class NodeHotLoaderWebpackPlugin {
 
   /**
    * @param {{
-   *  force: boolean;
-   *  fork: boolean | string[];
-   *  inMemory: boolean;
-   *  logLevel: string;
+   *  force?: boolean;
+   *  fork?: boolean | string[];
+   *  args?: string[];
+   *  inMemory?: boolean;
+   *  logLevel?: string;
    * }} options
    */
   constructor(options) {

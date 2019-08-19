@@ -1,11 +1,14 @@
+/* globals __webpack_hash__ */
+
 import LogColors from './LogColors';
 import Logger from './Logger';
 import { LogLevel } from './LogLevel';
-
-/* globals __webpack_hash__ */
+import messageActionType from './messageActionType';
 
 export class HmrClient {
   logger = new Logger(LogColors.cyan('[HMR]'));
+
+  lastHash = '';
 
   logApplyResult = (logLevel, outdatedModules, renewedModules) => {
     const unacceptedModules =
@@ -15,7 +18,7 @@ export class HmrClient {
 
     if (unacceptedModules.length > 0 && logLevel >= LogLevel.ERRORS) {
       this.logger.warn(
-        "The following modules couldn't be hot updated: (They would need restart the server!)"
+        "The following modules couldn't be hot updated: (They would need to restart the application!)"
       );
       unacceptedModules.forEach(moduleId => {
         this.logger.warn(` - ${moduleId}`);
@@ -40,7 +43,7 @@ export class HmrClient {
       }
     }
 
-    if (this.upToDate()) {
+    if (this.isUpToDate()) {
       this.logUpToDate(logLevel);
     }
   };
@@ -51,26 +54,25 @@ export class HmrClient {
     }
   };
 
-  defaultListener = message => {
+  defaultMessageListener = ({ action, stats, logLevel }) => {
     // webpackHotUpdate
-    if (message.action !== 'built') {
+    if (action !== messageActionType.CompilerDone) {
       return;
     }
 
-    this.lastHash = message.stats.hash;
-    const { logLevel } = message;
+    this.lastHash = stats.hash;
 
-    if (!this.upToDate()) {
+    if (!this.isUpToDate()) {
       const status = module.hot.status();
 
       if (status === 'idle') {
         if (logLevel >= LogLevel.MINIMAL) {
           this.logger.info('Checking for updates...');
         }
-        this.check(logLevel);
+        this.checkAndApplyUpdates(logLevel);
       } else if (['abort', 'fail'].indexOf(status) >= 0 && logLevel >= LogLevel.ERRORS) {
         this.logger.warn(
-          `Cannot apply update as a previous update ${status}ed. Need to do restart the server!`
+          `Cannot apply update as a previous update ${status}ed. You need to restart the application!`
         );
       }
     } else {
@@ -78,15 +80,15 @@ export class HmrClient {
     }
   };
 
-  upToDate = () => this.lastHash.indexOf(__webpack_hash__) >= 0;
+  isUpToDate = () => this.lastHash.indexOf(__webpack_hash__) >= 0;
 
-  check = logLevel => {
+  checkAndApplyUpdates = logLevel => {
     module.hot
       .check()
       .then(outdatedModules => {
         if (!outdatedModules) {
           if (logLevel >= LogLevel.ERRORS) {
-            this.logger.warn('Cannot find update. Need to do restart the server!');
+            this.logger.warn('Cannot find update. You need to restart the application!');
           }
           return Promise.resolve();
         }
@@ -96,19 +98,19 @@ export class HmrClient {
             ignoreUnaccepted: true,
             ignoreDeclined: true,
             ignoreErrored: true, // true allows to restore state after errors.
-            onUnaccepted: info => {
+            onUnaccepted(info) {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(
                   `Ignored an update to unaccepted module ${info.chain.join(' -> ')}`
                 );
               }
             },
-            onDeclined: info => {
+            onDeclined(info) {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(`Ignored an update to declined module ${info.chain.join(' -> ')}`);
               }
             },
-            onErrored: info => {
+            onErrored(info) {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(
                   `Ignored an error while updating module ${info.moduleId} (${info.type})`
@@ -120,8 +122,8 @@ export class HmrClient {
             },
           })
           .then(renewedModules => {
-            if (!this.upToDate()) {
-              this.check(logLevel);
+            if (!this.isUpToDate()) {
+              this.checkAndApplyUpdates(logLevel);
             }
 
             this.logApplyResult(logLevel, outdatedModules, renewedModules);
@@ -129,9 +131,8 @@ export class HmrClient {
       })
       .catch(err => {
         if (logLevel >= LogLevel.ERRORS) {
-          const status = module.hot.status();
-          if (['abort', 'fail'].indexOf(status) >= 0) {
-            this.logger.error('Cannot check for update. Need to do restart the server!');
+          if (['abort', 'fail'].indexOf(module.hot.status()) >= 0) {
+            this.logger.error('Cannot check for update. You need to restart the application!');
             this.logger.error(err.stack || err.message);
           } else {
             this.logger.error(`Update check failed: ${err.stack}` || err.message);
@@ -140,13 +141,13 @@ export class HmrClient {
       });
   };
 
-  run(listener = this.defaultListener) {
+  run(messageListener = this.defaultMessageListener) {
     if (!module.hot) {
       throw new Error('Hot Module Replacement is disabled.');
     }
 
     this.logger.info('Waiting for update signal from webpack...');
-    process.on('message', listener);
+    process.on('message', messageListener);
     return this;
   }
 }

@@ -1,7 +1,5 @@
 ## <small>1.17.3 (2019-08-19)</small>
 
-* 1.17.2 ([015ba8d](https://github.com/vlazh/node-hot-loader/commit/015ba8d))
-* Fix CHANGELOG ([b0410b8](https://github.com/vlazh/node-hot-loader/commit/b0410b8))
 * Update scripts ([f73250b](https://github.com/vlazh/node-hot-loader/commit/f73250b))
 
 

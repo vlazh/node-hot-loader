@@ -84,7 +84,7 @@ yarn run start
 ## Webpack plugin
 
 ```typescript
-import NodeHotLoaderWebpackPlugin from 'node-hot-loader/lib/NodeHotLoaderWebpackPlugin';
+import NodeHotLoaderWebpackPlugin from 'node-hot-loader/NodeHotLoaderWebpackPlugin';
 
 // Webpack configuration
 export default {

@@ -1,32 +1,6 @@
 ## <small>1.17.1 (2019-08-19)</small>
 
-* 1.17.0 ([a58e0c6](https://github.com/vlazh/node-hot-loader/commit/a58e0c6))
-* 1.17.1 ([fadf8fb](https://github.com/vlazh/node-hot-loader/commit/fadf8fb))
 * Update CHANGELOG ([9774014](https://github.com/vlazh/node-hot-loader/commit/9774014))
-
-
-
-## <small>1.16.3 (2019-08-04)</small>
-
-* 1.16.3 ([6f3888a](https://github.com/vlazh/node-hot-loader/commit/6f3888a))
-
-
-
-## <small>1.16.2 (2019-08-02)</small>
-
-* 1.16.2 ([bfaccf4](https://github.com/vlazh/node-hot-loader/commit/bfaccf4))
-
-
-
-## <small>1.16.1 (2019-08-02)</small>
-
-* 1.16.1 ([c1293f2](https://github.com/vlazh/node-hot-loader/commit/c1293f2))
-
-
-
-## 1.16.0 (2019-08-02)
-
-* 1.16.0 ([bccc8ae](https://github.com/vlazh/node-hot-loader/commit/bccc8ae))
 
 
 

@@ -97,20 +97,20 @@ export class HmrClient {
           .apply({
             ignoreUnaccepted: true,
             ignoreDeclined: true,
-            ignoreErrored: true, // true allows to restore state after errors.
-            onUnaccepted(info) {
+            ignoreErrored: true, // true - allows to restore state after errors.
+            onUnaccepted: info => {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(
                   `Ignored an update to unaccepted module ${info.chain.join(' -> ')}`
                 );
               }
             },
-            onDeclined(info) {
+            onDeclined: info => {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(`Ignored an update to declined module ${info.chain.join(' -> ')}`);
               }
             },
-            onErrored(info) {
+            onErrored: info => {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(
                   `Ignored an error while updating module ${info.moduleId} (${info.type})`

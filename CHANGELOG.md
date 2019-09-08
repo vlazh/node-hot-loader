@@ -1,3 +1,12 @@
+## <small>1.17.6 (2019-09-08)</small>
+
+* Configure ([7b10cf7](https://github.com/vlazh/node-hot-loader/commit/7b10cf7))
+* Fix hot apply methods binding ([a5996c7](https://github.com/vlazh/node-hot-loader/commit/a5996c7))
+* Update deps ([3c15624](https://github.com/vlazh/node-hot-loader/commit/3c15624))
+* Update deps ([7ffe702](https://github.com/vlazh/node-hot-loader/commit/7ffe702))
+
+
+
 ## <small>1.17.5 (2019-08-19)</small>
 
 * Update README ([00b447f](https://github.com/vlazh/node-hot-loader/commit/00b447f))

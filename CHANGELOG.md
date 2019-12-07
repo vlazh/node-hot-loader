@@ -1,3 +1,10 @@
+## <small>1.17.7 (2019-12-07)</small>
+
+* Update deps ([2ddb063](https://github.com/vlazh/node-hot-loader/commit/2ddb063))
+* Update deps ([8119339](https://github.com/vlazh/node-hot-loader/commit/8119339))
+
+
+
 ## <small>1.17.6 (2019-09-08)</small>
 
 * Configure ([7b10cf7](https://github.com/vlazh/node-hot-loader/commit/7b10cf7))

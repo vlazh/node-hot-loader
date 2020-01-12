@@ -1,3 +1,10 @@
+## <small>1.17.8 (2020-01-12)</small>
+
+* Update deps ([c459c4d](https://github.com/vlazh/node-hot-loader/commit/c459c4d))
+* Update deps and configs ([a3ad711](https://github.com/vlazh/node-hot-loader/commit/a3ad711))
+
+
+
 ## <small>1.17.7 (2019-12-07)</small>
 
 * Update deps ([2ddb063](https://github.com/vlazh/node-hot-loader/commit/2ddb063))

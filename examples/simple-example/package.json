@@ -15,9 +15,9 @@
     "start-node": "npm run clean && node --inspect-brk ./node_modules/node-hot-loader"
   },
   "devDependencies": {
-    "node-hot-loader": "^1.17.7",
-    "rimraf": "^3.0.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "node-hot-loader": "^1.17.9",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }

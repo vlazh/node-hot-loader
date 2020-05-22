@@ -4,23 +4,6 @@
   "description": "Hot module replacement for Node.js applications",
   "author": "Vladimir Zhukov",
   "license": "MIT",
-  "main": "./node-hot.js",
-  "bin": {
-    "node-hot": "./node-hot.js",
-    "node-hot-loader": "./node-hot.js"
-  },
-  "scripts": {
-    "clean": "rimraf ./dist/",
-    "copy:configs": "copyfiles package.json LICENSE README.md CHANGELOG.md ./dist/",
-    "build": "npm run clean && babel src --out-dir ./dist/ --copy-files",
-    "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/' --copy-files",
-    "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
-    "patch-publish": "npm run build && npm version patch && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
-    "minor-publish": "npm run build && npm version minor && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
-    "major-publish": "npm run build && npm version major && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
-    "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "changelog": "conventional-changelog -i CHANGELOG.md -s"
-  },
   "homepage": "https://github.com/vlazh/node-hot-loader",
   "repository": {
     "type": "git",
@@ -50,6 +33,26 @@
     "express-hot-loader",
     "cli"
   ],
+  "main": "./node-hot.js",
+  "bin": {
+    "node-hot": "./node-hot.js",
+    "node-hot-loader": "./node-hot.js"
+  },
+  "browserslist": [
+    "maintained node versions"
+  ],
+  "scripts": {
+    "clean": "rimraf ./dist/",
+    "copy:configs": "copyfiles package.json LICENSE README.md CHANGELOG.md ./dist/",
+    "build": "npm run clean && babel src --out-dir ./dist/ --copy-files && npm run copy:configs",
+    "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/' --copy-files",
+    "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
+    "patch-publish": "npm run build && npm version patch && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
+    "minor-publish": "npm run build && npm version minor && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
+    "major-publish": "npm run build && npm version major && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
+    "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s"
+  },
   "dependencies": {
     "@babel/register": "^7.9.0",
     "require-from-string": "^2.0.2",

@@ -10,15 +10,14 @@
     "node-hot-loader": "./node-hot.js"
   },
   "scripts": {
-    "update-deps": "yarn upgrade-interactive --latest",
     "clean": "rimraf ./dist/",
-    "copy": "copyfiles package.json LICENSE README.md CHANGELOG.md ./dist/",
-    "build": "npm run clean && babel src --out-dir ./dist/ --copy-files && npm run copy",
+    "copy:configs": "copyfiles package.json LICENSE README.md CHANGELOG.md ./dist/",
+    "build": "npm run clean && babel src --out-dir ./dist/ --copy-files",
     "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/' --copy-files",
     "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
-    "patch-publish": "npm version patch && npm run build && npm publish ./dist/ && git push --follow-tags",
-    "minor-publish": "npm version minor && npm run build && npm publish ./dist/ && git push --follow-tags",
-    "major-publish": "npm version major && npm run build && npm publish ./dist/ && git push --follow-tags",
+    "patch-publish": "npm run build && npm version patch && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
+    "minor-publish": "npm run build && npm version minor && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
+    "major-publish": "npm run build && npm version major && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
     "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
     "changelog": "conventional-changelog -i CHANGELOG.md -s"
   },
@@ -54,28 +53,28 @@
   "dependencies": {
     "@babel/register": "^7.9.0",
     "require-from-string": "^2.0.2",
-    "source-map-support": "^0.5.16",
+    "source-map-support": "^0.5.19",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.9.0",
-    "@types/webpack-env": "^1.15.1",
-    "@vzh/configs": "^3.46.0",
+    "@babel/preset-env": "^7.9.6",
+    "@types/webpack-env": "^1.15.2",
+    "@vzh/configs": "^3.54.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "conventional-changelog-cli": "^2.0.31",
+    "conventional-changelog-cli": "^2.0.34",
     "copyfiles": "^2.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^2.0.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "webpack": "^4.42.1"
+    "webpack": "^4.43.0"
   },
   "peerDependencies": {
     "webpack": ">= 2.x"

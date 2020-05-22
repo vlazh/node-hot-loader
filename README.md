@@ -5,21 +5,17 @@
 It based on work of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
 Under the hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
 
-**Node Hot Loader** by default run the all webpack entries in the same **single process** or in forked process, if you set corresponding option.
+**Node Hot Loader** by default run the all webpack entries in the same **single process** or in forked process, if you set corresponding [option](#Options).
 
 The most suitable use case for **Node Hot Loader** is hot-reloaded [express](http://expressjs.com/) application.
 Express application can contains API and frontend together, moreover frontend can use own HMR, e.g. [React](https://facebook.github.io/react/) with [React Hot Loader](https://github.com/gaearon/react-hot-loader).
 See how to setup React HMR with Express in [React Hot Loader docs](http://gaearon.github.io/react-hot-loader/getstarted/).
 Thus, both the frontend and the server will be hot-reloadable.
 
-**Node Hot Loader** also supports webpack config files written on ES2015+ (through babel).
-For using ES2015+ in webpack configuration you must provide .babelrc configuration file in project root directory.
+**Node Hot Loader** also supports webpack config files written on ES2015+/TypeScript (via babel).
+For using ES2015+/TypeScript in webpack configuration you have to provide babel configuration file in project root directory.
 
 If you have suggestions or you find a bug, please, open an issue or make a PR.
-
-## System requirements
-
-Tested with Node.js v7, v8, but must work on previous versions.
 
 ## Installation
 
@@ -37,7 +33,7 @@ yarn add --dev node-hot-loader webpack
 Usage: node-hot {options}
 ```
 
-### Options
+### [Options](#Options)
 
 | Name         | Description                                                                                                          | Note                                                        |
 | ------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -155,7 +151,7 @@ function startServer() {
     });
 
     httpServer.once('listening', () => resolve(httpServer));
-  }).then(httpServer => {
+  }).then((httpServer) => {
     const { port } = httpServer.address();
     console.info(`==> 🌎 Listening on ${port}. Open up http://localhost:${port}/ in your browser.`);
 
@@ -170,11 +166,11 @@ function startServer() {
             httpServer.on('request', currentApp);
             console.log('HttpServer reloaded!');
           })
-          .catch(err => console.error(err));
+          .catch((err) => console.error(err));
       });
 
       // For reload main module (self). It will be restart http-server.
-      module.hot.accept(err => console.error(err));
+      module.hot.accept((err) => console.error(err));
       module.hot.dispose(() => {
         console.log('Disposing entry module...');
         httpServer.close();
@@ -184,7 +180,7 @@ function startServer() {
 }
 
 console.log('Starting http server...');
-startServer().catch(err => {
+startServer().catch((err) => {
   console.error('Error in server start script.', err);
 });
 ```

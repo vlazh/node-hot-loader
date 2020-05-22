@@ -89,7 +89,7 @@ export default class HmrServer {
     // }
   }
 
-  sendMessage = action => {
+  sendMessage = (action) => {
     if (!this.context.serverProcess) {
       return;
     }
@@ -114,13 +114,13 @@ export default class HmrServer {
     }
   };
 
-  launchAssets = stats => {
+  launchAssets = (stats) => {
     const getLauncherFileName = () => {
       const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
         return acc.concat(
           ...group.assets
-            .filter(asset => !asset.endsWith('.map'))
-            .map(asset => path.resolve(stats.compilation.compiler.outputPath, asset))
+            .filter((asset) => !asset.endsWith('.map'))
+            .map((asset) => path.resolve(stats.compilation.compiler.outputPath, asset))
         );
       }, []);
 
@@ -130,7 +130,7 @@ export default class HmrServer {
       }
       // Create temp launcher file which aggregates all assets.
       const launcherString = assets
-        .map(asset => `require('${asset.replace(/\\/g, '/')}');`)
+        .map((asset) => `require('${asset.replace(/\\/g, '/')}');`)
         .join('\n');
 
       const launcherFileName = path.resolve(
@@ -166,7 +166,7 @@ export default class HmrServer {
         options
       );
       // Listen for serverProcess events.
-      this.context.serverProcess.on('exit', code => {
+      this.context.serverProcess.on('exit', (code) => {
         // Exit node process when exit serverProcess.
         process.exit(code);
       });
@@ -184,7 +184,7 @@ export default class HmrServer {
         .then(() => {
           this.context.serverProcess = process;
         })
-        .catch(err => {
+        .catch((err) => {
           this.context.logger.error(err);
           process.exit();
         });
@@ -213,8 +213,8 @@ export default class HmrServer {
   /**
    * @param {import('webpack').Stats} stats
    */
-  compilerDone = stats =>
-    new Promise(resolve => {
+  compilerDone = (stats) =>
+    new Promise((resolve) => {
       // We are now on valid state
       this.context.stateValid = true;
       this.context.webpackStats = stats;
@@ -245,11 +245,11 @@ export default class HmrServer {
 
         resolve();
       });
-    }).catch(ex => {
+    }).catch((ex) => {
       this.context.logger.error(ex);
     });
 
-  compilerWatch = err => {
+  compilerWatch = (err) => {
     if (err) {
       this.context.logger.error(err.stack || err);
       if (err.details) this.context.logger.error(err.details);

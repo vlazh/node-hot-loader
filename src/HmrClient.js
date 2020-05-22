@@ -14,13 +14,13 @@ export class HmrClient {
     const unacceptedModules =
       !renewedModules || !renewedModules.length
         ? outdatedModules
-        : outdatedModules.filter(moduleId => renewedModules.indexOf(moduleId) < 0);
+        : outdatedModules.filter((moduleId) => renewedModules.indexOf(moduleId) < 0);
 
     if (unacceptedModules.length > 0 && logLevel >= LogLevel.ERRORS) {
       this.logger.warn(
         "The following modules couldn't be hot updated: (They would need to restart the application!)"
       );
-      unacceptedModules.forEach(moduleId => {
+      unacceptedModules.forEach((moduleId) => {
         this.logger.warn(` - ${moduleId}`);
       });
     }
@@ -34,10 +34,10 @@ export class HmrClient {
 
     if (logLevel >= LogLevel.NORMAL) {
       this.logger.info('Updated modules:');
-      renewedModules.forEach(moduleId => {
+      renewedModules.forEach((moduleId) => {
         this.logger.info(` - ${moduleId}`);
       });
-      const numberIds = renewedModules.every(moduleId => typeof moduleId === 'number');
+      const numberIds = renewedModules.every((moduleId) => typeof moduleId === 'number');
       if (numberIds) {
         this.logger.info('Consider using the NamedModulesPlugin for module names.');
       }
@@ -48,7 +48,7 @@ export class HmrClient {
     }
   };
 
-  logUpToDate = logLevel => {
+  logUpToDate = (logLevel) => {
     if (logLevel >= LogLevel.MINIMAL) {
       this.logger.info('App is up to date.');
     }
@@ -82,10 +82,10 @@ export class HmrClient {
 
   isUpToDate = () => this.lastHash.indexOf(__webpack_hash__) >= 0;
 
-  checkAndApplyUpdates = logLevel => {
+  checkAndApplyUpdates = (logLevel) => {
     module.hot
       .check()
-      .then(outdatedModules => {
+      .then((outdatedModules) => {
         if (!outdatedModules) {
           if (logLevel >= LogLevel.ERRORS) {
             this.logger.warn('Cannot find update. You need to restart the application!');
@@ -98,19 +98,19 @@ export class HmrClient {
             ignoreUnaccepted: true,
             ignoreDeclined: true,
             ignoreErrored: true, // true - allows to restore state after errors.
-            onUnaccepted: info => {
+            onUnaccepted: (info) => {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(
                   `Ignored an update to unaccepted module ${info.chain.join(' -> ')}`
                 );
               }
             },
-            onDeclined: info => {
+            onDeclined: (info) => {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(`Ignored an update to declined module ${info.chain.join(' -> ')}`);
               }
             },
-            onErrored: info => {
+            onErrored: (info) => {
               if (logLevel >= LogLevel.ERRORS) {
                 this.logger.warn(
                   `Ignored an error while updating module ${info.moduleId} (${info.type})`
@@ -121,7 +121,7 @@ export class HmrClient {
               }
             },
           })
-          .then(renewedModules => {
+          .then((renewedModules) => {
             if (!this.isUpToDate()) {
               this.checkAndApplyUpdates(logLevel);
             }
@@ -129,7 +129,7 @@ export class HmrClient {
             this.logApplyResult(logLevel, outdatedModules, renewedModules);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         if (logLevel >= LogLevel.ERRORS) {
           if (['abort', 'fail'].indexOf(module.hot.status()) >= 0) {
             this.logger.error('Cannot check for update. You need to restart the application!');

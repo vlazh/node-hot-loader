@@ -27,7 +27,7 @@ const params = yargs
       describe: 'Path to the webpack config file',
       defaultDescription: 'webpack.config.js',
       requiresArg: false,
-      coerce: value => {
+      coerce: (value) => {
         if (!path.isAbsolute(value)) {
           return path.join(process.cwd(), value);
         }
@@ -39,7 +39,7 @@ const params = yargs
       describe: 'Launch compiled assets in forked process with optional node exec arguments.',
       defaultDescription: 'false',
       requiresArg: false,
-      coerce: value => {
+      coerce: (value) => {
         if (value === undefined) return false;
         if (value.length === 0) return true;
         return value.split(',');
@@ -49,7 +49,7 @@ const params = yargs
       type: 'string',
       describe: 'List of arguments for forked process.',
       requiresArg: false,
-      coerce: value => {
+      coerce: (value) => {
         if (value === undefined) return undefined;
         if (value.length === 0) return [];
         return value.split(',');
@@ -66,7 +66,7 @@ const params = yargs
       describe:
         'Log level related to webpack stats configuration presets names. See presets from https://webpack.js.org/configuration/stats/#stats.',
       requiresArg: false,
-      coerce: value => {
+      coerce: (value) => {
         if (value === '') return true;
         if (value === 'true') return false;
         if (value === 'false') return false;
@@ -87,7 +87,7 @@ const params = yargs
     'Pass arguments to forked process. Available in process.argv.'
   )
   .showHelpOnFail(false, 'Use the --help option to get the list of available options.')
-  .check(args => {
+  .check((args) => {
     if (!fs.existsSync(args.config)) {
       throw new Error(`Webpack config file '${args.config}' not found!`);
     }

@@ -10,6 +10,6 @@ export default class LogColors {
 }
 
 // Make functions from LogColors.defaultColors which apply string and surround it with color definition.
-Object.keys(LogColors.defaultColors).forEach(color => {
-  LogColors[color] = str => `${LogColors.defaultColors[color]}${str}\u001b[39m\u001b[22m`;
+Object.keys(LogColors.defaultColors).forEach((color) => {
+  LogColors[color] = (str) => `${LogColors.defaultColors[color]}${str}\u001b[39m\u001b[22m`;
 });

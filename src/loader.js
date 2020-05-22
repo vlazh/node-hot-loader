@@ -9,7 +9,7 @@ function handleFunction(options) {
 
 function handleWebpackConfig(webpackConfig) {
   return Array.isArray(webpackConfig)
-    ? webpackConfig.map(handleFunction).find(c => c.target === 'node')
+    ? webpackConfig.map(handleFunction).find((c) => c.target === 'node')
     : handleFunction(webpackConfig);
 }
 
@@ -40,7 +40,7 @@ export function tweakWebpackConfig(webpackConfig) {
       owner[entry] = owner[entry]();
       addHmrClientEntry(entry, owner);
     } else if (typeof owner[entry] === 'object') {
-      Object.getOwnPropertyNames(owner[entry]).forEach(name =>
+      Object.getOwnPropertyNames(owner[entry]).forEach((name) =>
         addHmrClientEntry(name, owner[entry])
       );
     }
@@ -67,7 +67,7 @@ export function tweakWebpackConfig(webpackConfig) {
   }
 
   // Enable HMR globally if not.
-  if (!config.plugins.find(p => p instanceof webpack.HotModuleReplacementPlugin)) {
+  if (!config.plugins.find((p) => p instanceof webpack.HotModuleReplacementPlugin)) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
   }
 
@@ -94,10 +94,14 @@ function hooks(compiler, options) {
  */
 export default function loader(options) {
   Promise.resolve()
-    .then(() => require('@babel/register'))
+    .then(() =>
+      require('@babel/register')({
+        extensions: ['.es6', '.es', '.jsx', '.js', '.mjs', '.ts', '.tsx'],
+      })
+    )
     .then(() => require(`${options.config}`))
-    .then(configModule => tweakWebpackConfig(configModule.default || configModule))
-    .then(webpackConfig => webpack(webpackConfig))
-    .then(compiler => hooks(compiler, options))
-    .catch(err => console.error(err));
+    .then((configModule) => tweakWebpackConfig(configModule.default || configModule))
+    .then((webpackConfig) => webpack(webpackConfig))
+    .then((compiler) => hooks(compiler, options))
+    .catch((err) => console.error(err));
 }

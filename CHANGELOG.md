@@ -1,3 +1,15 @@
+## 1.18.0 (2020-05-22)
+
+* Add handle typescript files to @babel/register ([7be848d](https://github.com/vlazh/node-hot-loader/commit/7be848d))
+* Format ([023f321](https://github.com/vlazh/node-hot-loader/commit/023f321))
+* Update deps ([0610713](https://github.com/vlazh/node-hot-loader/commit/0610713))
+* Update deps ([1693ec8](https://github.com/vlazh/node-hot-loader/commit/1693ec8))
+* Update deps and fix ([1cf0da5](https://github.com/vlazh/node-hot-loader/commit/1cf0da5))
+* Update README ([da5ef77](https://github.com/vlazh/node-hot-loader/commit/da5ef77))
+* Update scripts ([6105438](https://github.com/vlazh/node-hot-loader/commit/6105438))
+
+
+
 ## <small>1.17.9 (2020-04-04)</small>
 
 * Update deps ([5067e20](https://github.com/vlazh/node-hot-loader/commit/5067e20))

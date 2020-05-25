@@ -1,3 +1,11 @@
+## 1.20.0 (2020-05-25)
+
+* Add autoRestart ([2ec615d](https://github.com/vlazh/node-hot-loader/commit/2ec615d))
+* Fix default options ([aff723a](https://github.com/vlazh/node-hot-loader/commit/aff723a))
+* Refactor ([609d325](https://github.com/vlazh/node-hot-loader/commit/609d325))
+
+
+
 ## 1.19.0 (2020-05-25)
 
 * Fix: Stricter check on asset type ([b4765f1](https://github.com/vlazh/node-hot-loader/commit/b4765f1))

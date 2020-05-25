@@ -1,3 +1,9 @@
+## 1.19.0 (2020-05-25)
+
+* Fix: Stricter check on asset type ([b4765f1](https://github.com/vlazh/node-hot-loader/commit/b4765f1))
+
+
+
 ## 1.18.0 (2020-05-22)
 
 * Add handle typescript files to @babel/register ([7be848d](https://github.com/vlazh/node-hot-loader/commit/7be848d))

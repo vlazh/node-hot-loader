@@ -57,6 +57,7 @@ export default class HmrServer {
     reporter: HmrServer.defaultReporter,
     logger: new Logger(LogColors.cyan('[HMR]')),
     webpackLogger: new Logger(LogColors.magenta('Webpack')),
+    /** @type {import('webpack').Compiler} */
     compiler: undefined,
     fork: false,
     args: undefined,
@@ -114,38 +115,43 @@ export default class HmrServer {
     }
   };
 
-  launchAssets = (stats) => {
-    const getLauncherFileName = () => {
-      const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
-        return acc.concat(
-          ...group.assets
-            .filter((asset) => /\.[cm]?js$/i.test(asset))
-            .map((asset) => path.resolve(stats.compilation.compiler.outputPath, asset))
-        );
-      }, []);
-
-      if (assets.length === 1) {
-        // Only one valid assets, so just return it path
-        return assets[0];
-      }
-      // Create temp launcher file which aggregates all assets.
-      const launcherString = assets
-        .map((asset) => `require('${asset.replace(/\\/g, '/')}');`)
-        .join('\n');
-
-      const launcherFileName = path.resolve(
-        stats.compilation.compiler.outputPath,
-        `launcher.${stats.hash}.js`
+  getLauncherFileName = (stats) => {
+    const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
+      return acc.concat(
+        ...group.assets
+          .filter((asset) => /\.[cm]?js$/i.test(asset))
+          .map((asset) => path.resolve(stats.compilation.compiler.outputPath, asset))
       );
-      this.context.fs.writeFileSync(launcherFileName, launcherString);
+    }, []);
 
+    if (assets.length === 1) {
+      // Only one valid assets, so just return it path
+      return assets[0];
+    }
+    // Create temp launcher file which aggregates all assets.
+    const launcherString = assets
+      .map((asset) => `require('${asset.replace(/\\/g, '/')}');`)
+      .join('\n');
+
+    const launcherFileName = path.resolve(
+      stats.compilation.compiler.outputPath,
+      `launcher.${stats.hash}.js`
+    );
+    this.context.fs.writeFileSync(launcherFileName, launcherString);
+
+    // If not launched yet (eg. if not a restart)
+    if (!this.context.serverProcess) {
       // Delete created files on exit main process.
       const deleteLauncher = () => this.context.fs.unlinkSync(launcherFileName);
       process.on('exit', deleteLauncher);
       process.on('SIGINT', deleteLauncher);
+    }
 
-      return launcherFileName;
-    };
+    return launcherFileName;
+  };
+
+  launchAssets = (stats) => {
+    const launcherFileName = this.getLauncherFileName(stats);
 
     // Execute built scripts
     if (this.context.fork) {
@@ -161,7 +167,7 @@ export default class HmrServer {
       }
 
       this.context.serverProcess = fork(
-        getLauncherFileName(),
+        launcherFileName,
         this.context.args || process.argv,
         options
       );
@@ -176,9 +182,9 @@ export default class HmrServer {
       Promise.resolve()
         .then(() => {
           if (this.context.inMemory) {
-            requireFromString(this.context.fs.readFileSync(getLauncherFileName()).toString());
+            requireFromString(this.context.fs.readFileSync(launcherFileName).toString());
           } else {
-            require(`${getLauncherFileName()}`);
+            require(`${launcherFileName}`);
           }
         })
         .then(() => {
@@ -235,11 +241,12 @@ export default class HmrServer {
           });
         }
 
+        // Already has launched process
         if (this.context.serverProcess) {
-          // Already has launched process
           this.sendMessage(messageActionType.CompilerDone);
-        } else {
-          // Start compiled files in child process (fork) or in current process.
+        }
+        // Start compiled files in child process (fork) or in current process.
+        else {
           this.launchAssets(stats);
         }
 
@@ -249,17 +256,15 @@ export default class HmrServer {
       this.context.logger.error(ex);
     });
 
-  compilerWatch = (err) => {
-    if (err) {
-      this.context.logger.error(err.stack || err);
-      if (err.details) this.context.logger.error(err.details);
-    }
-  };
-
   startWatch = () => {
     const { compiler } = this.context;
     // start watching
-    this.context.watching = compiler.watch(compiler.options.watchOptions, this.compilerWatch);
+    this.context.watching = compiler.watch(compiler.options.watchOptions, (err) => {
+      if (err) {
+        this.context.logger.error(err.stack || err);
+        if (err.details) this.context.logger.error(err.details);
+      }
+    });
     this.context.logger.info('Waiting webpack...');
   };
 

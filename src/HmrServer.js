@@ -119,7 +119,7 @@ export default class HmrServer {
       const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
         return acc.concat(
           ...group.assets
-            .filter((asset) => !asset.endsWith('.map'))
+            .filter((asset) => /\.[cm]?js$/i.test(asset))
             .map((asset) => path.resolve(stats.compilation.compiler.outputPath, asset))
         );
       }, []);

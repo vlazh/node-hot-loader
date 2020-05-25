@@ -61,6 +61,7 @@ export default class HmrServer {
     compiler: undefined,
     fork: false,
     args: undefined,
+    autoRestart: false,
     inMemory: false,
     logLevel: undefined,
   };
@@ -70,6 +71,7 @@ export default class HmrServer {
    *  compiler: import('webpack').Compiler;
    *  fork?: boolean | string[];
    *  args?: string[];
+   *  autoRestart?: boolean;
    *  inMemory?: boolean;
    *  logLevel?: string;
    * }} options
@@ -151,50 +153,61 @@ export default class HmrServer {
   };
 
   launchAssets = (stats) => {
-    const launcherFileName = this.getLauncherFileName(stats);
+    return Promise.resolve()
+      .then(() => {
+        const launcherFileName = this.getLauncherFileName(stats);
 
-    // Execute built scripts
-    if (this.context.fork) {
-      /** @type import('child_process').ForkOptions */
-      const options = {
-        cwd: process.cwd(),
-        env: process.env,
-        execArgv: this.context.fork === true ? undefined : this.context.fork,
-      };
-      if (process.getuid) {
-        options.uid = process.getuid();
-        options.gid = process.getgid();
-      }
-
-      this.context.serverProcess = fork(
-        launcherFileName,
-        this.context.args || process.argv,
-        options
-      );
-      // Listen for serverProcess events.
-      this.context.serverProcess.on('exit', (code) => {
-        // Exit node process when exit serverProcess.
-        process.exit(code);
-      });
-      this.context.logger.info('Launch assets in forked process.');
-    } else {
-      // Require in current process to lauch script.
-      Promise.resolve()
-        .then(() => {
-          if (this.context.inMemory) {
-            requireFromString(this.context.fs.readFileSync(launcherFileName).toString());
-          } else {
-            require(`${launcherFileName}`);
+        // Execute built scripts
+        if (this.context.fork) {
+          /** @type import('child_process').ForkOptions */
+          const forkOptions = {
+            cwd: process.cwd(),
+            env: process.env,
+            execArgv: this.context.fork === true ? undefined : this.context.fork,
+          };
+          if (process.getuid) {
+            forkOptions.uid = process.getuid();
+            forkOptions.gid = process.getgid();
           }
-        })
-        .then(() => {
-          this.context.serverProcess = process;
-        })
-        .catch((err) => {
-          this.context.logger.error(err);
-          process.exit();
-        });
-    }
+
+          // Launch in forked process
+          this.context.serverProcess = fork(
+            launcherFileName,
+            this.context.args || process.argv,
+            forkOptions
+          );
+
+          // Exit main process when exit child process.
+          const onChildExit = (code) => process.exit(code);
+          this.context.serverProcess.on('exit', onChildExit);
+
+          if (this.context.autoRestart) {
+            // Listen messages from child process
+            this.context.serverProcess.on('message', ({ action }) => {
+              if (action !== messageActionType.RestartRequired) return;
+              this.context.logger.warn('AutoRestart is on. Restart process...');
+              this.context.serverProcess.off('exit', onChildExit);
+              this.context.serverProcess.kill('SIGINT');
+              this.launchAssets(stats);
+            });
+          }
+
+          this.context.logger.info('Launch assets in forked process.');
+          return;
+        }
+
+        // Require in current process to lauch script.
+        if (this.context.inMemory) {
+          requireFromString(this.context.fs.readFileSync(launcherFileName).toString());
+        } else {
+          require(`${launcherFileName}`);
+        }
+        this.context.serverProcess = process;
+      })
+      .catch((err) => {
+        this.context.logger.error(err);
+        process.exit();
+      });
   };
 
   compilerStart = () => {

@@ -35,12 +35,14 @@ Usage: node-hot {options}
 
 ### [Options](#Options)
 
-| Name         | Description                                                                                                          | Note                                                        |
-| ------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `--config`   | Path to the webpack config file.                                                                                     | If not set then search webpack.config.js in root directory. |
-| `--fork`     | Launch compiled assets in forked process with optional node exec arguments.                                          |
-| `--args`     | List of arguments for forked process.                                                                                |
-| `--logLevel` | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then use webpack stats configuration.            |
+| Name            | Description                                                                                                          | Note                                                        |
+| --------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `--config`      | Path to the webpack config file.                                                                                     | If not set then search webpack.config.js in root directory. |
+| `--fork`        | Launch compiled assets in forked process with optional node exec arguments.                                          |
+| `--args`        | List of arguments for forked process.                                                                                |
+| `--autoRestart` | Auto restart forked process if unaccepted modules discovered.                                                        |
+| `--inMemory`    | Launch compiled assets in memory fs. Not worked with forked process.                                                 |
+| `--logLevel`    | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then uses webpack stats configuration.           |
 
 ### Usage example
 
@@ -50,6 +52,8 @@ node-hot --config webpack.config.server.js
 node-hot --logLevel minimal
 # or
 node-hot --fork
+# or
+node-hot --fork --autoRestart
 # or
 node-hot --fork=--arg1,--arg2 --
 # or
@@ -90,6 +94,7 @@ export default {
       force, // boolean. true - always launch entries, false (by default) - launch entries only in watch mode.
       fork, // boolean | string[]. For example ['--key', 'key value'].
       args, // string[]. For example ['--arg1', 'arg2'].
+      autoRestart, // boolean
       logLevel, // string
     }),
   ],

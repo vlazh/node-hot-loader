@@ -9,6 +9,7 @@ export default class NodeHotLoaderWebpackPlugin {
    *  force?: boolean;
    *  fork?: boolean | string[];
    *  args?: string[];
+   *  autoRestart?: boolean;
    *  inMemory?: boolean;
    *  logLevel?: string;
    * }} options

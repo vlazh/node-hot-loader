@@ -9,6 +9,7 @@ const options = {
   config: 'webpack.config.js',
   fork: undefined,
   args: undefined,
+  autoRestart: undefined,
   inMemory: undefined,
   logLevel: undefined,
 };
@@ -55,6 +56,12 @@ const params = yargs
         return value.split(',');
       },
     },
+    autoRestart: {
+      type: 'boolean',
+      describe: 'Auto restart forked process if unaccepted modules discovered.',
+      defaultDescription: 'false',
+      requiresArg: false,
+    },
     inMemory: {
       type: 'boolean',
       describe: 'Launch compiled assets in memory fs. Not worked with forked process.',
@@ -98,6 +105,7 @@ const params = yargs
 options.config = params.config;
 options.fork = params.fork;
 options.args = params.args;
+options.autoRestart = params.autoRestart && options.fork;
 options.inMemory = params.inMemory && !options.fork;
 options.logLevel = params.logLevel;
 

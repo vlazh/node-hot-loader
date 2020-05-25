@@ -10,6 +10,14 @@ export class HmrClient {
 
   lastHash = '';
 
+  sendRestartMessage = () => {
+    // If forked process
+    if (process.send) {
+      const message = { action: messageActionType.RestartRequired };
+      process.send(message);
+    }
+  };
+
   logApplyResult = (logLevel, outdatedModules, renewedModules) => {
     const unacceptedModules =
       !renewedModules || !renewedModules.length
@@ -23,6 +31,7 @@ export class HmrClient {
       unacceptedModules.forEach((moduleId) => {
         this.logger.warn(` - ${moduleId}`);
       });
+      this.sendRestartMessage();
     }
 
     if (!renewedModules || !renewedModules.length) {
@@ -70,10 +79,13 @@ export class HmrClient {
           this.logger.info('Checking for updates...');
         }
         this.checkAndApplyUpdates(logLevel);
-      } else if (['abort', 'fail'].indexOf(status) >= 0 && logLevel >= LogLevel.ERRORS) {
-        this.logger.warn(
-          `Cannot apply update as a previous update ${status}ed. You need to restart the application!`
-        );
+      } else if (['abort', 'fail'].indexOf(status) >= 0) {
+        if (logLevel >= LogLevel.ERRORS) {
+          this.logger.warn(
+            `Cannot apply update as a previous update ${status}ed. You need to restart the application!`
+          );
+        }
+        this.sendRestartMessage();
       }
     } else {
       this.logUpToDate(logLevel);
@@ -130,13 +142,14 @@ export class HmrClient {
           });
       })
       .catch((err) => {
-        if (logLevel >= LogLevel.ERRORS) {
-          if (['abort', 'fail'].indexOf(module.hot.status()) >= 0) {
+        if (['abort', 'fail'].indexOf(module.hot.status()) >= 0) {
+          if (logLevel >= LogLevel.ERRORS) {
             this.logger.error('Cannot check for update. You need to restart the application!');
             this.logger.error(err.stack || err.message);
-          } else {
-            this.logger.error(`Update check failed: ${err.stack}` || err.message);
           }
+          this.sendRestartMessage();
+        } else if (logLevel >= LogLevel.ERRORS) {
+          this.logger.error(`Check updates failed: ${err.stack}` || err.message);
         }
       });
   };

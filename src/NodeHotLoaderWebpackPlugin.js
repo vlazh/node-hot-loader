@@ -13,7 +13,7 @@ export default class NodeHotLoaderWebpackPlugin {
    *  logLevel?: string;
    * }} options
    */
-  constructor(options) {
+  constructor(options = {}) {
     this.options = options;
   }
 

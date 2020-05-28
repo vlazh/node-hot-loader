@@ -2,10 +2,9 @@
 
 **Node Hot Loader** is a small tool for [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) support for Node.js application development with [webpack](https://github.com/webpack/webpack).
 
-It based on work of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) and [webpack/hot/only-dev-server](https://github.com/webpack/webpack).
 Under the hood it uses webpack and babel, so you can use all you need configurations in config files for babel and webpack.
 
-**Node Hot Loader** by default run the all webpack entries in the same **single process** or in forked process, if you set corresponding [option](#Options).
+**Node Hot Loader**, by default, runs all webpack entries in the same **single process** or in **forked process**, if you set corresponding [option](#Options).
 
 The most suitable use case for **Node Hot Loader** is hot-reloaded [express](http://expressjs.com/) application.
 Express application can contains API and frontend together, moreover frontend can use own HMR, e.g. [React](https://facebook.github.io/react/) with [React Hot Loader](https://github.com/gaearon/react-hot-loader).
@@ -15,7 +14,7 @@ Thus, both the frontend and the server will be hot-reloadable.
 **Node Hot Loader** also supports webpack config files written on ES2015+/TypeScript (via babel).
 For using ES2015+/TypeScript in webpack configuration you have to provide babel configuration file in project root directory.
 
-If you have suggestions or you find a bug, please, open an issue or make a PR.
+**If you have suggestions or you find a bug, please, open an issue or make a PR.**
 
 ## Installation
 
@@ -123,23 +122,6 @@ export default {
 };
 ```
 
-## Troubleshooting
-
-### Running **Node Hot Loader** inside a Docker container
-
-If you attempt to run the **Node Hot Loader** inside a Docker container, it will start and serve as expected, but will not Hot Module Reload without some additional configuration. Add the following to your webpack config:
-
-```javascript
-module.exports = {
-  //...
-  watchOptions: {
-    poll: 1000, // Check for changes every second
-  },
-};
-```
-
-This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
-
 ## Express Hot Reload Example
 
 ```javascript
@@ -189,6 +171,23 @@ startServer().catch((err) => {
   console.error('Error in server start script.', err);
 });
 ```
+
+## Troubleshooting
+
+### Running **Node Hot Loader** inside a Docker container
+
+If you attempt to run the **Node Hot Loader** inside a Docker container, it will start and serve as expected, but will not Hot Module Reload without some additional configuration. Add the following to your webpack config:
+
+```javascript
+module.exports = {
+  //...
+  watchOptions: {
+    poll: 1000, // Check for changes every second
+  },
+};
+```
+
+This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
 
 ## License
 

@@ -1,3 +1,12 @@
+## 1.21.0 (2020-11-16)
+
+* Update deps ([597581d](https://github.com/vlazh/node-hot-loader/commit/597581d))
+* Update README ([0194855](https://github.com/vlazh/node-hot-loader/commit/0194855))
+* Update README ([7050129](https://github.com/vlazh/node-hot-loader/commit/7050129))
+* Upgrade webpack 4 to 5 ([6c33e61](https://github.com/vlazh/node-hot-loader/commit/6c33e61))
+
+
+
 ## 1.20.0 (2020-05-25)
 
 * Add autoRestart ([2ec615d](https://github.com/vlazh/node-hot-loader/commit/2ec615d))

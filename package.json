@@ -1,6 +1,6 @@
 {
   "name": "node-hot-loader",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "description": "Hot module replacement for Node.js applications",
   "author": "Vladimir Zhukov",
   "license": "MIT",
@@ -35,8 +35,8 @@
   ],
   "main": "./node-hot.js",
   "bin": {
-    "node-hot": "./node-hot.js",
-    "node-hot-loader": "./node-hot.js"
+    "node-hot": "node-hot.js",
+    "node-hot-loader": "node-hot.js"
   },
   "browserslist": [
     "maintained node versions"

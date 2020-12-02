@@ -2,7 +2,7 @@
   "name": "node-hot-loader",
   "version": "1.21.0",
   "description": "Hot module replacement for Node.js applications",
-  "author": "Vladimir Zhukov",
+  "author": "VZH",
   "license": "MIT",
   "homepage": "https://github.com/vlazh/node-hot-loader",
   "repository": {
@@ -47,7 +47,7 @@
     "build": "npm run clean && babel src --out-dir ./dist/ --copy-files && npm run copy:configs",
     "build-to-simple-example": "npm run clean && babel src --out-dir 'examples/simple-example/node_modules/node-hot-loader/' --copy-files",
     "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
-    "patch-publish": "npm run build && npm version patch && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
+    "patch-publish": "npm run build && npm version patch && npm run copy:configs && ~",
     "minor-publish": "npm run build && npm version minor && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
     "major-publish": "npm run build && npm version major && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
     "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",

@@ -1,3 +1,9 @@
+## <small>1.21.2 (2021-03-08)</small>
+
+* Fix scripts ([37c6752](https://github.com/vlazh/node-hot-loader/commit/37c6752))
+
+
+
 ## <small>1.21.1 (2021-03-08)</small>
 
 * Fix deps and configs ([9e6ac7b](https://github.com/vlazh/node-hot-loader/commit/9e6ac7b))

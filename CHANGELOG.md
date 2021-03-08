@@ -1,3 +1,11 @@
+## <small>1.21.1 (2021-03-08)</small>
+
+* Fix deps and configs ([9e6ac7b](https://github.com/vlazh/node-hot-loader/commit/9e6ac7b))
+* Update author ([6aa4275](https://github.com/vlazh/node-hot-loader/commit/6aa4275))
+* Update deps ([7781d96](https://github.com/vlazh/node-hot-loader/commit/7781d96))
+
+
+
 ## 1.21.0 (2020-11-16)
 
 * Update deps ([597581d](https://github.com/vlazh/node-hot-loader/commit/597581d))

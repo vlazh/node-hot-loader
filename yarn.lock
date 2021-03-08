@@ -1067,10 +1067,10 @@
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.15.3.tgz#fb602cd4c2f0b7c0fb857e922075fdf677d25d84"
   integrity sha512-5oiXqR7kwDGZ6+gmzIO2lTC+QsriNuQXZDWNYRV3l2XRN/zmPgnC21DLSx2D05zvD8vnXW6qUg7JnXZ4I6qLVQ==
 
-"@vzh/configs@^3.70.0":
-  version "3.70.0"
-  resolved "https://registry.yarnpkg.com/@vzh/configs/-/configs-3.70.0.tgz#0e041ac781f6c4cf588e9ea89991da34f86cb38a"
-  integrity sha512-z1BMcsWELopLZ2kGL3BaLs6bFx1Gj/3AYdIJNFGG141luXs3NujFgG2u3/xmrFAKIAPy4e1LHkj6Ubu4Q/h1SQ==
+"@vlazh/configs@^3.70.0":
+  version "3.73.10"
+  resolved "https://npm.pkg.github.com/download/@vlazh/configs/3.73.10/02a9d4d03b572fc76583839fbd2d3d5befe82d3624f76a4ef247d4b3f49f74c3#2076acdf80514d69735220a994f521a86fdfde63"
+  integrity sha512-dYj7cg3jRdjzMQz8ax2ovZuxkm2U0A4hvY5XoW9xQNIc3rqC9vXvQ2mL/PqcpNN98pnWcbgnfiblIc+MRygekw==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"

@@ -65,7 +65,7 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@types/webpack-env": "^1.15.2",
-    "@vzh/configs": "^3.70.0",
+    "@vlazh/configs": "^3.70.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "conventional-changelog-cli": "^2.1.1",

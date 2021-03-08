@@ -1,5 +1,5 @@
 {
-  "extends": "@vzh/configs/js/common.jsconfig.json",
+  "extends": "@vlazh/configs/js/common.jsconfig.json",
   "compilerOptions": {
     "baseUrl": "./src"
   },

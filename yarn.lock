@@ -1038,6 +1038,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@js-toolkit/configs@^3.70.0":
+  version "3.73.11"
+  resolved "https://npm.pkg.github.com/download/@js-toolkit/configs/3.73.11/21f7b5902c18a9b0499cf2d7056e29a997ffe5f4d840133fd0bd73321e0e8e31#0e20ae9ce4f4a8d6a01a9fcb6a96ba5a6924fa78"
+  integrity sha512-F1Gxx8qayCJxIJA7RH0vbSZGqWqejllStbVoLsilqM8BiHcn94g2/U+Z/ebMET/QmdfKUQ69fziSEaMZRyQ3eg==
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents":
   version "2.1.8-no-fsevents"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.tgz#da7c3996b8e6e19ebd14d82eaced2313e7769f9b"
@@ -1115,11 +1120,6 @@
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
   integrity sha512-Fx+NpfOO0CpeYX2g9bkvX8O5qh9wrU1sOF4g8sft4Mu7z+qfe387YlyY8w8daDyDsKY5vUxM0yxkAYnbkRbZEw==
-
-"@vlazh/configs@^3.70.0":
-  version "3.73.10"
-  resolved "https://npm.pkg.github.com/download/@vlazh/configs/3.73.10/02a9d4d03b572fc76583839fbd2d3d5befe82d3624f76a4ef247d4b3f49f74c3#2076acdf80514d69735220a994f521a86fdfde63"
-  integrity sha512-dYj7cg3jRdjzMQz8ax2ovZuxkm2U0A4hvY5XoW9xQNIc3rqC9vXvQ2mL/PqcpNN98pnWcbgnfiblIc+MRygekw==
 
 "@webassemblyjs/ast@1.11.0":
   version "1.11.0"

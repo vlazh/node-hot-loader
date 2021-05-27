@@ -1,3 +1,9 @@
+## <small>1.21.4 (2021-05-27)</small>
+
+* Update deps ([153b1a7](https://github.com/vlazh/node-hot-loader/commit/153b1a7))
+
+
+
 ## <small>1.21.3 (2021-03-09)</small>
 
 * Update deps and configs ([c10a28a](https://github.com/vlazh/node-hot-loader/commit/c10a28a))

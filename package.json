@@ -49,7 +49,6 @@
     "build-to-tutoron": "babel src --out-dir '../tutoron/node_modules/node-hot-loader/' --copy-files",
     "patch-publish": "npm run build && npm version patch && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
     "minor-publish": "npm run build && npm version minor && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
-    "major-publish": "npm run build && npm version major && npm run copy:configs && npm publish ./dist/ && git push --follow-tags",
     "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
     "changelog": "conventional-changelog -i CHANGELOG.md -s"
   },

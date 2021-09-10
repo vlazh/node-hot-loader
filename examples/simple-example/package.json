@@ -8,16 +8,10 @@
     "update-deps": "yarn upgrade-interactive --latest",
     "clean": "rimraf out",
     "build": "npm run clean && webpack",
-    "start": "npm run clean && node-hot",
-    "start-inmemory": "npm run clean && node-hot --inMemory=true",
-    "start-forked": "npm run clean && node-hot --args=--aa,--sf --fork --autoRestart",
+    "start": "npm run clean && ../../dist/node-hot.js",
+    "start-inmemory": "npm run clean && ../../dist/node-hot.js --inMemory=true",
+    "start-forked": "npm run clean && ../../dist/node-hot.js --args=--aa,--sf --fork --autoRestart",
     "start-inspect": "npm run clean && node-hot --fork=--inspect,--inspect --config webpack.config.js",
-    "start-node": "npm run clean && node --inspect-brk ./node_modules/node-hot-loader"
-  },
-  "devDependencies": {
-    "node-hot-loader": "../../dist",
-    "rimraf": "^3.0.2",
-    "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0"
+    "start-node": "npm run clean && node --inspect-brk ../../dist/node-hot.js"
   }
 }

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import requireFromString from 'require-from-string';
 import { fork } from 'child_process';
+import requireFromString from 'require-from-string';
 import LogColors from './LogColors';
 import Logger from './Logger';
 import { parseLogLevel, LogLevel } from './LogLevel';
@@ -185,7 +185,7 @@ export default class HmrServer {
             // Listen messages from child process
             this.context.serverProcess.on('message', ({ action }) => {
               if (action !== messageActionType.RestartRequired) return;
-              this.context.logger.warn('AutoRestart is on. Restart process...');
+              this.context.logger.warn('AutoRestart is on. Restarting process...');
               this.context.serverProcess.off('exit', onChildExit);
               this.context.serverProcess.kill('SIGINT');
               this.launchAssets(stats);

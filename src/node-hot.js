@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import yargs from 'yargs';
 import path from 'path';
 import fs from 'fs';
+import yargs from 'yargs';
 import loader from './loader';
 
 const options = {

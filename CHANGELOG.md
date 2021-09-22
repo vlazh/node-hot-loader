@@ -1,3 +1,14 @@
+## <small>1.21.5 (2021-09-22)</small>
+
+* Format ([b2381aa](https://github.com/vlazh/node-hot-loader/commit/b2381aa))
+* Remove deps in favor of parent ([ffb9d49](https://github.com/vlazh/node-hot-loader/commit/ffb9d49))
+* Update deps ([1013063](https://github.com/vlazh/node-hot-loader/commit/1013063))
+* Update deps and refactor ([fa6180e](https://github.com/vlazh/node-hot-loader/commit/fa6180e))
+* Update log ([5a8e273](https://github.com/vlazh/node-hot-loader/commit/5a8e273))
+* Update scripts ([c274dc8](https://github.com/vlazh/node-hot-loader/commit/c274dc8))
+
+
+
 ## <small>1.21.4 (2021-05-27)</small>
 
 * Update deps ([153b1a7](https://github.com/vlazh/node-hot-loader/commit/153b1a7))

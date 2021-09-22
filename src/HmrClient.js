@@ -144,7 +144,7 @@ export class HmrClient {
       .catch((err) => {
         if (['abort', 'fail'].indexOf(module.hot.status()) >= 0) {
           if (logLevel >= LogLevel.ERRORS) {
-            this.logger.error('Cannot check for update. You need to restart the application!');
+            this.logger.error('Cannot check for updates. You need to restart the application!');
             this.logger.error(err.stack || err.message);
           }
           this.sendRestartMessage();

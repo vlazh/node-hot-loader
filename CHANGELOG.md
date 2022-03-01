@@ -1,3 +1,9 @@
+## <small>1.21.6 (2022-03-01)</small>
+
+* Update deps ([c3c0dca](https://github.com/vlazh/node-hot-loader/commit/c3c0dca))
+
+
+
 ## <small>1.21.5 (2021-09-22)</small>
 
 * Format ([b2381aa](https://github.com/vlazh/node-hot-loader/commit/b2381aa))

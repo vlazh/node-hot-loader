@@ -1,3 +1,10 @@
+## <small>1.21.7 (2022-05-09)</small>
+
+* Fix install ([48b127c](https://github.com/vlazh/node-hot-loader/commit/48b127c))
+* Update deps ([27da43c](https://github.com/vlazh/node-hot-loader/commit/27da43c))
+
+
+
 ## <small>1.21.6 (2022-03-01)</small>
 
 * Update deps ([c3c0dca](https://github.com/vlazh/node-hot-loader/commit/c3c0dca))

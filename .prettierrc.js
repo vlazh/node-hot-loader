@@ -1,1 +1,1 @@
-module.exports = require('@js-toolkit/configs/prettier');
+module.exports = require('@jstoolkit/configs/prettier');

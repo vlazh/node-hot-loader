@@ -1,3 +1,9 @@
+## <small>1.21.9 (2022-08-26)</small>
+
+* Update deps ([fbd8262](https://github.com/vlazh/node-hot-loader/commit/fbd8262))
+
+
+
 ## <small>1.21.8 (2022-05-11)</small>
 
 * Update deps and configs ([c887e12](https://github.com/vlazh/node-hot-loader/commit/c887e12))

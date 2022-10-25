@@ -64,11 +64,9 @@ node-hot
 Of course, you can add script into you package.json:
 
 ```json
-...
 "scripts": {
   "start": "node-hot --config webpack.config.server.js"
 }
-...
 ```
 
 and then run with your favorite package manager:
@@ -187,6 +185,12 @@ module.exports = {
 ```
 
 This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
+
+
+### Debugging in an IDE
+
+If you have problems with sourcemaps or breakpoints, try to launch `node-hot-loader` with `fork` [option](#Options).
+Also you may have to use one of the `eval` sourcemap styles for the `devtool` option in the webpack config.
 
 ## License
 

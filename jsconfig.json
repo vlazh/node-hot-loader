@@ -1,5 +1,5 @@
 {
-  "extends": "@jstoolkit/configs/js/common.jsconfig.json",
+  "extends": "@js-toolkit/configs/js/common.jsconfig.json",
   "compilerOptions": {
     "baseUrl": "./src"
   },

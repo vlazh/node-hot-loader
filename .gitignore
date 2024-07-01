@@ -1,11 +1,7 @@
 # Output
 dist/
-build/
-target/
-out/
 logs/
 *.log
-lib/
 
 # Temp and caches
 node_modules/
@@ -14,7 +10,14 @@ tmp
 *~
 
 # IDE
-.idea/
-*.iml
 .vscode/
 .history/
+
+# Yarn
+pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

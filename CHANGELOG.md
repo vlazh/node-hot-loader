@@ -1,3 +1,9 @@
+## <small>1.21.11 (2024-07-01)</small>
+
+* Update yarn, eslint ([3a9aa6b](https://github.com/vlazh/node-hot-loader/commit/3a9aa6b))
+
+
+
 ## <small>1.21.10 (2023-08-15)</small>
 
 * Update deps and configs ([6eae882](https://github.com/vlazh/node-hot-loader/commit/6eae882))

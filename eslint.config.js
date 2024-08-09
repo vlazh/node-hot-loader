@@ -1,4 +1,4 @@
-/** @type {import('eslint').Linter.FlatConfig[]} */
+/** @type {import('eslint').Linter.Config[]} */
 module.exports = [
   ...require('@js-toolkit/configs/eslint/common'),
 

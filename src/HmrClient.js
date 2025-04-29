@@ -149,7 +149,7 @@ export class HmrClient {
           }
           this.sendRestartMessage();
         } else if (logLevel >= LogLevel.ERRORS) {
-          this.logger.error(`Check updates failed: ${err.stack}` || err.message);
+          this.logger.error(`Check updates failed: ${err.stack || err.message}`);
         }
       });
   };

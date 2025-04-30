@@ -80,7 +80,7 @@ yarn run start
 ## Webpack plugin
 
 ```typescript
-import NodeHotLoaderWebpackPlugin from 'node-hot-loader/NodeHotLoaderWebpackPlugin';
+import { NodeHotLoaderWebpackPlugin } from 'node-hot-loader/NodeHotLoaderWebpackPlugin';
 
 // Webpack configuration
 export default {
@@ -185,7 +185,6 @@ module.exports = {
 ```
 
 This instructs webpack to poll for changes (every second) instead of watching. This is necessary because watching does not work with NFS and machines in VirtualBox. See [Webpack Configuration](https://webpack.js.org/configuration/watch/#watchoptions-poll) docs for more information.
-
 
 ### Debugging in an IDE
 

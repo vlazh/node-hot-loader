@@ -1,7 +1,7 @@
 import HmrServer from './HmrServer';
 import { tweakWebpackConfig } from './loader';
 
-export default class NodeHotLoaderWebpackPlugin {
+export class NodeHotLoaderWebpackPlugin {
   options;
 
   /**

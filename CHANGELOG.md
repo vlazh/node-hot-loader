@@ -1,3 +1,14 @@
+## 1.23.0 (2025-04-30)
+
+* Add babel option and refactor ([3c9132c](https://github.com/vlazh/node-hot-loader/commit/3c9132c))
+* Add example config with webpack plugin ([ef58bb4](https://github.com/vlazh/node-hot-loader/commit/ef58bb4))
+* Add named export for plugin ([bf0c7f6](https://github.com/vlazh/node-hot-loader/commit/bf0c7f6))
+* Update configs ([6a81a86](https://github.com/vlazh/node-hot-loader/commit/6a81a86))
+* Update deps ([a14c3df](https://github.com/vlazh/node-hot-loader/commit/a14c3df))
+* Update README ([bd3b666](https://github.com/vlazh/node-hot-loader/commit/bd3b666))
+
+
+
 ## 1.22.0 (2025-04-30)
 
 * Fix inMemory and refactor ([5e773b9](https://github.com/vlazh/node-hot-loader/commit/5e773b9))

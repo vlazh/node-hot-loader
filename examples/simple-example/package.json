@@ -9,9 +9,13 @@
     "clean": "rimraf out",
     "build": "npm run clean && webpack",
     "start": "npm run clean && ../../dist/node-hot.js",
-    "start-inmemory": "npm run clean && ../../dist/node-hot.js --inMemory=true",
+    "start-inmemory": "cd ../../ && npm run build && cd examples/simple-example/ && npm run clean && ../../dist/node-hot.js --inMemory=true",
     "start-forked": "npm run clean && ../../dist/node-hot.js --args=--aa,--sf --fork --autoRestart",
     "start-inspect": "npm run clean && node-hot --fork=--inspect,--inspect --config webpack.config.js",
     "start-node": "npm run clean && node --inspect-brk ../../dist/node-hot.js"
+  },
+  "devDependencies": {
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1"
   }
 }

@@ -1,3 +1,12 @@
+## 1.22.0 (2025-04-30)
+
+* Fix inMemory and refactor ([5e773b9](https://github.com/vlazh/node-hot-loader/commit/5e773b9))
+* Fix log ([763611b](https://github.com/vlazh/node-hot-loader/commit/763611b))
+* Update configs ([2c9c414](https://github.com/vlazh/node-hot-loader/commit/2c9c414))
+* Update deps ([ea9c9a8](https://github.com/vlazh/node-hot-loader/commit/ea9c9a8))
+
+
+
 ## <small>1.21.11 (2024-07-01)</small>
 
 * Update yarn, eslint ([3a9aa6b](https://github.com/vlazh/node-hot-loader/commit/3a9aa6b))

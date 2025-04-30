@@ -40,6 +40,7 @@ Usage: node-hot {options}
 | `--args`        | List of arguments for forked process.                                                                                |
 | `--autoRestart` | Auto restart forked process if unaccepted modules discovered.                                                        |
 | `--inMemory`    | Launch compiled assets in memory fs. Not worked with forked process.                                                 |
+| `--babel`       | Use `@babel/register`. Defaults to `true`.                                                                           |
 | `--logLevel`    | Log level related to [webpack stats configuration presets names](https://webpack.js.org/configuration/stats/#stats). | If not set then uses webpack stats configuration.           |
 
 ### Usage example

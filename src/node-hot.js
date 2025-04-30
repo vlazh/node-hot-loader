@@ -3,7 +3,7 @@
 import path from 'path';
 import fs from 'fs';
 import yargs from 'yargs';
-import loader from './loader';
+import { loadWebpack } from './loader';
 
 const options = {
   config: 'webpack.config.js',
@@ -11,6 +11,7 @@ const options = {
   args: undefined,
   autoRestart: undefined,
   inMemory: undefined,
+  babel: true,
   logLevel: undefined,
 };
 
@@ -68,6 +69,18 @@ const params = yargs
       defaultDescription: 'true',
       requiresArg: false,
     },
+    babel: {
+      type: 'boolean',
+      describe: 'Use "@babel/register".',
+      defaultDescription: 'true',
+      requiresArg: false,
+      coerce: (value) => {
+        if (value === '') return true;
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return value;
+      },
+    },
     logLevel: {
       type: 'string',
       describe:
@@ -75,7 +88,7 @@ const params = yargs
       requiresArg: false,
       coerce: (value) => {
         if (value === '') return true;
-        if (value === 'true') return false;
+        if (value === 'true') return true;
         if (value === 'false') return false;
         return value;
       },
@@ -107,6 +120,7 @@ options.fork = params.fork;
 options.args = params.args;
 options.autoRestart = params.autoRestart && options.fork;
 options.inMemory = params.inMemory && !options.fork;
+options.babel = params.babel;
 options.logLevel = params.logLevel;
 
-loader(options);
+loadWebpack(options);

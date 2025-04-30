@@ -90,15 +90,17 @@ function hooks(compiler, options) {
 }
 
 /**
- * @param {{ fork: boolean | string; inMemory: boolean; logLevel: string; }} options
+ * @param {{ fork: boolean | string; inMemory: boolean; babel: boolean; logLevel: string; }} options
  */
-export default function loader(options) {
+export function loadWebpack(options) {
   Promise.resolve()
-    .then(() =>
-      require('@babel/register')({
-        extensions: ['.es6', '.es', '.jsx', '.js', '.mjs', '.ts', '.tsx'],
-      })
-    )
+    .then(() => {
+      if (options.babel) {
+        require('@babel/register')({
+          extensions: ['.es6', '.es', '.jsx', '.js', '.mjs', '.ts', '.tsx'],
+        });
+      }
+    })
     .then(() => require(`${options.config}`))
     .then((configModule) => tweakWebpackConfig(configModule.default || configModule))
     .then((webpackConfig) => webpack(webpackConfig))

@@ -7,18 +7,17 @@ import messageActionType from './messageActionType';
 
 export class HmrClient {
   logger = new Logger(LogColors.cyan('[HMR]'));
-
   lastHash = '';
 
-  sendRestartMessage = () => {
+  sendRestartMessage() {
     // If forked process
     if (process.send) {
       const message = { action: messageActionType.RestartRequired };
       process.send(message);
     }
-  };
+  }
 
-  logApplyResult = (logLevel, outdatedModules, renewedModules) => {
+  logApplyResult(logLevel, outdatedModules, renewedModules) {
     const unacceptedModules =
       !renewedModules || !renewedModules.length
         ? outdatedModules
@@ -55,13 +54,13 @@ export class HmrClient {
     if (this.isUpToDate()) {
       this.logUpToDate(logLevel);
     }
-  };
+  }
 
-  logUpToDate = (logLevel) => {
+  logUpToDate(logLevel) {
     if (logLevel >= LogLevel.MINIMAL) {
       this.logger.info('App is up to date.');
     }
-  };
+  }
 
   defaultMessageListener = ({ action, stats, logLevel }) => {
     // webpackHotUpdate
@@ -92,9 +91,11 @@ export class HmrClient {
     }
   };
 
-  isUpToDate = () => this.lastHash.indexOf(__webpack_hash__) >= 0;
+  isUpToDate() {
+    return this.lastHash.indexOf(__webpack_hash__) >= 0;
+  }
 
-  checkAndApplyUpdates = (logLevel) => {
+  checkAndApplyUpdates(logLevel) {
     module.hot
       .check()
       .then((outdatedModules) => {
@@ -152,7 +153,7 @@ export class HmrClient {
           this.logger.error(`Check updates failed: ${err.stack || err.message}`);
         }
       });
-  };
+  }
 
   run(messageListener = this.defaultMessageListener) {
     if (!module.hot) {

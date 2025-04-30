@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fork } from 'child_process';
-import requireFromString from 'require-from-string';
+import * as memfs from 'memfs';
 import LogColors from './LogColors';
 import Logger from './Logger';
 import { parseLogLevel, LogLevel } from './LogLevel';
@@ -81,9 +81,7 @@ export default class HmrServer {
     const { compiler, inMemory } = this.context;
 
     if (inMemory) {
-      const getName = () => 'memory-fs';
-      const MemoryFileSystem = require(getName());
-      this.context.fs = new MemoryFileSystem();
+      this.context.fs = memfs.createFsFromVolume(new memfs.Volume());
       compiler.outputFileSystem = this.context.fs;
     }
 
@@ -92,7 +90,7 @@ export default class HmrServer {
     // }
   }
 
-  sendMessage = (action) => {
+  sendMessage(action) {
     if (!this.context.serverProcess) {
       return;
     }
@@ -115,9 +113,9 @@ export default class HmrServer {
         logLevel,
       });
     }
-  };
+  }
 
-  getLauncherFileName = (stats) => {
+  getLauncherFileName(stats) {
     const assets = Object.values(stats.toJson().entrypoints).reduce((acc, group) => {
       return acc.concat(
         ...group.assets
@@ -150,9 +148,40 @@ export default class HmrServer {
     }
 
     return launcherFileName;
-  };
+  }
 
-  launchAssets = (stats) => {
+  requireFromMemory(filename) {
+    const Module = module.constructor.length > 1 ? module.constructor : require('module');
+    const { _findPath } = Module;
+    const { readFileSync, statSync } = fs;
+    const basedir = path.dirname(filename);
+
+    Module._findPath = (request, ...rest) => {
+      if (request === filename || request.includes('.hot-update.js')) {
+        return path.isAbsolute(request) ? request : path.resolve(basedir, request);
+      }
+      return _findPath.call(Module, request, ...rest);
+    };
+
+    fs.readFileSync = (fname, ...rest) => {
+      if (fname === filename || fname.includes('.hot-update.js')) {
+        return this.context.fs.readFileSync(fname, ...rest);
+      }
+      return readFileSync.call(fs, fname, ...rest);
+    };
+
+    fs.statSync = (fname, ...rest) => {
+      if (fname === filename || fname.includes('.hot-update.js')) {
+        return this.context.fs.statSync(fname, ...rest);
+      }
+      return statSync.call(fs, fname, ...rest);
+    };
+
+    delete require.cache[filename];
+    return require(filename);
+  }
+
+  launchAssets(stats) {
     return Promise.resolve()
       .then(() => {
         const launcherFileName = this.getLauncherFileName(stats);
@@ -196,9 +225,9 @@ export default class HmrServer {
           return;
         }
 
-        // Require in current process to lauch script.
+        // Require in current process to launch script.
         if (this.context.inMemory) {
-          requireFromString(this.context.fs.readFileSync(launcherFileName).toString());
+          this.requireFromMemory(launcherFileName);
         } else {
           require(`${launcherFileName}`);
         }
@@ -208,7 +237,7 @@ export default class HmrServer {
         this.context.logger.error(err);
         process.exit();
       });
-  };
+  }
 
   compilerStart = () => {
     try {

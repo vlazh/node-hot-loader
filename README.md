@@ -18,7 +18,7 @@ For using ES2015+/TypeScript in webpack configuration you have to provide babel 
 ## What is special about it?
 
 Other solutions (such as nodemon) just restart the application and you loose any cached data, vars, timers, etc.
-If you don't care about that, **Node Hot Loader** may be too complicated solution for your simple needs.
+If you don't care about that or you don't use webpack, **Node Hot Loader** may be too complicated solution for your simple needs.
 But if you need to keep some data during developing process, **Node Hot Loader** may be very helpful for you.
 
 ## Installation
